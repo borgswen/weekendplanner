@@ -28,7 +28,7 @@ export const maakDb = ({userAgent, client} = {}) => {
 			const opt = {
 				...reizigers({leeftijden, personen}),
 				firstClass: klasse === 1,
-				stopovers: false,
+				stopovers: true, // tussenstops: voor de afstand (NMBS-schatting)
 				remarks: false,
 				language: 'nl',
 			};

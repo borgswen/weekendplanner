@@ -12,8 +12,12 @@ export const config = {
 	studentenOv: lijst(process.env.STUDENTENOV),
 	// Gratis sleutel van https://apiportal.ns.nl (product "Ns-App"): binnenlandse NS-prijzen.
 	nsApiKey: process.env.NS_API_KEY || '',
-	// Bronnen aan/uit zetten: "db,nsi,ns,oebb".
-	bronnen: new Set(lijst(process.env.BRONNEN || 'db,nsi,ns,oebb')),
+	// Gratis sleutel(s) van https://api-manager.opentransportdata.swiss voor Zwitserse prijzen (OJP 2.0 + OJP Fare).
+	ojpKey: process.env.OJP_API_KEY || '',
+	ojpFareKey: process.env.OJP_FARE_API_KEY || process.env.OJP_API_KEY || '',
+	chfNaarEur: Number(process.env.CHF_NAAR_EUR || 1.08),
+	// Bronnen aan/uit zetten: "db,nsi,ns,oebb,sncf,ojp".
+	bronnen: new Set(lijst(process.env.BRONNEN || 'db,nsi,ns,oebb,sncf,ojp')),
 	// Hoe lang een gevonden prijs in de cache blijft (minuten).
 	cacheMinuten: Number(process.env.CACHE_MINUTEN || 30),
 };

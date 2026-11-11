@@ -14,6 +14,8 @@ van, naar, tijd ─► dienstregeling (DB Navigator: heel Europa)
                        ├─► ÖBB (reizen van/naar/door Oostenrijk, Nightjets, ook naar Zwitserland), idem
                        ├─► NS (binnenland, officiële NS-API) + studentenreisproduct
                        ├─► NMBS (België binnenland): schatting op basis van de kilometertarieven
+                       ├─► SBB (Zwitserland binnenland): OJP Fare, de officiële open data van de Zwitserse OV-sector
+                       ├─► SNCF (Frankrijk binnenland): prijsrange uit de open data van SNCF (TGV INOUI, OUIGO)
                        └─► Luxemburg binnenland: gratis
                    ─► per verbinding alle prijzen + de goedkoopste
 ```
@@ -25,8 +27,9 @@ van, naar, tijd ─► dienstregeling (DB Navigator: heel Europa)
 | **ÖBB** (shop.oebbtickets.at) | Oostenrijk, Nightjets en reizen via Oostenrijk. Prijs per persoon × aantal reizigers. | niets |
 | **NS** | Binnenlandse prijzen | gratis sleutel (`NS_API_KEY`), zie hieronder |
 | **Studentenreisproduct** | Rekent uit wat een binnenlandse reis kost met jullie week- of weekendabonnement (gratis, 40% korting of vol) | `STUDENTENOV` |
-| **NMBS** (België binnenland) | Een **schatting**: de NMBS rekent per kilometer (max. €20,90), met 40% korting onder 26 jaar en 30% in het weekend. De afstand schatten we uit de coördinaten. Staat gemarkeerd met `schatting: true`. | |
-| **Zwitserland / Frankrijk binnenland** | Nog geen prijzen, wel een link naar SBB of SNCF Connect. Internationale reizen erheen krijgen wel prijzen (bahn.de, NS International, ÖBB). | |
+| **NMBS** (België binnenland) | Een **schatting**: de NMBS rekent per kilometer (2026: max. ±€21,30), met 40% korting onder 26 jaar en 30% in het weekend. De afstand komt uit de tussenstops van de trein. Vergeleken met vier echte prijzen zat de schatting tussen 4% te laag en 9% te hoog. Gemarkeerd met `schatting: true`. | |
+| **SBB** (Zwitserland binnenland) | [OJP Fare](https://opentransportdata.swiss/cookbook/ojp-fare/), de officiële prijsdienst van de Zwitserse OV-sector. Vol tarief per volwassene, omgerekend naar euro (`CHF_NAAR_EUR`). Let op: bètadienst met gegevens uit het testsysteem, dus een richtprijs. Supersaver-tickets op sbb.ch kunnen goedkoper zijn. | gratis sleutel (`OJP_API_KEY`) |
+| **SNCF** (Frankrijk binnenland) | [Open data van SNCF](https://ressources.data.sncf.com/explore/dataset/tarifs-tgv-inoui-ouigo/) (ODbL): per traject de laagste en hoogste prijs van TGV INOUI en OUIGO. Geen prijs per trein: we geven het midden, met `prijs_van_pp` en `prijs_tot_pp`. TER en Intercités zitten er niet in. Gemarkeerd met `schatting: true`. | niets |
 
 Alle prijzen zijn **voor alle reizigers samen, enkele reis**, op het moment van opvragen. Prijzen worden 30 minuten bewaard. Per site gaat er hooguit één vraag per seconde (bahn.de), per 1,5 seconde (ÖBB) of per 2,5 seconde (NS International) de deur uit.
 
@@ -74,7 +77,9 @@ Een stukje antwoord van `/reizen`:
 | `LEEFTIJDEN` | `22,23` | Standaard reizigers. Zonder deze instelling rekent hij met volwassenen. |
 | `STUDENTENOV` | `weekend,weekend` | Studentenreisproduct per reiziger, in dezelfde volgorde: `weekend`, `week` of `geen`. |
 | `NS_API_KEY` | | Binnenlandse NS-prijzen. Maak een gratis account op [apiportal.ns.nl](https://apiportal.ns.nl), abonneer je op het product met de Reisinformatie-API (heet meestal **Ns-App**) en kopieer de *primary key*. |
-| `BRONNEN` | `db,nsi,ns,oebb` | Bronnen aan- of uitzetten. |
+| `OJP_API_KEY` | | Zwitserse prijzen. Maak een gratis account op [api-manager.opentransportdata.swiss](https://api-manager.opentransportdata.swiss), abonneer je op **OJP 2.0** en **OJP Fare**, en kopieer de sleutel. Krijg je twee sleutels, zet die van OJP Fare dan in `OJP_FARE_API_KEY`. |
+| `CHF_NAAR_EUR` | `1.08` | Wisselkoers voor de Zwitserse prijzen. |
+| `BRONNEN` | `db,nsi,ns,oebb,sncf,ojp` | Bronnen aan- of uitzetten. |
 | `USER_AGENT` | | Hoe de service zich voorstelt aan de sites. |
 
 ## Testen
@@ -99,7 +104,11 @@ Kijk dan vooral naar `bronnen` onderaan.
 - De studentenreisproduct-regels komen van [studentenreisproduct.nl](https://www.studentenreisproduct.nl/en/productvoorwaarden/). Ze gelden alleen voor reizen binnen Nederland.
 - `data/stations.json` koppelt DB-stations aan NS International-codes. Het komt uit de open [stationslijst van Trainline](https://github.com/trainline-eu/stations) (ODbL). Opnieuw maken: zie `scripts/maak_stations.py`.
 
+## Waarom niet via Trainline, SNCF Connect of sbb.ch?
+
+Die sites hebben botbeveiliging (bijv. DataDome) en verbieden automatisch opvragen in hun voorwaarden. Een server die het toch probeert, wordt snel geblokkeerd. Daarom gebruiken we voor Zwitserland en Frankrijk de officiële open data.
+
 ## Later
 
-- Echte prijzen voor reizen binnen Zwitserland (SBB) en Frankrijk (SNCF). Hun sites zijn lastig te bevragen.
 - Officiële NMBS-prijzen in plaats van de schatting.
+- Prijzen voor TER en Intercités in Frankrijk.

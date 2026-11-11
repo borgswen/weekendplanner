@@ -34,3 +34,6 @@ services:
       LEEFTIJDEN: ${LEEFTIJDEN:-}
       STUDENTENOV: ${STUDENTENOV:-}
       NS_API_KEY: ${NS_API_KEY:-}
+      OJP_API_KEY: ${OJP_API_KEY:-}
+      OJP_FARE_API_KEY: ${OJP_FARE_API_KEY:-}
+      CHF_NAAR_EUR: ${CHF_NAAR_EUR:-1.08}

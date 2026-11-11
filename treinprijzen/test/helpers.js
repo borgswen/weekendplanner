@@ -2,13 +2,14 @@
 import {Cache} from '../src/cache.js';
 import {GeblokkeerdError, parseNsi} from '../src/bronnen/nsi.js';
 import {parseOebb} from '../src/bronnen/oebb.js';
+import {bouwIndex} from '../src/bronnen/sncf.js';
 import {maakZoeker} from '../src/zoek.js';
 
 const COORD = {
 	8400170: [52.007, 4.356], 8400621: [52.089, 5.110], 8000207: [50.943, 6.959], 8400058: [52.379, 4.900],
 	8200100: [49.600, 6.134], 8200510: [49.847, 6.104], 8892007: [51.036, 3.710], 8814001: [50.836, 4.336],
 	8891009: [51.197, 3.217], 8103000: [48.185, 16.376], 8100002: [47.813, 13.046], 8503000: [47.378, 8.540],
-	8507000: [46.949, 7.439],
+	8507000: [46.949, 7.439], 8727100: [48.881, 2.355], 8768600: [48.844, 2.374], 8772319: [45.761, 4.860], 8774100: [45.188, 5.715],
 };
 export const station = (id, name) => ({type: 'station', id, name,
 	...(COORD[id] ? {location: {type: 'location', latitude: COORD[id][0], longitude: COORD[id][1]}} : {})});
@@ -33,6 +34,9 @@ export const WIEN = ['8103000', 'Wien Hbf'];
 export const SALZBURG = ['8100002', 'Salzburg Hbf'];
 export const ZUERICH = ['8503000', 'Zürich HB'];
 export const BERN = ['8507000', 'Bern'];
+export const PARIS_LYON = ['8768600', 'Paris Gare de Lyon'];
+export const LYON = ['8772319', 'Lyon Part-Dieu'];
+export const GRENOBLE = ['8774100', 'Grenoble'];
 
 export const reisDelftKoeln = (vertrek, aankomst, prijs, extra = {}) => ({
 	type: 'journey',
@@ -70,11 +74,11 @@ export const oebbAntwoord = (verbindingen) => ({
 	prijzen: {offers: verbindingen.map(([, , prijs], i) => ({connectionId: `c${i}`, price: prijs, offerError: prijs == null, firstClass: false}))},
 });
 
-export const maakTest = ({reizen = [], dagreizen = [], nsi = [], nsiFout, nsPrijs, oebb = null, config = {}} = {}) => {
-	const log = {db: [], nsi: [], ns: [], oebb: []};
+export const maakTest = ({reizen = [], dagreizen = [], nsi = [], nsiFout, nsPrijs, oebb = null, sncfRecords = null, ojpTrips = null, config = {}} = {}) => {
+	const log = {db: [], nsi: [], ns: [], oebb: [], ojp: []};
 	const db = {
 		async locaties(tekst) {
-			const bekend = {delft: DELFT, keulen: KOELN, 'köln': KOELN, amsterdam: AMSTERDAM, luxemburg: LUX, ettelbruck: ETTELBRUCK, gent: GENT, brussel: BRUSSEL, brugge: BRUGGE, wenen: WIEN, salzburg: SALZBURG, 'zürich': ZUERICH, bern: BERN};
+			const bekend = {delft: DELFT, keulen: KOELN, 'köln': KOELN, amsterdam: AMSTERDAM, luxemburg: LUX, ettelbruck: ETTELBRUCK, gent: GENT, brussel: BRUSSEL, brugge: BRUGGE, wenen: WIEN, salzburg: SALZBURG, 'zürich': ZUERICH, bern: BERN, parijs: PARIS_LYON, lyon: LYON, grenoble: GRENOBLE};
 			const s = bekend[tekst.toLowerCase()];
 			return s ? [{id: s[0], naam: s[1]}] : [];
 		},
@@ -114,9 +118,17 @@ export const maakTest = ({reizen = [], dagreizen = [], nsi = [], nsiFout, nsPrij
 			return parseOebb(tijdschema, prijzen);
 		},
 	};
+	const sncf = sncfRecords && {index: async () => bouwIndex(sncfRecords)};
+	const ojp = ojpTrips && {
+		actief: true,
+		async zoek(van, naar, iso, opt) {
+			log.ojp.push({van, naar, iso, ...opt});
+			return ojpTrips;
+		},
+	};
 	const zoeker = maakZoeker({
-		db, nsi: nsiBron, ns, oebb: oebbBron, cache: new Cache(),
-		config: {cacheMinuten: 30, bronnen: new Set(['db', 'nsi', 'ns', 'oebb']), leeftijden: [], studentenOv: [], ...config},
+		db, nsi: nsiBron, ns, oebb: oebbBron, sncf, ojp, cache: new Cache(),
+		config: {cacheMinuten: 30, bronnen: new Set(['db', 'nsi', 'ns', 'oebb', 'sncf', 'ojp']), leeftijden: [], studentenOv: [], chfNaarEur: 1.08, ...config},
 	});
 	return {zoeker, log};
 };

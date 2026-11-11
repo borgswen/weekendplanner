@@ -7,6 +7,8 @@ import {NAAM as NSI, zoekLink as nsiLink, GeblokkeerdError} from './bronnen/nsi.
 import {NAAM as NS, reisplannerLink} from './bronnen/ns.js';
 import {NAAM as OEBB, zoekLink as oebbLink} from './bronnen/oebb.js';
 import {nmbsPrijs, afstandKm} from './nmbs.js';
+import {NAAM as SNCF, zoekRange} from './bronnen/sncf.js';
+import {NAAM as OJP} from './bronnen/ojp.js';
 
 const ZONE = 'Europe/Amsterdam'; // NL, BE, LU en DE hebben dezelfde klok
 const r2 = (x) => Math.round(x * 100) / 100;
@@ -86,7 +88,7 @@ const kiesGoedkoopst = (reis) => {
 
 // --- de zoekmachine ----------------------------------------------------------------
 
-export const maakZoeker = ({db: dbBron, nsi, ns, oebb, cache, config}) => {
+export const maakZoeker = ({db: dbBron, nsi, ns, oebb, sncf, ojp, cache, config}) => {
 	const minuten = config.cacheMinuten;
 	const aan = (b) => config.bronnen.has(b);
 
@@ -232,15 +234,80 @@ export const maakZoeker = ({db: dbBron, nsi, ns, oebb, cache, config}) => {
 		}
 	};
 
-	// Zwitserland en Frankrijk binnenland: (nog) geen bron die een server mag/kan bevragen.
-	const zonderBron = (reizen, {status, links}) => {
-		if (reizen.some((r) => r.landen.length === 1 && r.landen[0] === 'CH')) {
-			links.sbb = 'https://www.sbb.ch/nl';
-			status.SBB = 'geen prijzen voor reizen binnen Zwitserland; zie de link (tip: Supersaver-tickets)';
+	// Zwitserland binnenland: OJP Fare (officiële open data, bèta). Prijs per volwassene, omgerekend naar euro.
+	const zwitserlandPrijzen = async (reizen, {personen, klasse, status, links}) => {
+		const ch = reizen.filter((r) => r.landen.length === 1 && r.landen[0] === 'CH');
+		if (!ch.length) {
+			return;
 		}
-		if (reizen.some((r) => r.landen.length === 1 && r.landen[0] === 'FR')) {
-			links.sncf = 'https://www.sncf-connect.com';
-			status['SNCF Connect'] = 'geen prijzen voor reizen binnen Frankrijk; zie de link';
+		links.sbb = 'https://www.sbb.ch/nl';
+		if (!ojp?.actief) {
+			status[OJP] = 'geen OJP_API_KEY ingesteld (gratis op api-manager.opentransportdata.swiss); zie de SBB-link';
+			return;
+		}
+		const {van_id: van, naar_id: naar} = ch[0];
+		let vind;
+		try {
+			vind = await koppelOpTijd(ch, (tijd) => cache.haal(`ojp:${van}:${naar}:${tijd}:${klasse}`, minuten, async () => {
+				const iso = DateTime.fromISO(tijd, {zone: ZONE}).toUTC().toISO({suppressMilliseconds: true});
+				const lijst = await ojp.zoek(van, naar, iso, {klasse});
+				return lijst.map((v) => ({...v, vertrek: lokaal(v.vertrek), aankomst: lokaal(v.aankomst)}));
+			}));
+			status[OJP] = 'ok (richtprijs uit het testsysteem van de Zwitserse OV-sector)';
+		} catch (e) {
+			status[OJP] = korteMelding(e);
+			return;
+		}
+		for (const r of ch) {
+			const v = vind(r);
+			if (typeof v?.chf !== 'number' || v.chf <= 0) {
+				continue;
+			}
+			const pp = v.chf * config.chfNaarEur;
+			r.prijzen.push({bron: OJP, totaal_eur: r2(pp * personen), per_persoon_eur: r2(pp), klasse,
+				tarief: `vol tarief, CHF ${v.chf.toFixed(2)} p.p. (koers ${config.chfNaarEur})`, deelprijs: !v.compleet,
+				toelichting: 'Supersaver-tickets op sbb.ch kunnen goedkoper zijn', boeken: links.sbb});
+		}
+	};
+
+	// Frankrijk binnenland: prijsrange (vol tarief) uit de open data van SNCF, alleen TGV INOUI en OUIGO.
+	const frankrijkPrijzen = async (reizen, {personen, klasse, status, links}) => {
+		const fr = reizen.filter((r) => r.landen.length === 1 && r.landen[0] === 'FR');
+		if (!fr.length) {
+			return;
+		}
+		links.sncf = 'https://www.sncf-connect.com';
+		if (!sncf) {
+			return;
+		}
+		let index;
+		try {
+			index = await sncf.index();
+			status[SNCF] = 'ok (prijsrange van TGV INOUI en OUIGO, geen prijs per trein)';
+		} catch (e) {
+			status[SNCF] = korteMelding(e);
+			return;
+		}
+		for (const r of fr) {
+			let min = 0, max = 0, gevonden = 0, missend = 0;
+			for (const rit of r.ritten) {
+				const range = zoekRange(index, {vanId: rit.van_id, naarId: rit.naar_id, vanNaam: rit.van, naarNaam: rit.naar}, klasse);
+				if (range) {
+					min += range.min;
+					max += range.max;
+					gevonden++;
+				} else {
+					missend++;
+				}
+			}
+			if (!gevonden) {
+				continue;
+			}
+			const pp = (min + max) / 2;
+			r.prijzen.push({bron: SNCF, totaal_eur: r2(pp * personen), per_persoon_eur: r2(pp), klasse,
+				prijs_van_pp: r2(min), prijs_tot_pp: r2(max), schatting: true, deelprijs: missend > 0,
+				toelichting: `vol tarief tussen €${r2(min)} en €${r2(max)} p.p.; vroeg boeken is meestal goedkoper${missend ? '; TER/Intercités-ritten niet meegeteld' : ''}`,
+				boeken: links.sncf});
 		}
 	};
 
@@ -325,7 +392,12 @@ export const maakZoeker = ({db: dbBron, nsi, ns, oebb, cache, config}) => {
 				await binnenlandPrijzen(reizen, {personen, klasse, studentenov, status, links});
 			}
 			belgieSchatting(reizen, {personen, klasse, leeftijden, status, links});
-			zonderBron(reizen, {status, links});
+			if (aan('ojp')) {
+				await zwitserlandPrijzen(reizen, {personen, klasse, status, links});
+			}
+			if (aan('sncf')) {
+				await frankrijkPrijzen(reizen, {personen, klasse, status, links});
+			}
 			for (const r of reizen) {
 				r.goedkoopst = kiesGoedkoopst(r);
 			}

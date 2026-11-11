@@ -1,7 +1,7 @@
 # Weekendplanner
 
 De weekendplanner kijkt in jullie twee agenda's wanneer jullie allebei vrij zijn: een weekend, een los dagje, of een periode die je zelf kiest. Claude Code maakt daar een concreet plan voor:
-- echte trein- en Flixbusverbindingen met prijzen en een boekingslink, met een advies welke optie je het best kunt nemen. De treinprijzen komen van de eigen service [treinprijzen](treinprijzen/README.md): per verbinding de prijs bij bahn.de, NS International, ÖBB en NS, voor reizen in en naar NL, BE, LU, DE, AT, CH en FR;
+- echte trein- en Flixbusverbindingen met prijzen en een boekingslink, met een advies welke optie je het best kunt nemen. De treinprijzen komen van de eigen service [treinprijzen](treinprijzen/README.md): per verbinding de prijs bij bahn.de, NS International, ÖBB, NS, SBB (open data) en SNCF (open data), voor reizen in en naar NL, BE, LU, DE, AT, CH en FR;
 - 2-3 echte slaapplekken met links, plus zoeklinks naar Booking, Airbnb en Hostelworld met de datums al ingevuld;
 - een programma per dag, met foto's van Wikimedia Commons.
 

@@ -6,6 +6,8 @@ import {maakDb} from './bronnen/db.js';
 import {maakNsi} from './bronnen/nsi.js';
 import {maakNs} from './bronnen/ns.js';
 import {maakOebb} from './bronnen/oebb.js';
+import {maakSncf} from './bronnen/sncf.js';
+import {maakOjp} from './bronnen/ojp.js';
 import {maakZoeker, InvoerFout} from './zoek.js';
 
 const lijst = (s) => (s ? String(s).split(',').map((x) => x.trim()).filter(Boolean) : []);
@@ -27,7 +29,7 @@ export const leesVraag = (params) => {
 const UITLEG = {
 	naam: 'treinprijzen',
 	endpoints: {
-		'/reizen?van=Delft&naar=Keulen&vertrek=2026-12-11T16:00&personen=2': 'Verbindingen met prijzen per verkoper (bahn.de, NS International, ÖBB, NS, NMBS-schatting). Of aankomst= in plaats van vertrek=.',
+		'/reizen?van=Delft&naar=Keulen&vertrek=2026-12-11T16:00&personen=2': 'Verbindingen met prijzen per verkoper (bahn.de, NS International, ÖBB, NS, SBB, SNCF-prijsrange, NMBS-schatting). Of aankomst= in plaats van vertrek=.',
 		'/dagprijzen?van=Delft&naar=Berlijn&datum=2026-12-11&personen=2': 'De goedkoopste DB-reizen van één dag.',
 		'/goedkoopste-dag?van=Delft&naar=Berlijn&van_datum=2026-12-11&tot_datum=2026-12-13': 'Per dag de laagste DB-prijs (max. 14 dagen).',
 		'/stations?q=Winterberg': 'Stations zoeken (id = EVA-nummer, bruikbaar als van/naar).',
@@ -81,10 +83,12 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 		nsi: maakNsi({userAgent: config.userAgent}),
 		ns: maakNs({apiKey: config.nsApiKey}),
 		oebb: maakOebb({userAgent: config.userAgent}),
+		sncf: maakSncf({userAgent: config.userAgent}),
+		ojp: maakOjp({tripKey: config.ojpKey, fareKey: config.ojpFareKey}),
 		cache: new Cache(),
 		config,
 	});
 	maakServer(zoeker).listen(config.poort, () => {
-		console.log(`treinprijzen luistert op :${config.poort} (bronnen: ${[...config.bronnen].join(', ')}; NS-sleutel: ${config.nsApiKey ? 'ja' : 'nee'})`);
+		console.log(`treinprijzen luistert op :${config.poort} (bronnen: ${[...config.bronnen].join(', ')}; NS-sleutel: ${config.nsApiKey ? 'ja' : 'nee'}; OJP-sleutel: ${config.ojpFareKey ? 'ja' : 'nee'})`);
 	});
 }
