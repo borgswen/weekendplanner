@@ -114,10 +114,14 @@ Afgevallen ideeën (ter info): {'; '.join(afgevallen) if afgevallen else 'geen'}
 # Werkwijze
 1. Kies wat nu het leukst én haalbaar is binnen budget en reistijd. Wissel af t.o.v. eerdere voorstellen.
 2. Vervoer: gebruik de tools `trein` en `flixbus` om ECHTE verbindingen met tijden en prijzen voor deze
-   datums op te halen (vanaf {thuis}). Vergelijk met de auto (brandstof, tol, parkeren; schat realistisch).
-   Geef 2-4 opties met heen- en terugreis, reistijd, totaalprijs voor {personen} personen en een boekingslink
-   (uit de tools of `trein_links`). Zet `prijs_is_schatting` op true als een prijs geschat is. Markeer de
-   aanbevolen optie en leg in `vervoer.advies` uit waarom.{slapen}
+   datums op te halen (vanaf {thuis}), voor heen- én terugreis apart. `trein` geeft per verbinding de prijzen
+   van elke verkoper (bahn.de, NS International, NS) voor alle {personen} reizigers samen, en `goedkoopst`.
+   Neem die prijs over met de boekingslink van díe verkoper. Een `deelprijs` dekt maar een deel van de reis.
+   Staat er bij een treinreis geen prijs, kijk dan bij `bronnen` waarom; schat dan en zet `prijs_is_schatting`
+   op true. Met `trein_goedkoopste_dag` zie je welke dag goedkoper is (handig bij een flexibele vertrekdag).
+   Vergelijk met de auto (brandstof, tol, parkeren; schat realistisch). Geef 2-4 opties met heen- en
+   terugreis, reistijd, totaalprijs voor {personen} personen en een boekingslink. Markeer de aanbevolen
+   optie en leg in `vervoer.advies` uit waarom.{slapen}
 3. Programma per dag met tijden die passen bij vertrek en terugkomst; geef per onderdeel een
    `foto_zoekterm` (Engels, naam van de plek, bv. "Kahler Asten Winterberg") en waar mogelijk een url.
 4. Reken eerlijk: kosten.totaal ≤ budget. Eten en drinken realistisch voor studenten.
@@ -131,7 +135,8 @@ def _mcp_config(workdir: str) -> str:
     app_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     with open(path, "w") as f:
         json.dump({"mcpServers": {"reis": {"command": sys.executable, "args": ["-m", "planner.reistools"],
-                                           "env": {"PYTHONPATH": app_dir}}}}, f)
+                                           "env": {"PYTHONPATH": app_dir,
+                                                   "TREINPRIJZEN_URL": os.environ.get("TREINPRIJZEN_URL", "")}}}}, f)
     return path
 
 

@@ -16,5 +16,21 @@ services:
       NTFY_TOPIC: ${NTFY_TOPIC}
       NTFY_TOKEN: ${NTFY_TOKEN:-}
       PUBLIEKE_URL: ${PUBLIEKE_URL:-http://192.168.68.125:8088}
+      TREINPRIJZEN_URL: http://treinprijzen:8089
     volumes:
       - ${DATA_DIR:-/opt/weekendplanner/data}:/data
+    depends_on:
+      - treinprijzen
+
+  # Treinverbindingen mét prijzen (DB, NS International, NS). Ook los te gebruiken: http://<server>:8089/
+  treinprijzen:
+    build: ./treinprijzen
+    image: treinprijzen:latest
+    container_name: treinprijzen
+    restart: unless-stopped
+    ports:
+      - "8089:8089"
+    environment:
+      LEEFTIJDEN: ${LEEFTIJDEN:-}
+      STUDENTENOV: ${STUDENTENOV:-}
+      NS_API_KEY: ${NS_API_KEY:-}

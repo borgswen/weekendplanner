@@ -6,6 +6,7 @@ Wordt door `claude -p` gestart via --mcp-config (stdio). Los testen:
 from __future__ import annotations
 
 import json
+import os
 import sys
 from datetime import datetime
 from urllib.parse import quote, urlencode
@@ -15,6 +16,8 @@ import requests
 UA = {"User-Agent": "weekendplanner/2 (zelfgehost reisplanner)"}
 DB = "https://v6.db.transport.rest"
 FLIX = "https://global.api.flixbus.com"
+# De eigen treinprijzen-service (zie treinprijzen/), in docker-compose: http://treinprijzen:8089
+TREINPRIJZEN = os.environ.get("TREINPRIJZEN_URL", "").rstrip("/")
 
 
 def _get(url, params=None, timeout=25):
@@ -66,7 +69,7 @@ def _db_station(naam: str) -> dict:
     return res[0]
 
 
-def zoek_trein(van: str, naar: str, vertrek: str, aankomst_voor: str | None = None, aantal: int = 4) -> dict:
+def _zoek_trein_db_rest(van: str, naar: str, vertrek: str, aankomst_voor: str | None = None, aantal: int = 4) -> dict:
     a, b = _db_station(van), _db_station(naar)
     params = {"from": a["id"], "to": b["id"], "results": aantal, "tickets": "true", "language": "nl",
               "stopovers": "false", "remarks": "false"}
@@ -90,6 +93,49 @@ def zoek_trein(van: str, naar: str, vertrek: str, aankomst_voor: str | None = No
         })
     return {"van": a["name"], "naar": b["name"], "reizen": reizen,
             "boeken": links_trein(a["name"], b["name"], aankomst_voor or vertrek)}
+
+
+def _rit_kort(r: dict) -> str:
+    return f"{r['trein']}: {r['van']} {(r.get('vertrek') or '')[11:16]} → {r['naar']} {(r.get('aankomst') or '')[11:16]}"
+
+
+def zoek_trein_prijzen(van: str, naar: str, vertrek: str, aankomst_voor: str | None = None, aantal: int = 4,
+                       personen: int = 2) -> dict:
+    """Via de treinprijzen-service: dienstregeling plus de prijs bij elke verkoper (DB, NS International, NS)."""
+    params = {"van": van, "naar": naar, "personen": personen, "aantal": aantal}
+    params["aankomst" if aankomst_voor else "vertrek"] = (aankomst_voor or vertrek)[:16]
+    data = _get(f"{TREINPRIJZEN}/reizen", params, timeout=120)
+    reizen = []
+    for r in data.get("reizen", []):
+        reizen.append({
+            "vertrek": r["vertrek"], "aankomst": r["aankomst"], "duur_min": r["duur_min"],
+            "overstappen": r["overstappen"], "ritten": [_rit_kort(x) for x in r["ritten"]],
+            "prijzen": [{k: p[k] for k in ("bron", "totaal_eur", "per_persoon_eur", "tarief", "flexibel", "deelprijs",
+                                           "toelichting", "boeken") if p.get(k) not in (None, "")} for p in r["prijzen"]],
+            "goedkoopst": r.get("goedkoopst"),
+            **({"uitgevallen": True} if r.get("uitgevallen") else {}),
+        })
+    return {"van": data.get("van"), "naar": data.get("naar"), "personen": personen, "reizen": reizen,
+            "bronnen": data.get("bronnen"), "boeken": data.get("links"), "let_op": data.get("let_op")}
+
+
+def zoek_trein(van: str, naar: str, vertrek: str, aankomst_voor: str | None = None, aantal: int = 4,
+               personen: int = 2) -> dict:
+    if TREINPRIJZEN:
+        try:
+            return zoek_trein_prijzen(van, naar, vertrek, aankomst_voor, aantal, personen)
+        except Exception as e:  # service even niet bereikbaar: val terug op de openbare DB-dienstregeling
+            res = _zoek_trein_db_rest(van, naar, vertrek, aankomst_voor, aantal)
+            res["waarschuwing"] = f"treinprijzen-service gaf een fout ({type(e).__name__}: {e}); alleen DB-gegevens"
+            return res
+    return _zoek_trein_db_rest(van, naar, vertrek, aankomst_voor, aantal)
+
+
+def goedkoopste_dag(van: str, naar: str, van_datum: str, tot_datum: str, personen: int = 2) -> dict:
+    if not TREINPRIJZEN:
+        return {"fout": "TREINPRIJZEN_URL is niet ingesteld"}
+    return _get(f"{TREINPRIJZEN}/goedkoopste-dag", {"van": van, "naar": naar, "van_datum": van_datum[:10],
+                                                     "tot_datum": tot_datum[:10], "personen": personen}, timeout=120)
 
 
 # ----------------------------------------------------------- flixbus ----------
@@ -137,13 +183,23 @@ def serve():
 
     srv = MCPServer("reis", instructions="Echte trein- en busverbindingen met prijzen, en boekingslinks met ingevulde datums.")
 
-    @srv.tool(description="Zoek treinverbindingen (NL en internationaal, via de DB-dienstregeling) met tijden, "
-                          "overstappen en waar mogelijk een prijsindicatie per persoon. Tijden ISO, bv. 2026-12-11T16:00.")
-    def trein(van: str, naar: str, vertrek: str, aankomst_voor: str | None = None, aantal: int = 4) -> dict:
+    @srv.tool(description="Zoek treinverbindingen (NL, BE, LU, DE en verder) met tijden, overstappen en per "
+                          "verbinding de prijzen van elke verkoper (bahn.de, NS International, NS) voor alle personen "
+                          "samen, enkele reis, plus de goedkoopste. Tijden ISO, bv. 2026-12-11T16:00.")
+    def trein(van: str, naar: str, vertrek: str, aankomst_voor: str | None = None, aantal: int = 4,
+              personen: int = 2) -> dict:
         try:
-            return zoek_trein(van, naar, vertrek, aankomst_voor, aantal)
+            return zoek_trein(van, naar, vertrek, aankomst_voor, aantal, personen)
         except Exception as e:
             return {"fout": f"{type(e).__name__}: {e}", "boeken": links_trein(van, naar, aankomst_voor or vertrek)}
+
+    @srv.tool(description="Per dag de laagste treinprijs (DB/bahn.de, alle personen samen, enkele reis) in een "
+                          "periode van max. 14 dagen (datums YYYY-MM-DD). Handig om de goedkoopste vertrekdag te kiezen.")
+    def trein_goedkoopste_dag(van: str, naar: str, van_datum: str, tot_datum: str, personen: int = 2) -> dict:
+        try:
+            return goedkoopste_dag(van, naar, van_datum, tot_datum, personen)
+        except Exception as e:
+            return {"fout": f"{type(e).__name__}: {e}"}
 
     @srv.tool(description="Zoek Flixbus-ritten (bus en soms trein) op een datum (YYYY-MM-DD) met echte totaalprijs "
                           "voor het aantal personen en een boekingslink.")

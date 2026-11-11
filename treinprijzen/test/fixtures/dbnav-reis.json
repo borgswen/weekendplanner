@@ -1,0 +1,2526 @@
+{
+    "verbindung": {
+        "reiseDauer": 8820,
+        "alternative": false,
+        "checksum": "8d4749e3_3",
+        "umstiegeAnzahl": 1,
+        "schemaVersion": "1.23.8",
+        "schemaName": "trip",
+        "kontext": "T$A=1@O=Frankfurt(Main)Hbf@X=8663785@Y=50107149@L=8000105@a=128@$A=1@O=Mainz Hbf@X=8258723@Y=50001113@L=8000240@a=128@$202501031756$202501031830$RB 29266$$1$$$$$$§T$A=1@O=Mainz Hbf@X=8258723@Y=50001113@L=8000240@a=128@$A=1@O=Stuttgart Hbf@X=9181636@Y=48784081@L=8000096@a=128@$202501031842$202501032023$IC  2048$$1$$$$$$",
+        "echtzeitNotizen": [],
+        "himNotizen": [],
+        "auslastungsInfos": [
+            {
+                "klasse": "KLASSE_1",
+                "stufe": 1,
+                "anzeigeTextKurz": "Low demand expected"
+            },
+            {
+                "klasse": "KLASSE_2",
+                "stufe": 2,
+                "anzeigeTextKurz": "Medium demand expected",
+                "anzeigeTextLang": "We expect medium demand for your journey. Reserve the seat of your choice now."
+            }
+        ],
+        "serviceDays": [
+            {
+                "irregular": "10. Jun until 8. Aug 2025 Mo - Fr; not 19. Jun 2025; also 3. Jan 2025, 6. until 10. Jan 2025, 27. until 31. Jan 2025, 3. until 7. Feb 2025, 17. until 21. Feb 2025, 24. until 28. Feb 2025",
+                "letztesDatumInZeitraum": "2025-08-08",
+                "planungsZeitraumAnfang": "2023-12-10",
+                "planungsZeitraumEnde": "2025-12-13",
+                "regular": "not every day",
+                "wochentage": [
+                    "MO",
+                    "DI",
+                    "MI",
+                    "DO",
+                    "FR"
+                ]
+            }
+        ],
+        "verbindungsAbschnitte": [
+            {
+                "administrationId": "V6RB__",
+                "risZuglaufId": "RB_29266",
+                "risAbfahrtId": "8000105_2025-01-03T17:56:00+01:00",
+                "kurztext": "RB",
+                "mitteltext": "RB 31",
+                "langtext": "RB 31 (29266)",
+                "zuglaufId": "2|#VN#1#ST#1735585219#PI#1#ZI#888642#TA#1#DA#30125#1S#8000105#1T#1756#LS#8000007#LT#1921#PU#81#RT#1#CA#DPN#ZE#29266#ZB#RB 29266#PC#3#FR#8000105#FT#1756#TO#8000007#TT#1921#",
+                "reservierungsMeldungen": [],
+                "nummer": 0,
+                "abschnittsDauer": 2040,
+                "typ": "FAHRZEUG",
+                "halte": [
+                    {
+                        "abgangsDatum": "2025-01-03T17:56:00+01:00",
+                        "ort": {
+                            "name": "Frankfurt(Main)Hbf",
+                            "locationId": "A=1@O=Frankfurt(Main)Hbf@X=8663785@Y=50107149@U=81@L=8000105@i=U×008011068@",
+                            "evaNr": "8000105",
+                            "position": {
+                                "latitude": 50.106815,
+                                "longitude": 8.663003
+                            },
+                            "stationId": "1866"
+                        },
+                        "gleis": "18",
+                        "attributNotizen": [],
+                        "echtzeitNotizen": [],
+                        "himNotizen": [],
+                        "auslastungsInfos": [
+                            {
+                                "klasse": "KLASSE_1",
+                                "stufe": 0,
+                                "anzeigeTextKurz": "No occupancy information available"
+                            },
+                            {
+                                "klasse": "KLASSE_2",
+                                "stufe": 0,
+                                "anzeigeTextKurz": "No occupancy information available"
+                            }
+                        ]
+                    },
+                    {
+                        "ankunftsDatum": "2025-01-03T18:06:00+01:00",
+                        "abgangsDatum": "2025-01-03T18:08:00+01:00",
+                        "ort": {
+                            "name": "Frankfurt(M) Flughafen Regionalbf",
+                            "locationId": "A=1@O=Frankfurt(M) Flughafen Regionalbf@X=8571250@Y=50051219@U=81@L=8070004@i=U×008011090@",
+                            "evaNr": "8070004",
+                            "position": {
+                                "latitude": 50.051388,
+                                "longitude": 8.571349
+                            },
+                            "stationId": "1849"
+                        },
+                        "gleis": "Regio 3",
+                        "attributNotizen": [],
+                        "echtzeitNotizen": [],
+                        "himNotizen": [],
+                        "auslastungsInfos": [
+                            {
+                                "klasse": "KLASSE_1",
+                                "stufe": 0,
+                                "anzeigeTextKurz": "No occupancy information available"
+                            },
+                            {
+                                "klasse": "KLASSE_2",
+                                "stufe": 0,
+                                "anzeigeTextKurz": "No occupancy information available"
+                            }
+                        ]
+                    },
+                    {
+                        "ankunftsDatum": "2025-01-03T18:18:00+01:00",
+                        "abgangsDatum": "2025-01-03T18:18:00+01:00",
+                        "ort": {
+                            "name": "Rüsselsheim",
+                            "locationId": "A=1@O=Rüsselsheim@X=8413580@Y=49991638@U=81@L=8005220@i=U×008011206@",
+                            "evaNr": "8005220",
+                            "position": {
+                                "latitude": 49.99164,
+                                "longitude": 8.413571
+                            },
+                            "stationId": "5440"
+                        },
+                        "gleis": "1",
+                        "attributNotizen": [],
+                        "echtzeitNotizen": [],
+                        "himNotizen": [],
+                        "auslastungsInfos": [
+                            {
+                                "klasse": "KLASSE_1",
+                                "stufe": 0,
+                                "anzeigeTextKurz": "No occupancy information available"
+                            },
+                            {
+                                "klasse": "KLASSE_2",
+                                "stufe": 0,
+                                "anzeigeTextKurz": "No occupancy information available"
+                            }
+                        ]
+                    },
+                    {
+                        "ankunftsDatum": "2025-01-03T18:26:00+01:00",
+                        "abgangsDatum": "2025-01-03T18:27:00+01:00",
+                        "ort": {
+                            "name": "Mainz Römisches Theater",
+                            "locationId": "A=1@O=Mainz Römisches Theater@X=8277564@Y=49993463@U=81@L=8003816@i=U×008019054@",
+                            "evaNr": "8003816",
+                            "position": {
+                                "latitude": 49.99352,
+                                "longitude": 8.277393
+                            },
+                            "stationId": "3900"
+                        },
+                        "gleis": "2",
+                        "attributNotizen": [],
+                        "echtzeitNotizen": [],
+                        "himNotizen": [],
+                        "auslastungsInfos": [
+                            {
+                                "klasse": "KLASSE_1",
+                                "stufe": 0,
+                                "anzeigeTextKurz": "No occupancy information available"
+                            },
+                            {
+                                "klasse": "KLASSE_2",
+                                "stufe": 0,
+                                "anzeigeTextKurz": "No occupancy information available"
+                            }
+                        ]
+                    },
+                    {
+                        "ankunftsDatum": "2025-01-03T18:30:00+01:00",
+                        "ort": {
+                            "name": "Mainz Hbf",
+                            "locationId": "A=1@O=Mainz Hbf@X=8258723@Y=50001113@U=81@L=8000240@i=U×008019051@",
+                            "evaNr": "8000240",
+                            "position": {
+                                "latitude": 50.00124,
+                                "longitude": 8.258453
+                            },
+                            "stationId": "3898"
+                        },
+                        "gleis": "6a",
+                        "attributNotizen": [],
+                        "echtzeitNotizen": [],
+                        "himNotizen": [],
+                        "auslastungsInfos": [
+                            {
+                                "klasse": "KLASSE_1",
+                                "stufe": 0,
+                                "anzeigeTextKurz": "No occupancy information available"
+                            },
+                            {
+                                "klasse": "KLASSE_2",
+                                "stufe": 0,
+                                "anzeigeTextKurz": "No occupancy information available"
+                            }
+                        ]
+                    }
+                ],
+                "himNotizen": [],
+                "echtzeitNotizen": [],
+                "attributNotizen": [
+                    {
+                        "text": "Number of bicycles conveyed limited",
+                        "key": "FB",
+                        "priority": 260
+                    },
+                    {
+                        "text": "Behindertengerechtes Fahrzeug",
+                        "key": "RG",
+                        "priority": 560
+                    },
+                    {
+                        "text": "power sockets for laptop",
+                        "key": "LS",
+                        "priority": 605
+                    },
+                    {
+                        "text": "air conditioning",
+                        "key": "KL",
+                        "priority": 610
+                    },
+                    {
+                        "text": "vlexx",
+                        "key": "OP"
+                    }
+                ],
+                "abgangsOrt": {
+                    "name": "Frankfurt(Main)Hbf",
+                    "locationId": "A=1@O=Frankfurt(Main)Hbf@X=8663785@Y=50107149@U=81@L=8000105@i=U×008011068@",
+                    "evaNr": "8000105",
+                    "position": {
+                        "latitude": 50.106815,
+                        "longitude": 8.663003
+                    },
+                    "stationId": "1866"
+                },
+                "abgangsDatum": "2025-01-03T17:56:00+01:00",
+                "ankunftsOrt": {
+                    "name": "Mainz Hbf",
+                    "locationId": "A=1@O=Mainz Hbf@X=8258723@Y=50001113@U=81@L=8000240@i=U×008019051@",
+                    "evaNr": "8000240",
+                    "position": {
+                        "latitude": 50.00124,
+                        "longitude": 8.258453
+                    },
+                    "stationId": "3898"
+                },
+                "ankunftsDatum": "2025-01-03T18:30:00+01:00",
+                "verkehrsmittelNummer": "29266",
+                "richtung": "Alzey",
+                "produktGattung": "RB",
+                "wagenreihung": false,
+                "auslastungsInfos": [
+                    {
+                        "klasse": "KLASSE_1",
+                        "stufe": 0,
+                        "anzeigeTextKurz": "No occupancy information available"
+                    },
+                    {
+                        "klasse": "KLASSE_2",
+                        "stufe": 0,
+                        "anzeigeTextKurz": "No occupancy information available"
+                    }
+                ],
+                "parallelZuege": []
+            },
+            {
+                "reservierungsMeldungen": [],
+                "typ": "FUSSWEG",
+                "himNotizen": [],
+                "echtzeitNotizen": [],
+                "attributNotizen": [],
+                "parallelZuege": [],
+                "auslastungsInfos": [],
+                "wagenreihung": false,
+                "abschnittsDauer": 720,
+                "halte": [
+                    {
+                        "ankunftsDatum": "2025-01-03T18:30:00+01:00",
+                        "ort": {
+                            "name": "Mainz Hbf",
+                            "locationId": "A=1@O=Mainz Hbf@X=8258723@Y=50001113@U=81@L=8000240@i=U×008019051@",
+                            "evaNr": "8000240",
+                            "position": {
+                                "latitude": 50.00124,
+                                "longitude": 8.258453
+                            },
+                            "stationId": "3898"
+                        },
+                        "gleis": "6a",
+                        "attributNotizen": [],
+                        "echtzeitNotizen": [],
+                        "himNotizen": [],
+                        "auslastungsInfos": [
+                            {
+                                "klasse": "KLASSE_1",
+                                "stufe": 0,
+                                "anzeigeTextKurz": "No occupancy information available"
+                            },
+                            {
+                                "klasse": "KLASSE_2",
+                                "stufe": 0,
+                                "anzeigeTextKurz": "No occupancy information available"
+                            }
+                        ]
+                    },
+                    {
+                        "abgangsDatum": "2025-01-03T18:42:00+01:00",
+                        "ort": {
+                            "name": "Mainz Hbf",
+                            "locationId": "A=1@O=Mainz Hbf@X=8258723@Y=50001113@U=81@L=8000240@i=U×008019051@",
+                            "evaNr": "8000240",
+                            "position": {
+                                "latitude": 50.00124,
+                                "longitude": 8.258453
+                            },
+                            "stationId": "3898"
+                        },
+                        "gleis": "5a/b",
+                        "attributNotizen": [],
+                        "echtzeitNotizen": [],
+                        "himNotizen": [],
+                        "auslastungsInfos": []
+                    }
+                ],
+                "abgangsDatum": "2025-01-03T18:30:00+01:00",
+                "abgangsOrt": {
+                    "name": "Mainz Hbf",
+                    "locationId": "A=1@O=Mainz Hbf@X=8258723@Y=50001113@U=81@L=8000240@i=U×008019051@",
+                    "evaNr": "8000240",
+                    "position": {
+                        "latitude": 50.00124,
+                        "longitude": 8.258453
+                    },
+                    "stationId": "3898"
+                },
+                "ankunftsDatum": "2025-01-03T18:42:00+01:00",
+                "ankunftsOrt": {
+                    "name": "Mainz Hbf",
+                    "locationId": "A=1@O=Mainz Hbf@X=8258723@Y=50001113@U=81@L=8000240@i=U×008019051@",
+                    "evaNr": "8000240",
+                    "position": {
+                        "latitude": 50.00124,
+                        "longitude": 8.258453
+                    },
+                    "stationId": "3898"
+                }
+            },
+            {
+                "administrationId": "80____",
+                "risZuglaufId": "IC_2048",
+                "risAbfahrtId": "8000240_2025-01-03T18:42:00+01:00",
+                "kurztext": "IC",
+                "mitteltext": "IC 2048",
+                "langtext": "IC 2048",
+                "zuglaufId": "2|#VN#1#ST#1735585219#PI#1#ZI#193906#TA#0#DA#30125#1S#8010085#1T#845#LS#8000141#LT#2130#PU#81#RT#1#CA#IC#ZE#2048#ZB#IC  2048#PC#1#FR#8010085#FT#845#TO#8000141#TT#2130#",
+                "reservierungsMeldungen": [],
+                "nummer": 1,
+                "abschnittsDauer": 6060,
+                "typ": "FAHRZEUG",
+                "halte": [
+                    {
+                        "abgangsDatum": "2025-01-03T18:42:00+01:00",
+                        "ort": {
+                            "name": "Mainz Hbf",
+                            "locationId": "A=1@O=Mainz Hbf@X=8258723@Y=50001113@U=81@L=8000240@i=U×008019051@",
+                            "evaNr": "8000240",
+                            "position": {
+                                "latitude": 50.00124,
+                                "longitude": 8.258453
+                            },
+                            "stationId": "3898"
+                        },
+                        "gleis": "5a/b",
+                        "attributNotizen": [],
+                        "echtzeitNotizen": [],
+                        "himNotizen": [],
+                        "auslastungsInfos": [
+                            {
+                                "klasse": "KLASSE_1",
+                                "stufe": 1,
+                                "anzeigeTextKurz": "Low demand expected"
+                            },
+                            {
+                                "klasse": "KLASSE_2",
+                                "stufe": 2,
+                                "anzeigeTextKurz": "Medium demand expected",
+                                "anzeigeTextLang": "We expect medium demand for your journey. Reserve the seat of your choice now."
+                            }
+                        ]
+                    },
+                    {
+                        "ankunftsDatum": "2025-01-03T19:21:00+01:00",
+                        "abgangsDatum": "2025-01-03T19:23:00+01:00",
+                        "ort": {
+                            "name": "Mannheim Hbf",
+                            "locationId": "A=1@O=Mannheim Hbf@X=8468917@Y=49479352@U=81@L=8000244@i=U×008014008@",
+                            "evaNr": "8000244",
+                            "position": {
+                                "latitude": 49.47918,
+                                "longitude": 8.469268
+                            },
+                            "stationId": "3925"
+                        },
+                        "gleis": "8",
+                        "attributNotizen": [],
+                        "echtzeitNotizen": [],
+                        "himNotizen": [],
+                        "auslastungsInfos": [
+                            {
+                                "klasse": "KLASSE_1",
+                                "stufe": 1,
+                                "anzeigeTextKurz": "Low demand expected"
+                            },
+                            {
+                                "klasse": "KLASSE_2",
+                                "stufe": 1,
+                                "anzeigeTextKurz": "Low demand expected"
+                            }
+                        ]
+                    },
+                    {
+                        "ankunftsDatum": "2025-01-03T19:34:00+01:00",
+                        "abgangsDatum": "2025-01-03T19:36:00+01:00",
+                        "ort": {
+                            "name": "Heidelberg Hbf",
+                            "locationId": "A=1@O=Heidelberg Hbf@X=8675444@Y=49403564@U=81@L=8000156@i=U×008014021@",
+                            "evaNr": "8000156",
+                            "position": {
+                                "latitude": 49.403584,
+                                "longitude": 8.67548
+                            },
+                            "stationId": "2628"
+                        },
+                        "gleis": "8",
+                        "attributNotizen": [],
+                        "echtzeitNotizen": [],
+                        "himNotizen": [],
+                        "auslastungsInfos": [
+                            {
+                                "klasse": "KLASSE_1",
+                                "stufe": 1,
+                                "anzeigeTextKurz": "Low demand expected"
+                            },
+                            {
+                                "klasse": "KLASSE_2",
+                                "stufe": 1,
+                                "anzeigeTextKurz": "Low demand expected"
+                            }
+                        ]
+                    },
+                    {
+                        "ankunftsDatum": "2025-01-03T20:04:00+01:00",
+                        "abgangsDatum": "2025-01-03T20:05:00+01:00",
+                        "ort": {
+                            "name": "Vaihingen(Enz)",
+                            "locationId": "A=1@O=Vaihingen(Enz)@X=8957634@Y=48948116@U=81@L=8006053@i=U×008029779@",
+                            "evaNr": "8006053",
+                            "position": {
+                                "latitude": 48.94727,
+                                "longitude": 8.959009
+                            },
+                            "stationId": "6390"
+                        },
+                        "gleis": "2",
+                        "attributNotizen": [],
+                        "echtzeitNotizen": [],
+                        "himNotizen": [],
+                        "auslastungsInfos": [
+                            {
+                                "klasse": "KLASSE_1",
+                                "stufe": 1,
+                                "anzeigeTextKurz": "Low demand expected"
+                            },
+                            {
+                                "klasse": "KLASSE_2",
+                                "stufe": 1,
+                                "anzeigeTextKurz": "Low demand expected"
+                            }
+                        ]
+                    },
+                    {
+                        "ankunftsDatum": "2025-01-03T20:23:00+01:00",
+                        "ort": {
+                            "name": "Stuttgart Hbf",
+                            "locationId": "A=1@O=Stuttgart Hbf@X=9181636@Y=48784081@U=81@L=8000096@i=U×008029034@",
+                            "evaNr": "8000096",
+                            "position": {
+                                "latitude": 48.785053,
+                                "longitude": 9.182589
+                            },
+                            "stationId": "6071"
+                        },
+                        "gleis": "13",
+                        "attributNotizen": [],
+                        "echtzeitNotizen": [],
+                        "himNotizen": [],
+                        "auslastungsInfos": [
+                            {
+                                "klasse": "KLASSE_1",
+                                "stufe": 0,
+                                "anzeigeTextKurz": "No occupancy information available"
+                            },
+                            {
+                                "klasse": "KLASSE_2",
+                                "stufe": 0,
+                                "anzeigeTextKurz": "No occupancy information available"
+                            }
+                        ]
+                    }
+                ],
+                "himNotizen": [],
+                "echtzeitNotizen": [],
+                "attributNotizen": [
+                    {
+                        "text": "Komfort Check-in possible (visit bahn.de/kci for more information)",
+                        "key": "CK",
+                        "priority": 200
+                    },
+                    {
+                        "text": "Bicycles conveyed - subject to reservation",
+                        "key": "FR",
+                        "priority": 260
+                    },
+                    {
+                        "text": "Number of bicycles conveyed limited",
+                        "key": "FB",
+                        "priority": 260
+                    },
+                    {
+                        "text": "Food and beverages served at seat",
+                        "key": "MP",
+                        "priority": 460
+                    },
+                    {
+                        "text": "Einstieg mit Rollstuhl stufenfrei",
+                        "key": "RZ",
+                        "priority": 560
+                    },
+                    {
+                        "text": "Intercity 2: visit www.bahn.de/ic2 for more information",
+                        "key": "IZ",
+                        "priority": 800
+                    },
+                    {
+                        "text": "DB Fernverkehr AG",
+                        "key": "OP"
+                    }
+                ],
+                "abgangsOrt": {
+                    "name": "Mainz Hbf",
+                    "locationId": "A=1@O=Mainz Hbf@X=8258723@Y=50001113@U=81@L=8000240@i=U×008019051@",
+                    "evaNr": "8000240",
+                    "position": {
+                        "latitude": 50.00124,
+                        "longitude": 8.258453
+                    },
+                    "stationId": "3898"
+                },
+                "abgangsDatum": "2025-01-03T18:42:00+01:00",
+                "ankunftsOrt": {
+                    "name": "Stuttgart Hbf",
+                    "locationId": "A=1@O=Stuttgart Hbf@X=9181636@Y=48784081@U=81@L=8000096@i=U×008029034@",
+                    "evaNr": "8000096",
+                    "position": {
+                        "latitude": 48.785053,
+                        "longitude": 9.182589
+                    },
+                    "stationId": "6071"
+                },
+                "ankunftsDatum": "2025-01-03T20:23:00+01:00",
+                "verkehrsmittelNummer": "2048",
+                "richtung": "Tübingen Hbf",
+                "produktGattung": "IC_EC",
+                "wagenreihung": true,
+                "auslastungsInfos": [
+                    {
+                        "klasse": "KLASSE_1",
+                        "stufe": 1,
+                        "anzeigeTextKurz": "Low demand expected"
+                    },
+                    {
+                        "klasse": "KLASSE_2",
+                        "stufe": 2,
+                        "anzeigeTextKurz": "Medium demand expected",
+                        "anzeigeTextLang": "We expect medium demand for your journey. Reserve the seat of your choice now."
+                    }
+                ],
+                "parallelZuege": []
+            }
+        ]
+    },
+    "angebote": {
+        "angebotsMeldungen": [],
+        "angebotsHinweise": [],
+        "angebotsHinweisDetails": [],
+        "angebotsInformationen": [],
+        "reservierungsMeldungen": [],
+        "alterseingabeErforderlich": false,
+        "angebotseinholungNachgelagert": false,
+        "angebotsCluster": [
+            {
+                "angebotsSubCluster": [
+                    {
+                        "angebotsPositionen": [
+                            {
+                                "einfacheFahrt": {
+                                    "standard": {
+                                        "reisePosition": {
+                                            "reisePosition": {
+                                                "name": "Super Sparpreis",
+                                                "premium": false,
+                                                "konditionen": [
+                                                    {
+                                                        "bezeichnung": "Train-specific travel",
+                                                        "textKurz": "Train-specific travel",
+                                                        "wichtig": true,
+                                                        "typ": "NICHT_INKLUSIVE",
+                                                        "details": "You can use all trains indicated on your ticket. Your ticket constitutes a continuous contract of carriage in each direction (through ticket). Should you make a passenger rights claim, the ticket will be considered in its entirety. Special rules apply to tickets including City-Ticket, see there."
+                                                    },
+                                                    {
+                                                        "bezeichnung": "No cancellations",
+                                                        "textKurz": "No cancellations",
+                                                        "wichtig": true,
+                                                        "typ": "NICHT_INKLUSIVE",
+                                                        "details": "Your ticket cannot be cancelled."
+                                                    },
+                                                    {
+                                                        "bezeichnung": "No City-Ticket",
+                                                        "textKurz": "No City-Ticket",
+                                                        "wichtig": true,
+                                                        "typ": "NICHT_INKLUSIVE",
+                                                        "details": "Your ticket does not include a City-Ticket. The City-Ticket is issued together with your Super Sparpreis or Sparpreis ticket, depending on the journey you have booked."
+                                                    }
+                                                ],
+                                                "nurMitAGBuchbar": false,
+                                                "preisunterdrueckung": false,
+                                                "preis": {
+                                                    "waehrung": "EUR",
+                                                    "betrag": 43.99
+                                                },
+                                                "nutzungsInformationen": [
+                                                    {
+                                                        "zugart": "IC_EC",
+                                                        "klasse": "KLASSE_2"
+                                                    }
+                                                ],
+                                                "anonymBuchbar": true,
+                                                "zulaessigeZahlungsarten": [
+                                                    "GUTSCHEIN",
+                                                    "KREDITKARTE",
+                                                    "LASTSCHRIFT",
+                                                    "REISESTELLENKARTE",
+                                                    "PAYPAL",
+                                                    "NULLPREIS",
+                                                    "BONVOYO",
+                                                    "APPLEPAY"
+                                                ],
+                                                "typ": "REISEANGEBOT"
+                                            },
+                                            "angebotsKontext": {
+                                                "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37",
+                                                "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                "gesamtAngebotsId": "baf3467f-de21-4c4e-989a-8c2f353d4592",
+                                                "angebotsId": "85128359-b18a-4090-884e-424ef6936810"
+                                            },
+                                            "teilpreisInformationen": [],
+                                            "lupKategorien": {
+                                                "modulKennung": "FVF",
+                                                "angebotsArt": "SSP",
+                                                "tarifTyp": "I",
+                                                "klasse": "KLASSE_2"
+                                            }
+                                        },
+                                        "reservierungsPositionen": [
+                                            {
+                                                "reservierungen": [
+                                                    {
+                                                        "angebotsKontext": {
+                                                            "gesamtAngebotsId": "baf3467f-de21-4c4e-989a-8c2f353d4592",
+                                                            "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37",
+                                                            "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                            "angebotsId": "fd8475a2-f85a-43c7-8e1d-17b86a728a1f"
+                                                        },
+                                                        "bahnbonusPunkteSammelfaehig": true,
+                                                        "option": "OPTIONAL",
+                                                        "typ": "OR",
+                                                        "gsdDaten": {
+                                                            "quellSystem": "SIMA",
+                                                            "buchungsKontextDaten": {
+                                                                "zugnummer": "2048",
+                                                                "zugfahrtKey": "EPA#2048_2025-01-03",
+                                                                "abfahrtHalt": {
+                                                                    "locationId": "8000240",
+                                                                    "abfahrtZeit": "2025-01-03T18:42:00"
+                                                                },
+                                                                "ankunftHalt": {
+                                                                    "locationId": "8000096",
+                                                                    "ankunftZeit": "2025-01-03T20:23:00"
+                                                                },
+                                                                "servicekategorieCode": "KLASSE_2",
+                                                                "serviceKategorie": "SITZPLATZ_KLASSE_2",
+                                                                "anzahlReisende": 1,
+                                                                "inventarsystem": "EPA",
+                                                                "inklusiveLastMinuteReservierung": false,
+                                                                "gruppenReservierung": false,
+                                                                "kombinationsId": "233e5439-3d77-4e2f-bbe3-c4abda1f98cf",
+                                                                "platzbedarfe": [
+                                                                    {
+                                                                        "platzprofilCode": "Standard",
+                                                                        "anzahl": 1
+                                                                    }
+                                                                ],
+                                                                "klasse": "KLASSE_2"
+                                                            }
+                                                        },
+                                                        "preisunterdrueckung": false,
+                                                        "nurMitAGBuchbar": false,
+                                                        "abgangsOrt": {
+                                                            "name": "Mainz Hbf",
+                                                            "locationId": "",
+                                                            "evaNr": "8000240"
+                                                        },
+                                                        "ankunftsOrt": {
+                                                            "name": "Stuttgart Hbf",
+                                                            "locationId": "",
+                                                            "evaNr": "8000096"
+                                                        }
+                                                    }
+                                                ],
+                                                "standard": {
+                                                    "angebotsKontext": {
+                                                        "gesamtAngebotsId": "baf3467f-de21-4c4e-989a-8c2f353d4592",
+                                                        "angebotsId": "0c479d8d-3692-42cc-a7fe-9cbef9a4696a",
+                                                        "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                        "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37"
+                                                    },
+                                                    "bahnbonusPunkteSammelfaehig": true,
+                                                    "name": "Sitzplatzreservierung",
+                                                    "preis": {
+                                                        "waehrung": "EUR",
+                                                        "betrag": 5.2
+                                                    },
+                                                    "infoTexte": [
+                                                        {
+                                                            "kategorisierung": "ANZAHL_PLAETZE",
+                                                            "kurzText": "1 seat"
+                                                        },
+                                                        {
+                                                            "kategorisierung": "UE_RESERVIERUNG",
+                                                            "kurzText": "Your reservation cannot be cancelled."
+                                                        }
+                                                    ]
+                                                },
+                                                "klasse": "KLASSE_2",
+                                                "kategorie": "SITZPLATZ",
+                                                "anonymBuchbar": true,
+                                                "sitzplatzAnzahl": 1
+                                            }
+                                        ]
+                                    },
+                                    "upsellEntgelt": {
+                                        "einfacheFahrt": {
+                                            "reisePosition": {
+                                                "reisePosition": {
+                                                    "name": "Super Sparpreis",
+                                                    "premium": true,
+                                                    "leuchtturmText": "Travel 1st class",
+                                                    "konditionen": [
+                                                        {
+                                                            "bezeichnung": "Train-specific travel",
+                                                            "textKurz": "Train-specific travel",
+                                                            "wichtig": true,
+                                                            "typ": "NICHT_INKLUSIVE",
+                                                            "details": "You can use all trains indicated on your ticket. Your ticket constitutes a continuous contract of carriage in each direction (through ticket). Should you make a passenger rights claim, the ticket will be considered in its entirety. Special rules apply to tickets including City-Ticket, see there."
+                                                        },
+                                                        {
+                                                            "bezeichnung": "No cancellations",
+                                                            "textKurz": "No cancellations",
+                                                            "wichtig": true,
+                                                            "typ": "NICHT_INKLUSIVE",
+                                                            "details": "Your ticket cannot be cancelled."
+                                                        },
+                                                        {
+                                                            "bezeichnung": "No City-Ticket",
+                                                            "textKurz": "No City-Ticket",
+                                                            "wichtig": true,
+                                                            "typ": "NICHT_INKLUSIVE",
+                                                            "details": "Your ticket does not include a City-Ticket. The City-Ticket is issued together with your Super Sparpreis or Sparpreis ticket, depending on the journey you have booked."
+                                                        },
+                                                        {
+                                                            "bezeichnung": "No access to the DB Lounge",
+                                                            "textKurz": "No access to the DB Lounge",
+                                                            "wichtig": false,
+                                                            "typ": "NICHT_INKLUSIVE",
+                                                            "details": "Your ticket does not entitle you to use the DB Lounge."
+                                                        }
+                                                    ],
+                                                    "nurMitAGBuchbar": false,
+                                                    "preisunterdrueckung": false,
+                                                    "preis": {
+                                                        "waehrung": "EUR",
+                                                        "betrag": 52.99
+                                                    },
+                                                    "nutzungsInformationen": [
+                                                        {
+                                                            "zugart": "IC_EC",
+                                                            "klasse": "KLASSE_1"
+                                                        }
+                                                    ],
+                                                    "upsellInfo": {
+                                                        "upsellHeadline": "First class benefits",
+                                                        "upsellTexte": [
+                                                            {
+                                                                "kurzText": "More legroom",
+                                                                "langText": "Enjoy more legroom.",
+                                                                "wichtig": true,
+                                                                "iconId": "201"
+                                                            },
+                                                            {
+                                                                "kurzText": "Digital newspapers included",
+                                                                "langText": "You receive digital newspapers and magazines free of charge in the ICE Portal.",
+                                                                "wichtig": true,
+                                                                "iconId": "201"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "anonymBuchbar": true,
+                                                    "zulaessigeZahlungsarten": [
+                                                        "GUTSCHEIN",
+                                                        "KREDITKARTE",
+                                                        "LASTSCHRIFT",
+                                                        "REISESTELLENKARTE",
+                                                        "PAYPAL",
+                                                        "NULLPREIS",
+                                                        "BONVOYO",
+                                                        "APPLEPAY"
+                                                    ],
+                                                    "typ": "REISEANGEBOT"
+                                                },
+                                                "angebotsKontext": {
+                                                    "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37",
+                                                    "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                    "gesamtAngebotsId": "baf3467f-de21-4c4e-989a-8c2f353d4592",
+                                                    "angebotsId": "a561be1b-fb18-4071-b46b-b8d0f633b067"
+                                                },
+                                                "teilpreisInformationen": [],
+                                                "lupKategorien": {
+                                                    "modulKennung": "FVF",
+                                                    "angebotsArt": "SSP",
+                                                    "tarifTyp": "I",
+                                                    "klasse": "KLASSE_1"
+                                                }
+                                            },
+                                            "reservierungsPositionen": [
+                                                {
+                                                    "reservierungen": [
+                                                        {
+                                                            "angebotsKontext": {
+                                                                "gesamtAngebotsId": "baf3467f-de21-4c4e-989a-8c2f353d4592",
+                                                                "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37",
+                                                                "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                                "angebotsId": "92d1d1b4-1d9d-40f8-bc76-0fb28ce43778"
+                                                            },
+                                                            "bahnbonusPunkteSammelfaehig": true,
+                                                            "option": "OPTIONAL",
+                                                            "typ": "OR",
+                                                            "gsdDaten": {
+                                                                "quellSystem": "SIMA",
+                                                                "buchungsKontextDaten": {
+                                                                    "zugnummer": "2048",
+                                                                    "zugfahrtKey": "EPA#2048_2025-01-03",
+                                                                    "abfahrtHalt": {
+                                                                        "locationId": "8000240",
+                                                                        "abfahrtZeit": "2025-01-03T18:42:00"
+                                                                    },
+                                                                    "ankunftHalt": {
+                                                                        "locationId": "8000096",
+                                                                        "ankunftZeit": "2025-01-03T20:23:00"
+                                                                    },
+                                                                    "servicekategorieCode": "KLASSE_1",
+                                                                    "serviceKategorie": "SITZPLATZ_KLASSE_1",
+                                                                    "anzahlReisende": 1,
+                                                                    "inventarsystem": "EPA",
+                                                                    "inklusiveLastMinuteReservierung": false,
+                                                                    "gruppenReservierung": false,
+                                                                    "kombinationsId": "233e5439-3d77-4e2f-bbe3-c4abda1f98cf",
+                                                                    "platzbedarfe": [
+                                                                        {
+                                                                            "platzprofilCode": "Standard",
+                                                                            "anzahl": 1
+                                                                        }
+                                                                    ],
+                                                                    "klasse": "KLASSE_1"
+                                                                }
+                                                            },
+                                                            "preisunterdrueckung": false,
+                                                            "nurMitAGBuchbar": false,
+                                                            "abgangsOrt": {
+                                                                "name": "Mainz Hbf",
+                                                                "locationId": "",
+                                                                "evaNr": "8000240"
+                                                            },
+                                                            "ankunftsOrt": {
+                                                                "name": "Stuttgart Hbf",
+                                                                "locationId": "",
+                                                                "evaNr": "8000096"
+                                                            }
+                                                        }
+                                                    ],
+                                                    "standard": {
+                                                        "angebotsKontext": {
+                                                            "gesamtAngebotsId": "baf3467f-de21-4c4e-989a-8c2f353d4592",
+                                                            "angebotsId": "9f65a8df-31e3-4d2d-8354-ccbdfc1f930c",
+                                                            "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                            "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37"
+                                                        },
+                                                        "bahnbonusPunkteSammelfaehig": true,
+                                                        "name": "Sitzplatzreservierung",
+                                                        "preis": {
+                                                            "waehrung": "EUR",
+                                                            "betrag": 6.5
+                                                        },
+                                                        "infoTexte": [
+                                                            {
+                                                                "kategorisierung": "ANZAHL_PLAETZE",
+                                                                "kurzText": "1 seat"
+                                                            },
+                                                            {
+                                                                "kategorisierung": "UE_RESERVIERUNG",
+                                                                "kurzText": "Your reservation cannot be cancelled."
+                                                            }
+                                                        ]
+                                                    },
+                                                    "klasse": "KLASSE_1",
+                                                    "kategorie": "SITZPLATZ",
+                                                    "anonymBuchbar": true,
+                                                    "sitzplatzAnzahl": 1
+                                                }
+                                            ]
+                                        },
+                                        "upsell": {
+                                            "name": "1st class upgrade",
+                                            "upsellText": {
+                                                "text": "More space and comfort",
+                                                "iconId": "201"
+                                            },
+                                            "differenzpreis": {
+                                                "waehrung": "EUR",
+                                                "betrag": 9
+                                            }
+                                        }
+                                    },
+                                    "crosssell": {
+                                        "einfacheFahrt": {
+                                            "reisePosition": {
+                                                "reisePosition": {
+                                                    "name": "Super Sparpreis",
+                                                    "premium": false,
+                                                    "konditionen": [
+                                                        {
+                                                            "bezeichnung": "Train-specific travel",
+                                                            "textKurz": "Train-specific travel",
+                                                            "wichtig": true,
+                                                            "typ": "NICHT_INKLUSIVE",
+                                                            "details": "You can use all trains indicated on your ticket. Your ticket constitutes a continuous contract of carriage in each direction (through ticket). Should you make a passenger rights claim, the ticket will be considered in its entirety. Special rules apply to tickets including City-Ticket, see there."
+                                                        },
+                                                        {
+                                                            "bezeichnung": "No cancellations",
+                                                            "textKurz": "No cancellations",
+                                                            "wichtig": true,
+                                                            "typ": "NICHT_INKLUSIVE",
+                                                            "details": "Your ticket cannot be cancelled."
+                                                        },
+                                                        {
+                                                            "bezeichnung": "No City-Ticket",
+                                                            "textKurz": "No City-Ticket",
+                                                            "wichtig": true,
+                                                            "typ": "NICHT_INKLUSIVE",
+                                                            "details": "Your ticket does not include a City-Ticket. The City-Ticket is issued together with your Super Sparpreis or Sparpreis ticket, depending on the journey you have booked."
+                                                        }
+                                                    ],
+                                                    "nurMitAGBuchbar": false,
+                                                    "preisunterdrueckung": false,
+                                                    "preis": {
+                                                        "waehrung": "EUR",
+                                                        "betrag": 32.99
+                                                    },
+                                                    "nutzungsInformationen": [
+                                                        {
+                                                            "zugart": "IC_EC",
+                                                            "klasse": "KLASSE_2"
+                                                        }
+                                                    ],
+                                                    "anonymBuchbar": true,
+                                                    "zulaessigeZahlungsarten": [
+                                                        "GUTSCHEIN",
+                                                        "KREDITKARTE",
+                                                        "LASTSCHRIFT",
+                                                        "REISESTELLENKARTE",
+                                                        "PAYPAL",
+                                                        "NULLPREIS",
+                                                        "BONVOYO",
+                                                        "APPLEPAY"
+                                                    ],
+                                                    "typ": "REISEANGEBOT"
+                                                },
+                                                "angebotsKontext": {
+                                                    "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37",
+                                                    "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                    "gesamtAngebotsId": "9fa0def2-812a-40d9-a029-5f1bd1818354",
+                                                    "angebotsId": "56d22ac9-e14d-4b15-8515-3b0e269ec00a"
+                                                },
+                                                "teilpreisInformationen": [],
+                                                "lupKategorien": {
+                                                    "modulKennung": "FVF",
+                                                    "angebotsArt": "SSP",
+                                                    "tarifTyp": "I",
+                                                    "klasse": "KLASSE_2"
+                                                }
+                                            },
+                                            "reservierungsPositionen": [
+                                                {
+                                                    "reservierungen": [
+                                                        {
+                                                            "angebotsKontext": {
+                                                                "gesamtAngebotsId": "9fa0def2-812a-40d9-a029-5f1bd1818354",
+                                                                "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37",
+                                                                "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                                "angebotsId": "99d49573-6a15-4dd8-9b2e-d38dbe27b7ed"
+                                                            },
+                                                            "bahnbonusPunkteSammelfaehig": true,
+                                                            "option": "OPTIONAL",
+                                                            "typ": "OR",
+                                                            "gsdDaten": {
+                                                                "quellSystem": "SIMA",
+                                                                "buchungsKontextDaten": {
+                                                                    "zugnummer": "2048",
+                                                                    "zugfahrtKey": "EPA#2048_2025-01-03",
+                                                                    "abfahrtHalt": {
+                                                                        "locationId": "8000240",
+                                                                        "abfahrtZeit": "2025-01-03T18:42:00"
+                                                                    },
+                                                                    "ankunftHalt": {
+                                                                        "locationId": "8000096",
+                                                                        "ankunftZeit": "2025-01-03T20:23:00"
+                                                                    },
+                                                                    "servicekategorieCode": "KLASSE_2",
+                                                                    "serviceKategorie": "SITZPLATZ_KLASSE_2",
+                                                                    "anzahlReisende": 1,
+                                                                    "inventarsystem": "EPA",
+                                                                    "inklusiveLastMinuteReservierung": false,
+                                                                    "gruppenReservierung": false,
+                                                                    "kombinationsId": "233e5439-3d77-4e2f-bbe3-c4abda1f98cf",
+                                                                    "platzbedarfe": [
+                                                                        {
+                                                                            "platzprofilCode": "Standard",
+                                                                            "anzahl": 1
+                                                                        }
+                                                                    ],
+                                                                    "klasse": "KLASSE_2"
+                                                                }
+                                                            },
+                                                            "preisunterdrueckung": false,
+                                                            "nurMitAGBuchbar": false,
+                                                            "abgangsOrt": {
+                                                                "name": "Mainz Hbf",
+                                                                "locationId": "",
+                                                                "evaNr": "8000240"
+                                                            },
+                                                            "ankunftsOrt": {
+                                                                "name": "Stuttgart Hbf",
+                                                                "locationId": "",
+                                                                "evaNr": "8000096"
+                                                            }
+                                                        }
+                                                    ],
+                                                    "standard": {
+                                                        "angebotsKontext": {
+                                                            "gesamtAngebotsId": "9fa0def2-812a-40d9-a029-5f1bd1818354",
+                                                            "angebotsId": "1064b8b7-3f8b-49d9-a865-782eef7ff03c",
+                                                            "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                            "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37"
+                                                        },
+                                                        "bahnbonusPunkteSammelfaehig": true,
+                                                        "name": "Sitzplatzreservierung",
+                                                        "preis": {
+                                                            "waehrung": "EUR",
+                                                            "betrag": 5.2
+                                                        },
+                                                        "infoTexte": [
+                                                            {
+                                                                "kategorisierung": "ANZAHL_PLAETZE",
+                                                                "kurzText": "1 seat"
+                                                            },
+                                                            {
+                                                                "kategorisierung": "UE_RESERVIERUNG",
+                                                                "kurzText": "Your reservation cannot be cancelled."
+                                                            }
+                                                        ]
+                                                    },
+                                                    "klasse": "KLASSE_2",
+                                                    "kategorie": "SITZPLATZ",
+                                                    "anonymBuchbar": true,
+                                                    "sitzplatzAnzahl": 1
+                                                }
+                                            ]
+                                        },
+                                        "bahncardInfo": {
+                                            "preis": {
+                                                "waehrung": "EUR",
+                                                "betrag": 19.9
+                                            },
+                                            "klasse": "KLASSE_2",
+                                            "zulaessigeZahlungsarten": [
+                                                "GUTSCHEIN",
+                                                "KREDITKARTE",
+                                                "LASTSCHRIFT",
+                                                "REISESTELLENKARTE",
+                                                "PAYPAL",
+                                                "NULLPREIS",
+                                                "APPLEPAY"
+                                            ],
+                                            "anonymBuchbar": false,
+                                            "anzeigeTexte": [
+                                                {
+                                                    "kategorie": "KATALOG_VORTEILE",
+                                                    "iconId": "201",
+                                                    "textKurz": "Immediate savings: The Probe BahnCard often starts to pay off from the 1st journey onwards",
+                                                    "textLang": "Immediate savings: The Probe BahnCard often starts to pay off from the 1st journey onwards"
+                                                },
+                                                {
+                                                    "iconId": "201",
+                                                    "textKurz": "Immediate savings: The Probe BahnCard often starts to pay off from the 1st journey onwards",
+                                                    "textLang": "Immediate savings: The Probe BahnCard often starts to pay off from the 1st journey onwards"
+                                                },
+                                                {
+                                                    "kategorie": "CROSSSELL_ARGUMENTE",
+                                                    "iconId": "201",
+                                                    "textKurz": "25% discount on Sparpreis and Flexpreis fares (except City-Ticket)",
+                                                    "textLang": "25% discount on Sparpreis and Flexpreis fares (except City-Ticket)"
+                                                },
+                                                {
+                                                    "iconId": "201",
+                                                    "textKurz": "25% discount on all super saver, saver and flexible fares",
+                                                    "textLang": "25% discount on all super saver, saver and flexible fares"
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_VORTEILE_UEBERSCHRIFT",
+                                                    "iconId": "201",
+                                                    "textKurz": "Your advantages",
+                                                    "textLang": "Your advantages."
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_UEBERSCHRIFT",
+                                                    "iconId": "201",
+                                                    "textKurz": "Order a Probe BahnCard 25 from EUR 19,90 and save 25% for 3 months",
+                                                    "textLang": "Order a Probe BahnCard 25 from EUR 19,90 and save 25% for 3 months!"
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_PRUEFEN_BUCHEN",
+                                                    "iconId": "201",
+                                                    "textKurz": "Your BahnCard will be extended automatically by one year unless you cancel it in writing at least 4 weeks before the end of its validity period. You have a 14-day <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.bahn.de/angebot/bahncard/bahncard-verwalten/widerruf\">right of withdrawal period</a>",
+                                                    "textLang": "Your BahnCard will be extended automatically by one year unless you cancel it in writing at least 4 weeks before the end of its validity period. You have a 14-day <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.bahn.de/angebot/bahncard/bahncard-verwalten/widerruf\">right of withdrawal period</a>."
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_PRUEFEN",
+                                                    "iconId": "201",
+                                                    "textKurz": "Please note: This BahnCard is a subscription offer. Find out more about the terms of use and the purchase of BahnCards here <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.bahn.de/agb\"></a>.",
+                                                    "textLang": "Please note: This BahnCard is a subscription offer. Find out more about the terms of use and the purchase of BahnCards here <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.bahn.de/agb\"></a>."
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_PRUEFEN",
+                                                    "iconId": "201",
+                                                    "textKurz": "You can load the digital BahnCard in Navigator after booking and use it immediately.",
+                                                    "textLang": "You can load the digital BahnCard in Navigator after booking and use it immediately."
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_PRUEFEN_BUCHEN",
+                                                    "iconId": "201",
+                                                    "textKurz": "Depending on your age or discount entitlement, your follow-up card will be a 2nd class BahnCard 25, a 2nd class My BahnCard 25, or a 2nd class seniors/discounted BahnCard 25.",
+                                                    "textLang": "Depending on your age or discount entitlement, your follow-up card will be a 2nd class BahnCard 25, a 2nd class My BahnCard 25, or a 2nd class seniors/discounted BahnCard 25."
+                                                },
+                                                {
+                                                    "iconId": "201",
+                                                    "textKurz": "Upload your Digital BahnCard into DB Navigator and use it immediately",
+                                                    "textLang": "Upload your Digital BahnCard into DB Navigator and use it immediately"
+                                                },
+                                                {
+                                                    "kategorie": "CROSSSELL_ARGUMENTE",
+                                                    "iconId": "201",
+                                                    "textKurz": "Save EUR 11,00 on this ticket",
+                                                    "textLang": "Save EUR 11,00 on this ticket."
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_VORTEILE",
+                                                    "iconId": "201",
+                                                    "textKurz": "Try it out with no obligation. Cancel up to 4 weeks before the end of the trial period",
+                                                    "textLang": "Try it out with no obligation. Cancel up to 4 weeks before the end of the trial period"
+                                                },
+                                                {
+                                                    "iconId": "202",
+                                                    "textKurz": "Four-week notice period before the expiration date in text form",
+                                                    "textLang": "Four-week notice period before the expiration date in text form"
+                                                },
+                                                {
+                                                    "iconId": "202",
+                                                    "textKurz": "No cancellations",
+                                                    "textLang": "Your BahnCard cannot be cancelled"
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_VORTEILE",
+                                                    "iconId": "201",
+                                                    "textKurz": "25% discount on all super saver, saver and flexible fares",
+                                                    "textLang": "25% discount on all super saver, saver and flexible fares"
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_VORTEILE",
+                                                    "iconId": "201",
+                                                    "textKurz": "Upload your Digital BahnCard into DB Navigator and use it immediately",
+                                                    "textLang": "Upload your Digital BahnCard into DB Navigator and use it immediately"
+                                                }
+                                            ],
+                                            "ersterGeltungzeitpunkt": "2025-01-03T00:00:00+01:00",
+                                            "anzeigeName": "Probe BahnCard 25",
+                                            "angebotsKontext": {
+                                                "angebotsId": "f1a322e7-9a58-44e6-9ad2-6047db483b17",
+                                                "gesamtAngebotsId": "9fa0def2-812a-40d9-a029-5f1bd1818354",
+                                                "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "einfacheFahrt": {
+                                    "standard": {
+                                        "reisePosition": {
+                                            "reisePosition": {
+                                                "name": "Sparpreis",
+                                                "premium": false,
+                                                "konditionen": [
+                                                    {
+                                                        "bezeichnung": "Train-specific travel",
+                                                        "textKurz": "Train-specific travel",
+                                                        "wichtig": true,
+                                                        "typ": "NICHT_INKLUSIVE",
+                                                        "details": "You can use all trains indicated on your ticket. Your ticket constitutes a continuous contract of carriage in each direction (through ticket). Should you make a passenger rights claim, the ticket will be considered in its entirety. Special rules apply to tickets including City-Ticket, see there."
+                                                    },
+                                                    {
+                                                        "bezeichnung": "Cancellation subject to a fee before first day of validity",
+                                                        "textKurz": "Cancellation subject to a fee before first day of validity",
+                                                        "wichtig": true,
+                                                        "typ": "INKLUSIVE",
+                                                        "details": "You can cancel your ticket up to and including 02.01.2025 for a fee of EUR 10,00. You will receive a voucher for the remaining amount. No cancellation thereafter."
+                                                    },
+                                                    {
+                                                        "bezeichnung": "No City-Ticket",
+                                                        "textKurz": "No City-Ticket",
+                                                        "wichtig": true,
+                                                        "typ": "NICHT_INKLUSIVE",
+                                                        "details": "Your ticket does not include a City-Ticket. The City-Ticket is issued together with your Super Sparpreis or Sparpreis ticket, depending on the journey you have booked."
+                                                    }
+                                                ],
+                                                "nurMitAGBuchbar": false,
+                                                "preisunterdrueckung": false,
+                                                "preis": {
+                                                    "waehrung": "EUR",
+                                                    "betrag": 50.99
+                                                },
+                                                "nutzungsInformationen": [
+                                                    {
+                                                        "zugart": "IC_EC",
+                                                        "klasse": "KLASSE_2"
+                                                    }
+                                                ],
+                                                "anonymBuchbar": true,
+                                                "zulaessigeZahlungsarten": [
+                                                    "GUTSCHEIN",
+                                                    "KREDITKARTE",
+                                                    "REISESTELLENKARTE",
+                                                    "PAYPAL",
+                                                    "APPLEPAY",
+                                                    "NULLPREIS",
+                                                    "BONVOYO"
+                                                ],
+                                                "typ": "REISEANGEBOT"
+                                            },
+                                            "angebotsKontext": {
+                                                "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37",
+                                                "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                "gesamtAngebotsId": "8da56f1a-4928-4650-a2a0-a367ec488edb",
+                                                "angebotsId": "18b969a5-3dd0-4b38-97aa-78feba5e36d5"
+                                            },
+                                            "teilpreisInformationen": [],
+                                            "lupKategorien": {
+                                                "modulKennung": "FVF",
+                                                "angebotsArt": "SPP",
+                                                "tarifTyp": "I",
+                                                "klasse": "KLASSE_2"
+                                            }
+                                        },
+                                        "reservierungsPositionen": [
+                                            {
+                                                "reservierungen": [
+                                                    {
+                                                        "angebotsKontext": {
+                                                            "gesamtAngebotsId": "8da56f1a-4928-4650-a2a0-a367ec488edb",
+                                                            "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37",
+                                                            "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                            "angebotsId": "fd8475a2-f85a-43c7-8e1d-17b86a728a1f"
+                                                        },
+                                                        "bahnbonusPunkteSammelfaehig": true,
+                                                        "option": "OPTIONAL",
+                                                        "typ": "OR",
+                                                        "gsdDaten": {
+                                                            "quellSystem": "SIMA",
+                                                            "buchungsKontextDaten": {
+                                                                "zugnummer": "2048",
+                                                                "zugfahrtKey": "EPA#2048_2025-01-03",
+                                                                "abfahrtHalt": {
+                                                                    "locationId": "8000240",
+                                                                    "abfahrtZeit": "2025-01-03T18:42:00"
+                                                                },
+                                                                "ankunftHalt": {
+                                                                    "locationId": "8000096",
+                                                                    "ankunftZeit": "2025-01-03T20:23:00"
+                                                                },
+                                                                "servicekategorieCode": "KLASSE_2",
+                                                                "serviceKategorie": "SITZPLATZ_KLASSE_2",
+                                                                "anzahlReisende": 1,
+                                                                "inventarsystem": "EPA",
+                                                                "inklusiveLastMinuteReservierung": false,
+                                                                "gruppenReservierung": false,
+                                                                "kombinationsId": "233e5439-3d77-4e2f-bbe3-c4abda1f98cf",
+                                                                "platzbedarfe": [
+                                                                    {
+                                                                        "platzprofilCode": "Standard",
+                                                                        "anzahl": 1
+                                                                    }
+                                                                ],
+                                                                "klasse": "KLASSE_2"
+                                                            }
+                                                        },
+                                                        "preisunterdrueckung": false,
+                                                        "nurMitAGBuchbar": false,
+                                                        "abgangsOrt": {
+                                                            "name": "Mainz Hbf",
+                                                            "locationId": "",
+                                                            "evaNr": "8000240"
+                                                        },
+                                                        "ankunftsOrt": {
+                                                            "name": "Stuttgart Hbf",
+                                                            "locationId": "",
+                                                            "evaNr": "8000096"
+                                                        }
+                                                    }
+                                                ],
+                                                "standard": {
+                                                    "angebotsKontext": {
+                                                        "gesamtAngebotsId": "8da56f1a-4928-4650-a2a0-a367ec488edb",
+                                                        "angebotsId": "0c479d8d-3692-42cc-a7fe-9cbef9a4696a",
+                                                        "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                        "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37"
+                                                    },
+                                                    "bahnbonusPunkteSammelfaehig": true,
+                                                    "name": "Sitzplatzreservierung",
+                                                    "preis": {
+                                                        "waehrung": "EUR",
+                                                        "betrag": 5.2
+                                                    },
+                                                    "infoTexte": [
+                                                        {
+                                                            "kategorisierung": "ANZAHL_PLAETZE",
+                                                            "kurzText": "1 seat"
+                                                        },
+                                                        {
+                                                            "kategorisierung": "UE_RESERVIERUNG",
+                                                            "kurzText": "Your reservation cannot be cancelled."
+                                                        }
+                                                    ]
+                                                },
+                                                "klasse": "KLASSE_2",
+                                                "kategorie": "SITZPLATZ",
+                                                "anonymBuchbar": true,
+                                                "sitzplatzAnzahl": 1
+                                            }
+                                        ]
+                                    },
+                                    "upsellEntgelt": {
+                                        "einfacheFahrt": {
+                                            "reisePosition": {
+                                                "reisePosition": {
+                                                    "name": "Sparpreis",
+                                                    "premium": true,
+                                                    "leuchtturmText": "Travel 1st class",
+                                                    "konditionen": [
+                                                        {
+                                                            "bezeichnung": "Train-specific travel",
+                                                            "textKurz": "Train-specific travel",
+                                                            "wichtig": true,
+                                                            "typ": "NICHT_INKLUSIVE",
+                                                            "details": "You can use all trains indicated on your ticket. Your ticket constitutes a continuous contract of carriage in each direction (through ticket). Should you make a passenger rights claim, the ticket will be considered in its entirety. Special rules apply to tickets including City-Ticket, see there."
+                                                        },
+                                                        {
+                                                            "bezeichnung": "Cancellation subject to a fee before first day of validity",
+                                                            "textKurz": "Cancellation subject to a fee before first day of validity",
+                                                            "wichtig": true,
+                                                            "typ": "INKLUSIVE",
+                                                            "details": "You can cancel your ticket up to and including 02.01.2025 for a fee of EUR 10,00. You will receive a voucher for the remaining amount. No cancellation thereafter."
+                                                        },
+                                                        {
+                                                            "bezeichnung": "No City-Ticket",
+                                                            "textKurz": "No City-Ticket",
+                                                            "wichtig": true,
+                                                            "typ": "NICHT_INKLUSIVE",
+                                                            "details": "Your ticket does not include a City-Ticket. The City-Ticket is issued together with your Super Sparpreis or Sparpreis ticket, depending on the journey you have booked."
+                                                        },
+                                                        {
+                                                            "bezeichnung": "No access to the DB Lounge",
+                                                            "textKurz": "No access to the DB Lounge",
+                                                            "wichtig": false,
+                                                            "typ": "NICHT_INKLUSIVE",
+                                                            "details": "Your ticket does not entitle you to use the DB Lounge."
+                                                        }
+                                                    ],
+                                                    "nurMitAGBuchbar": false,
+                                                    "preisunterdrueckung": false,
+                                                    "preis": {
+                                                        "waehrung": "EUR",
+                                                        "betrag": 61.99
+                                                    },
+                                                    "nutzungsInformationen": [
+                                                        {
+                                                            "zugart": "IC_EC",
+                                                            "klasse": "KLASSE_1"
+                                                        }
+                                                    ],
+                                                    "upsellInfo": {
+                                                        "upsellHeadline": "First class benefits",
+                                                        "upsellTexte": [
+                                                            {
+                                                                "kurzText": "More legroom",
+                                                                "langText": "Enjoy more legroom.",
+                                                                "wichtig": true,
+                                                                "iconId": "201"
+                                                            },
+                                                            {
+                                                                "kurzText": "Digital newspapers included",
+                                                                "langText": "You receive digital newspapers and magazines free of charge in the ICE Portal.",
+                                                                "wichtig": true,
+                                                                "iconId": "201"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "anonymBuchbar": true,
+                                                    "zulaessigeZahlungsarten": [
+                                                        "GUTSCHEIN",
+                                                        "KREDITKARTE",
+                                                        "REISESTELLENKARTE",
+                                                        "PAYPAL",
+                                                        "APPLEPAY",
+                                                        "NULLPREIS",
+                                                        "BONVOYO"
+                                                    ],
+                                                    "typ": "REISEANGEBOT"
+                                                },
+                                                "angebotsKontext": {
+                                                    "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37",
+                                                    "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                    "gesamtAngebotsId": "8da56f1a-4928-4650-a2a0-a367ec488edb",
+                                                    "angebotsId": "f9688eab-865c-47b8-8962-5c643459cebb"
+                                                },
+                                                "teilpreisInformationen": [],
+                                                "lupKategorien": {
+                                                    "modulKennung": "FVF",
+                                                    "angebotsArt": "SPP",
+                                                    "tarifTyp": "I",
+                                                    "klasse": "KLASSE_1"
+                                                }
+                                            },
+                                            "reservierungsPositionen": [
+                                                {
+                                                    "reservierungen": [
+                                                        {
+                                                            "angebotsKontext": {
+                                                                "gesamtAngebotsId": "8da56f1a-4928-4650-a2a0-a367ec488edb",
+                                                                "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37",
+                                                                "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                                "angebotsId": "92d1d1b4-1d9d-40f8-bc76-0fb28ce43778"
+                                                            },
+                                                            "bahnbonusPunkteSammelfaehig": true,
+                                                            "option": "OPTIONAL",
+                                                            "typ": "OR",
+                                                            "gsdDaten": {
+                                                                "quellSystem": "SIMA",
+                                                                "buchungsKontextDaten": {
+                                                                    "zugnummer": "2048",
+                                                                    "zugfahrtKey": "EPA#2048_2025-01-03",
+                                                                    "abfahrtHalt": {
+                                                                        "locationId": "8000240",
+                                                                        "abfahrtZeit": "2025-01-03T18:42:00"
+                                                                    },
+                                                                    "ankunftHalt": {
+                                                                        "locationId": "8000096",
+                                                                        "ankunftZeit": "2025-01-03T20:23:00"
+                                                                    },
+                                                                    "servicekategorieCode": "KLASSE_1",
+                                                                    "serviceKategorie": "SITZPLATZ_KLASSE_1",
+                                                                    "anzahlReisende": 1,
+                                                                    "inventarsystem": "EPA",
+                                                                    "inklusiveLastMinuteReservierung": false,
+                                                                    "gruppenReservierung": false,
+                                                                    "kombinationsId": "233e5439-3d77-4e2f-bbe3-c4abda1f98cf",
+                                                                    "platzbedarfe": [
+                                                                        {
+                                                                            "platzprofilCode": "Standard",
+                                                                            "anzahl": 1
+                                                                        }
+                                                                    ],
+                                                                    "klasse": "KLASSE_1"
+                                                                }
+                                                            },
+                                                            "preisunterdrueckung": false,
+                                                            "nurMitAGBuchbar": false,
+                                                            "abgangsOrt": {
+                                                                "name": "Mainz Hbf",
+                                                                "locationId": "",
+                                                                "evaNr": "8000240"
+                                                            },
+                                                            "ankunftsOrt": {
+                                                                "name": "Stuttgart Hbf",
+                                                                "locationId": "",
+                                                                "evaNr": "8000096"
+                                                            }
+                                                        }
+                                                    ],
+                                                    "standard": {
+                                                        "angebotsKontext": {
+                                                            "gesamtAngebotsId": "8da56f1a-4928-4650-a2a0-a367ec488edb",
+                                                            "angebotsId": "9f65a8df-31e3-4d2d-8354-ccbdfc1f930c",
+                                                            "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                            "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37"
+                                                        },
+                                                        "bahnbonusPunkteSammelfaehig": true,
+                                                        "name": "Sitzplatzreservierung",
+                                                        "preis": {
+                                                            "waehrung": "EUR",
+                                                            "betrag": 6.5
+                                                        },
+                                                        "infoTexte": [
+                                                            {
+                                                                "kategorisierung": "ANZAHL_PLAETZE",
+                                                                "kurzText": "1 seat"
+                                                            },
+                                                            {
+                                                                "kategorisierung": "UE_RESERVIERUNG",
+                                                                "kurzText": "Your reservation cannot be cancelled."
+                                                            }
+                                                        ]
+                                                    },
+                                                    "klasse": "KLASSE_1",
+                                                    "kategorie": "SITZPLATZ",
+                                                    "anonymBuchbar": true,
+                                                    "sitzplatzAnzahl": 1
+                                                }
+                                            ]
+                                        },
+                                        "upsell": {
+                                            "name": "1st class upgrade",
+                                            "upsellText": {
+                                                "text": "More space and comfort",
+                                                "iconId": "201"
+                                            },
+                                            "differenzpreis": {
+                                                "waehrung": "EUR",
+                                                "betrag": 11
+                                            }
+                                        }
+                                    },
+                                    "crosssell": {
+                                        "einfacheFahrt": {
+                                            "reisePosition": {
+                                                "reisePosition": {
+                                                    "name": "Sparpreis",
+                                                    "premium": false,
+                                                    "konditionen": [
+                                                        {
+                                                            "bezeichnung": "Train-specific travel",
+                                                            "textKurz": "Train-specific travel",
+                                                            "wichtig": true,
+                                                            "typ": "NICHT_INKLUSIVE",
+                                                            "details": "You can use all trains indicated on your ticket. Your ticket constitutes a continuous contract of carriage in each direction (through ticket). Should you make a passenger rights claim, the ticket will be considered in its entirety. Special rules apply to tickets including City-Ticket, see there."
+                                                        },
+                                                        {
+                                                            "bezeichnung": "Cancellation subject to a fee before first day of validity",
+                                                            "textKurz": "Cancellation subject to a fee before first day of validity",
+                                                            "wichtig": true,
+                                                            "typ": "INKLUSIVE",
+                                                            "details": "You can cancel your ticket up to and including 02.01.2025 for a fee of EUR 10,00. You will receive a voucher for the remaining amount. No cancellation thereafter."
+                                                        },
+                                                        {
+                                                            "bezeichnung": "No City-Ticket",
+                                                            "textKurz": "No City-Ticket",
+                                                            "wichtig": true,
+                                                            "typ": "NICHT_INKLUSIVE",
+                                                            "details": "Your ticket does not include a City-Ticket. The City-Ticket is issued together with your Super Sparpreis or Sparpreis ticket, depending on the journey you have booked."
+                                                        }
+                                                    ],
+                                                    "nurMitAGBuchbar": false,
+                                                    "preisunterdrueckung": false,
+                                                    "preis": {
+                                                        "waehrung": "EUR",
+                                                        "betrag": 38.24
+                                                    },
+                                                    "nutzungsInformationen": [
+                                                        {
+                                                            "zugart": "IC_EC",
+                                                            "klasse": "KLASSE_2"
+                                                        }
+                                                    ],
+                                                    "anonymBuchbar": true,
+                                                    "zulaessigeZahlungsarten": [
+                                                        "GUTSCHEIN",
+                                                        "KREDITKARTE",
+                                                        "REISESTELLENKARTE",
+                                                        "PAYPAL",
+                                                        "APPLEPAY",
+                                                        "NULLPREIS",
+                                                        "BONVOYO"
+                                                    ],
+                                                    "typ": "REISEANGEBOT"
+                                                },
+                                                "angebotsKontext": {
+                                                    "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37",
+                                                    "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                    "gesamtAngebotsId": "48e266b3-0b55-46b5-9a2f-0a3124ad3eec",
+                                                    "angebotsId": "08e05d13-4ca7-482c-a5fd-c42475a77300"
+                                                },
+                                                "teilpreisInformationen": [],
+                                                "lupKategorien": {
+                                                    "modulKennung": "FVF",
+                                                    "angebotsArt": "SPP",
+                                                    "tarifTyp": "I",
+                                                    "klasse": "KLASSE_2"
+                                                }
+                                            },
+                                            "reservierungsPositionen": [
+                                                {
+                                                    "reservierungen": [
+                                                        {
+                                                            "angebotsKontext": {
+                                                                "gesamtAngebotsId": "48e266b3-0b55-46b5-9a2f-0a3124ad3eec",
+                                                                "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37",
+                                                                "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                                "angebotsId": "99d49573-6a15-4dd8-9b2e-d38dbe27b7ed"
+                                                            },
+                                                            "bahnbonusPunkteSammelfaehig": true,
+                                                            "option": "OPTIONAL",
+                                                            "typ": "OR",
+                                                            "gsdDaten": {
+                                                                "quellSystem": "SIMA",
+                                                                "buchungsKontextDaten": {
+                                                                    "zugnummer": "2048",
+                                                                    "zugfahrtKey": "EPA#2048_2025-01-03",
+                                                                    "abfahrtHalt": {
+                                                                        "locationId": "8000240",
+                                                                        "abfahrtZeit": "2025-01-03T18:42:00"
+                                                                    },
+                                                                    "ankunftHalt": {
+                                                                        "locationId": "8000096",
+                                                                        "ankunftZeit": "2025-01-03T20:23:00"
+                                                                    },
+                                                                    "servicekategorieCode": "KLASSE_2",
+                                                                    "serviceKategorie": "SITZPLATZ_KLASSE_2",
+                                                                    "anzahlReisende": 1,
+                                                                    "inventarsystem": "EPA",
+                                                                    "inklusiveLastMinuteReservierung": false,
+                                                                    "gruppenReservierung": false,
+                                                                    "kombinationsId": "233e5439-3d77-4e2f-bbe3-c4abda1f98cf",
+                                                                    "platzbedarfe": [
+                                                                        {
+                                                                            "platzprofilCode": "Standard",
+                                                                            "anzahl": 1
+                                                                        }
+                                                                    ],
+                                                                    "klasse": "KLASSE_2"
+                                                                }
+                                                            },
+                                                            "preisunterdrueckung": false,
+                                                            "nurMitAGBuchbar": false,
+                                                            "abgangsOrt": {
+                                                                "name": "Mainz Hbf",
+                                                                "locationId": "",
+                                                                "evaNr": "8000240"
+                                                            },
+                                                            "ankunftsOrt": {
+                                                                "name": "Stuttgart Hbf",
+                                                                "locationId": "",
+                                                                "evaNr": "8000096"
+                                                            }
+                                                        }
+                                                    ],
+                                                    "standard": {
+                                                        "angebotsKontext": {
+                                                            "gesamtAngebotsId": "48e266b3-0b55-46b5-9a2f-0a3124ad3eec",
+                                                            "angebotsId": "1064b8b7-3f8b-49d9-a865-782eef7ff03c",
+                                                            "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                            "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37"
+                                                        },
+                                                        "bahnbonusPunkteSammelfaehig": true,
+                                                        "name": "Sitzplatzreservierung",
+                                                        "preis": {
+                                                            "waehrung": "EUR",
+                                                            "betrag": 5.2
+                                                        },
+                                                        "infoTexte": [
+                                                            {
+                                                                "kategorisierung": "ANZAHL_PLAETZE",
+                                                                "kurzText": "1 seat"
+                                                            },
+                                                            {
+                                                                "kategorisierung": "UE_RESERVIERUNG",
+                                                                "kurzText": "Your reservation cannot be cancelled."
+                                                            }
+                                                        ]
+                                                    },
+                                                    "klasse": "KLASSE_2",
+                                                    "kategorie": "SITZPLATZ",
+                                                    "anonymBuchbar": true,
+                                                    "sitzplatzAnzahl": 1
+                                                }
+                                            ]
+                                        },
+                                        "bahncardInfo": {
+                                            "preis": {
+                                                "waehrung": "EUR",
+                                                "betrag": 19.9
+                                            },
+                                            "klasse": "KLASSE_2",
+                                            "zulaessigeZahlungsarten": [
+                                                "GUTSCHEIN",
+                                                "KREDITKARTE",
+                                                "LASTSCHRIFT",
+                                                "REISESTELLENKARTE",
+                                                "PAYPAL",
+                                                "NULLPREIS",
+                                                "APPLEPAY"
+                                            ],
+                                            "anonymBuchbar": false,
+                                            "anzeigeTexte": [
+                                                {
+                                                    "kategorie": "KATALOG_VORTEILE",
+                                                    "iconId": "201",
+                                                    "textKurz": "Immediate savings: The Probe BahnCard often starts to pay off from the 1st journey onwards",
+                                                    "textLang": "Immediate savings: The Probe BahnCard often starts to pay off from the 1st journey onwards"
+                                                },
+                                                {
+                                                    "iconId": "201",
+                                                    "textKurz": "Immediate savings: The Probe BahnCard often starts to pay off from the 1st journey onwards",
+                                                    "textLang": "Immediate savings: The Probe BahnCard often starts to pay off from the 1st journey onwards"
+                                                },
+                                                {
+                                                    "kategorie": "CROSSSELL_ARGUMENTE",
+                                                    "iconId": "201",
+                                                    "textKurz": "25% discount on Sparpreis and Flexpreis fares (except City-Ticket)",
+                                                    "textLang": "25% discount on Sparpreis and Flexpreis fares (except City-Ticket)"
+                                                },
+                                                {
+                                                    "iconId": "201",
+                                                    "textKurz": "25% discount on all super saver, saver and flexible fares",
+                                                    "textLang": "25% discount on all super saver, saver and flexible fares"
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_VORTEILE_UEBERSCHRIFT",
+                                                    "iconId": "201",
+                                                    "textKurz": "Your advantages",
+                                                    "textLang": "Your advantages."
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_UEBERSCHRIFT",
+                                                    "iconId": "201",
+                                                    "textKurz": "Order a Probe BahnCard 25 from EUR 19,90 and save 25% for 3 months",
+                                                    "textLang": "Order a Probe BahnCard 25 from EUR 19,90 and save 25% for 3 months!"
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_PRUEFEN_BUCHEN",
+                                                    "iconId": "201",
+                                                    "textKurz": "Your BahnCard will be extended automatically by one year unless you cancel it in writing at least 4 weeks before the end of its validity period. You have a 14-day <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.bahn.de/angebot/bahncard/bahncard-verwalten/widerruf\">right of withdrawal period</a>",
+                                                    "textLang": "Your BahnCard will be extended automatically by one year unless you cancel it in writing at least 4 weeks before the end of its validity period. You have a 14-day <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.bahn.de/angebot/bahncard/bahncard-verwalten/widerruf\">right of withdrawal period</a>."
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_PRUEFEN",
+                                                    "iconId": "201",
+                                                    "textKurz": "Please note: This BahnCard is a subscription offer. Find out more about the terms of use and the purchase of BahnCards here <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.bahn.de/agb\"></a>.",
+                                                    "textLang": "Please note: This BahnCard is a subscription offer. Find out more about the terms of use and the purchase of BahnCards here <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.bahn.de/agb\"></a>."
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_PRUEFEN",
+                                                    "iconId": "201",
+                                                    "textKurz": "You can load the digital BahnCard in Navigator after booking and use it immediately.",
+                                                    "textLang": "You can load the digital BahnCard in Navigator after booking and use it immediately."
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_PRUEFEN_BUCHEN",
+                                                    "iconId": "201",
+                                                    "textKurz": "Depending on your age or discount entitlement, your follow-up card will be a 2nd class BahnCard 25, a 2nd class My BahnCard 25, or a 2nd class seniors/discounted BahnCard 25.",
+                                                    "textLang": "Depending on your age or discount entitlement, your follow-up card will be a 2nd class BahnCard 25, a 2nd class My BahnCard 25, or a 2nd class seniors/discounted BahnCard 25."
+                                                },
+                                                {
+                                                    "iconId": "201",
+                                                    "textKurz": "Upload your Digital BahnCard into DB Navigator and use it immediately",
+                                                    "textLang": "Upload your Digital BahnCard into DB Navigator and use it immediately"
+                                                },
+                                                {
+                                                    "kategorie": "CROSSSELL_ARGUMENTE",
+                                                    "iconId": "201",
+                                                    "textKurz": "Save EUR 12,75 on this ticket",
+                                                    "textLang": "Save EUR 12,75 on this ticket."
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_VORTEILE",
+                                                    "iconId": "201",
+                                                    "textKurz": "Try it out with no obligation. Cancel up to 4 weeks before the end of the trial period",
+                                                    "textLang": "Try it out with no obligation. Cancel up to 4 weeks before the end of the trial period"
+                                                },
+                                                {
+                                                    "iconId": "202",
+                                                    "textKurz": "Four-week notice period before the expiration date in text form",
+                                                    "textLang": "Four-week notice period before the expiration date in text form"
+                                                },
+                                                {
+                                                    "iconId": "202",
+                                                    "textKurz": "No cancellations",
+                                                    "textLang": "Your BahnCard cannot be cancelled"
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_VORTEILE",
+                                                    "iconId": "201",
+                                                    "textKurz": "25% discount on all super saver, saver and flexible fares",
+                                                    "textLang": "25% discount on all super saver, saver and flexible fares"
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_VORTEILE",
+                                                    "iconId": "201",
+                                                    "textKurz": "Upload your Digital BahnCard into DB Navigator and use it immediately",
+                                                    "textLang": "Upload your Digital BahnCard into DB Navigator and use it immediately"
+                                                }
+                                            ],
+                                            "ersterGeltungzeitpunkt": "2025-01-03T00:00:00+01:00",
+                                            "anzeigeName": "Probe BahnCard 25",
+                                            "angebotsKontext": {
+                                                "angebotsId": "ab1c78dd-8320-4265-8492-edd8f7e7e913",
+                                                "gesamtAngebotsId": "48e266b3-0b55-46b5-9a2f-0a3124ad3eec",
+                                                "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "einfacheFahrt": {
+                                    "standard": {
+                                        "reisePosition": {
+                                            "reisePosition": {
+                                                "name": "Flexpreis",
+                                                "premium": false,
+                                                "konditionen": [
+                                                    {
+                                                        "bezeichnung": "Unrestricted choice of trains",
+                                                        "textKurz": "Unrestricted choice of trains",
+                                                        "wichtig": true,
+                                                        "typ": "INKLUSIVE",
+                                                        "details": "Your IC/EC ticket lets you use any Intercity or Eurocity train as well as regional and local trains. Your ticket constitutes a continuous contract of carriage in each direction (through ticket). Should you make a passenger rights claim, the ticket will be considered in its entirety. Special rules apply to tickets including City-Ticket; see there."
+                                                    },
+                                                    {
+                                                        "bezeichnung": "Cancellation",
+                                                        "textKurz": "Free cancellation until 26.12.2024, thereafter subject to a fee",
+                                                        "wichtig": true,
+                                                        "typ": "INKLUSIVE",
+                                                        "details": "You can cancel your ticket free of charge up to and including 26.12.2024. After that, cancellation is available for a fee of EUR 10,00 until 02.01.2025 and from 03.01.2025 for a fee of EUR 30,00."
+                                                    },
+                                                    {
+                                                        "bezeichnung": "City-Ticket",
+                                                        "textKurz": "City-Ticket for Frankfurt(Main) and Stuttgart included",
+                                                        "wichtig": true,
+                                                        "typ": "INKLUSIVE",
+                                                        "details": "Your ticket includes a City-Ticket for Frankfurt(Main), Stadtgebiet Frankfurt ohne Flughafen (Tarifgebiet 50 ohne Flughafen) and Stuttgart, Stadtgebiet Stuttgart (Tarifzone 1, ehemals Zone 10 und 20). The City-Ticket is valid in conjunction with your long-distance ticket only when you use it for connecting services in local or regional rail passenger transport (e.g. S-Bahn, RE and RB trains) as part of the through ticket. The City-Ticket is issued together with your Super Sparpreis or Sparpreis ticket, depending on the journey you have booked."
+                                                    }
+                                                ],
+                                                "nurMitAGBuchbar": false,
+                                                "preisunterdrueckung": false,
+                                                "preis": {
+                                                    "waehrung": "EUR",
+                                                    "betrag": 55.5
+                                                },
+                                                "nutzungsInformationen": [
+                                                    {
+                                                        "zugart": "IC_EC",
+                                                        "klasse": "KLASSE_2"
+                                                    }
+                                                ],
+                                                "anonymBuchbar": true,
+                                                "zulaessigeZahlungsarten": [
+                                                    "GUTSCHEIN",
+                                                    "KREDITKARTE",
+                                                    "LASTSCHRIFT",
+                                                    "REISESTELLENKARTE",
+                                                    "PAYPAL",
+                                                    "NULLPREIS",
+                                                    "BONVOYO",
+                                                    "APPLEPAY"
+                                                ],
+                                                "typ": "REISEANGEBOT"
+                                            },
+                                            "angebotsKontext": {
+                                                "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37",
+                                                "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                "gesamtAngebotsId": "2200c520-d999-43ab-989d-f86013f1da40",
+                                                "angebotsId": "5cc4f6d2-f200-431e-9d42-3199378a34bc"
+                                            },
+                                            "teilpreisInformationen": [],
+                                            "lupKategorien": {
+                                                "modulKennung": "FVF",
+                                                "angebotsArt": "FLP",
+                                                "tarifTyp": "I",
+                                                "klasse": "KLASSE_2"
+                                            }
+                                        },
+                                        "reservierungsPositionen": [
+                                            {
+                                                "reservierungen": [
+                                                    {
+                                                        "angebotsKontext": {
+                                                            "gesamtAngebotsId": "2200c520-d999-43ab-989d-f86013f1da40",
+                                                            "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37",
+                                                            "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                            "angebotsId": "fd8475a2-f85a-43c7-8e1d-17b86a728a1f"
+                                                        },
+                                                        "bahnbonusPunkteSammelfaehig": true,
+                                                        "option": "OPTIONAL",
+                                                        "typ": "OR",
+                                                        "gsdDaten": {
+                                                            "quellSystem": "SIMA",
+                                                            "buchungsKontextDaten": {
+                                                                "zugnummer": "2048",
+                                                                "zugfahrtKey": "EPA#2048_2025-01-03",
+                                                                "abfahrtHalt": {
+                                                                    "locationId": "8000240",
+                                                                    "abfahrtZeit": "2025-01-03T18:42:00"
+                                                                },
+                                                                "ankunftHalt": {
+                                                                    "locationId": "8000096",
+                                                                    "ankunftZeit": "2025-01-03T20:23:00"
+                                                                },
+                                                                "servicekategorieCode": "KLASSE_2",
+                                                                "serviceKategorie": "SITZPLATZ_KLASSE_2",
+                                                                "anzahlReisende": 1,
+                                                                "inventarsystem": "EPA",
+                                                                "inklusiveLastMinuteReservierung": false,
+                                                                "gruppenReservierung": false,
+                                                                "kombinationsId": "233e5439-3d77-4e2f-bbe3-c4abda1f98cf",
+                                                                "platzbedarfe": [
+                                                                    {
+                                                                        "platzprofilCode": "Standard",
+                                                                        "anzahl": 1
+                                                                    }
+                                                                ],
+                                                                "klasse": "KLASSE_2"
+                                                            }
+                                                        },
+                                                        "preisunterdrueckung": false,
+                                                        "nurMitAGBuchbar": false,
+                                                        "abgangsOrt": {
+                                                            "name": "Mainz Hbf",
+                                                            "locationId": "",
+                                                            "evaNr": "8000240"
+                                                        },
+                                                        "ankunftsOrt": {
+                                                            "name": "Stuttgart Hbf",
+                                                            "locationId": "",
+                                                            "evaNr": "8000096"
+                                                        }
+                                                    }
+                                                ],
+                                                "standard": {
+                                                    "angebotsKontext": {
+                                                        "gesamtAngebotsId": "2200c520-d999-43ab-989d-f86013f1da40",
+                                                        "angebotsId": "0c479d8d-3692-42cc-a7fe-9cbef9a4696a",
+                                                        "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                        "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37"
+                                                    },
+                                                    "bahnbonusPunkteSammelfaehig": true,
+                                                    "name": "Sitzplatzreservierung",
+                                                    "preis": {
+                                                        "waehrung": "EUR",
+                                                        "betrag": 5.2
+                                                    },
+                                                    "infoTexte": [
+                                                        {
+                                                            "kategorisierung": "ANZAHL_PLAETZE",
+                                                            "kurzText": "1 seat"
+                                                        },
+                                                        {
+                                                            "kategorisierung": "UE_RESERVIERUNG",
+                                                            "kurzText": "Your reservation cannot be cancelled."
+                                                        }
+                                                    ]
+                                                },
+                                                "klasse": "KLASSE_2",
+                                                "kategorie": "SITZPLATZ",
+                                                "anonymBuchbar": true,
+                                                "sitzplatzAnzahl": 1
+                                            }
+                                        ]
+                                    },
+                                    "upsellEntgelt": {
+                                        "einfacheFahrt": {
+                                            "reisePosition": {
+                                                "reisePosition": {
+                                                    "name": "Flexpreis",
+                                                    "premium": true,
+                                                    "leuchtturmText": "Travel 1st class",
+                                                    "konditionen": [
+                                                        {
+                                                            "bezeichnung": "Unrestricted choice of trains",
+                                                            "textKurz": "Unrestricted choice of trains",
+                                                            "wichtig": true,
+                                                            "typ": "INKLUSIVE",
+                                                            "details": "Your IC/EC ticket lets you use any Intercity or Eurocity train as well as regional and local trains. Your ticket constitutes a continuous contract of carriage in each direction (through ticket). Should you make a passenger rights claim, the ticket will be considered in its entirety. Special rules apply to tickets including City-Ticket; see there."
+                                                        },
+                                                        {
+                                                            "bezeichnung": "Cancellation",
+                                                            "textKurz": "Free cancellation until 26.12.2024, thereafter subject to a fee",
+                                                            "wichtig": true,
+                                                            "typ": "INKLUSIVE",
+                                                            "details": "You can cancel your ticket free of charge up to and including 26.12.2024. After that, cancellation is available for a fee of EUR 10,00 until 02.01.2025 and from 03.01.2025 for a fee of EUR 30,00."
+                                                        },
+                                                        {
+                                                            "bezeichnung": "City-Ticket",
+                                                            "textKurz": "City-Ticket for Frankfurt(Main) and Stuttgart included",
+                                                            "wichtig": true,
+                                                            "typ": "INKLUSIVE",
+                                                            "details": "Your ticket includes a City-Ticket for Frankfurt(Main), Stadtgebiet Frankfurt ohne Flughafen (Tarifgebiet 50 ohne Flughafen) and Stuttgart, Stadtgebiet Stuttgart (Tarifzone 1, ehemals Zone 10 und 20). The City-Ticket is valid in conjunction with your long-distance ticket only when you use it for connecting services in local or regional rail passenger transport (e.g. S-Bahn, RE and RB trains) as part of the through ticket. The City-Ticket is issued together with your Super Sparpreis or Sparpreis ticket, depending on the journey you have booked."
+                                                        },
+                                                        {
+                                                            "bezeichnung": "Access to the DB Lounge",
+                                                            "textKurz": "Access to the DB Lounge",
+                                                            "wichtig": false,
+                                                            "typ": "INKLUSIVE",
+                                                            "details": "Your ticket entitles you to use the DB Lounge."
+                                                        },
+                                                        {
+                                                            "bezeichnung": "Seat included",
+                                                            "textKurz": "Seat included",
+                                                            "wichtig": false,
+                                                            "typ": "INKLUSIVE",
+                                                            "details": "Your ticket includes a free seat reservation."
+                                                        }
+                                                    ],
+                                                    "nurMitAGBuchbar": false,
+                                                    "preisunterdrueckung": false,
+                                                    "preis": {
+                                                        "waehrung": "EUR",
+                                                        "betrag": 102.7
+                                                    },
+                                                    "nutzungsInformationen": [
+                                                        {
+                                                            "zugart": "IC_EC",
+                                                            "klasse": "KLASSE_1"
+                                                        }
+                                                    ],
+                                                    "upsellInfo": {
+                                                        "upsellHeadline": "First class benefits",
+                                                        "upsellTexte": [
+                                                            {
+                                                                "kurzText": "More legroom",
+                                                                "langText": "Enjoy more legroom.",
+                                                                "wichtig": true,
+                                                                "iconId": "201"
+                                                            },
+                                                            {
+                                                                "kurzText": "Digital newspapers included",
+                                                                "langText": "You receive digital newspapers and magazines free of charge in the ICE Portal.",
+                                                                "wichtig": true,
+                                                                "iconId": "201"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "anonymBuchbar": true,
+                                                    "zulaessigeZahlungsarten": [
+                                                        "GUTSCHEIN",
+                                                        "KREDITKARTE",
+                                                        "LASTSCHRIFT",
+                                                        "REISESTELLENKARTE",
+                                                        "PAYPAL",
+                                                        "NULLPREIS",
+                                                        "BONVOYO",
+                                                        "APPLEPAY"
+                                                    ],
+                                                    "typ": "REISEANGEBOT"
+                                                },
+                                                "angebotsKontext": {
+                                                    "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37",
+                                                    "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                    "gesamtAngebotsId": "2200c520-d999-43ab-989d-f86013f1da40",
+                                                    "angebotsId": "457b19f1-cf29-41ba-bcfb-0a43cf224edb"
+                                                },
+                                                "teilpreisInformationen": [],
+                                                "lupKategorien": {
+                                                    "modulKennung": "FVF",
+                                                    "angebotsArt": "FLP",
+                                                    "tarifTyp": "I",
+                                                    "klasse": "KLASSE_1"
+                                                }
+                                            },
+                                            "reservierungsPositionen": [
+                                                {
+                                                    "reservierungen": [
+                                                        {
+                                                            "angebotsKontext": {
+                                                                "gesamtAngebotsId": "2200c520-d999-43ab-989d-f86013f1da40",
+                                                                "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37",
+                                                                "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                                "angebotsId": "25bedf9a-dcfe-4ccf-99c6-0329644796ab"
+                                                            },
+                                                            "bahnbonusPunkteSammelfaehig": true,
+                                                            "option": "INKLUSIVE",
+                                                            "typ": "OR",
+                                                            "gsdDaten": {
+                                                                "quellSystem": "SIMA",
+                                                                "buchungsKontextDaten": {
+                                                                    "zugnummer": "2048",
+                                                                    "zugfahrtKey": "EPA#2048_2025-01-03",
+                                                                    "abfahrtHalt": {
+                                                                        "locationId": "8000240",
+                                                                        "abfahrtZeit": "2025-01-03T18:42:00"
+                                                                    },
+                                                                    "ankunftHalt": {
+                                                                        "locationId": "8000096",
+                                                                        "ankunftZeit": "2025-01-03T20:23:00"
+                                                                    },
+                                                                    "servicekategorieCode": "KLASSE_1",
+                                                                    "serviceKategorie": "SITZPLATZ_KLASSE_1",
+                                                                    "anzahlReisende": 1,
+                                                                    "inventarsystem": "EPA",
+                                                                    "inklusiveLastMinuteReservierung": false,
+                                                                    "gruppenReservierung": false,
+                                                                    "kombinationsId": "233e5439-3d77-4e2f-bbe3-c4abda1f98cf",
+                                                                    "platzbedarfe": [
+                                                                        {
+                                                                            "platzprofilCode": "Standard",
+                                                                            "anzahl": 1
+                                                                        }
+                                                                    ],
+                                                                    "klasse": "KLASSE_1"
+                                                                }
+                                                            },
+                                                            "preisunterdrueckung": false,
+                                                            "nurMitAGBuchbar": false,
+                                                            "abgangsOrt": {
+                                                                "name": "Mainz Hbf",
+                                                                "locationId": "",
+                                                                "evaNr": "8000240"
+                                                            },
+                                                            "ankunftsOrt": {
+                                                                "name": "Stuttgart Hbf",
+                                                                "locationId": "",
+                                                                "evaNr": "8000096"
+                                                            }
+                                                        }
+                                                    ],
+                                                    "standard": {
+                                                        "angebotsKontext": {
+                                                            "gesamtAngebotsId": "2200c520-d999-43ab-989d-f86013f1da40",
+                                                            "angebotsId": "8b145f45-0ce9-4b8f-99a8-18056025222b",
+                                                            "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                            "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37"
+                                                        },
+                                                        "bahnbonusPunkteSammelfaehig": true,
+                                                        "name": "Sitzplatzreservierung",
+                                                        "preis": {
+                                                            "waehrung": "EUR",
+                                                            "betrag": 0
+                                                        },
+                                                        "infoTexte": [
+                                                            {
+                                                                "kategorisierung": "ANZAHL_PLAETZE",
+                                                                "kurzText": "1 seat"
+                                                            },
+                                                            {
+                                                                "kurzText": "1 seat, of which 1 seat included"
+                                                            },
+                                                            {
+                                                                "kategorisierung": "UE_RESERVIERUNG",
+                                                                "kurzText": "Your reservation cannot be cancelled."
+                                                            }
+                                                        ]
+                                                    },
+                                                    "klasse": "KLASSE_1",
+                                                    "kategorie": "SITZPLATZ",
+                                                    "anonymBuchbar": true,
+                                                    "sitzplatzAnzahl": 1
+                                                }
+                                            ]
+                                        },
+                                        "upsell": {
+                                            "name": "1st class upgrade",
+                                            "upsellText": {
+                                                "text": "Seat included",
+                                                "iconId": "201"
+                                            },
+                                            "differenzpreis": {
+                                                "waehrung": "EUR",
+                                                "betrag": 47.2
+                                            }
+                                        }
+                                    },
+                                    "crosssell": {
+                                        "einfacheFahrt": {
+                                            "reisePosition": {
+                                                "reisePosition": {
+                                                    "name": "Flexpreis",
+                                                    "premium": false,
+                                                    "konditionen": [
+                                                        {
+                                                            "bezeichnung": "Unrestricted choice of trains",
+                                                            "textKurz": "Unrestricted choice of trains",
+                                                            "wichtig": true,
+                                                            "typ": "INKLUSIVE",
+                                                            "details": "Your IC/EC ticket lets you use any Intercity or Eurocity train as well as regional and local trains. Your ticket constitutes a continuous contract of carriage in each direction (through ticket). Should you make a passenger rights claim, the ticket will be considered in its entirety. Special rules apply to tickets including City-Ticket; see there."
+                                                        },
+                                                        {
+                                                            "bezeichnung": "Cancellation",
+                                                            "textKurz": "Free cancellation until 26.12.2024, thereafter subject to a fee",
+                                                            "wichtig": true,
+                                                            "typ": "INKLUSIVE",
+                                                            "details": "You can cancel your ticket free of charge up to and including 26.12.2024. After that, cancellation is available for a fee of EUR 10,00 until 02.01.2025 and from 03.01.2025 for a fee of EUR 30,00."
+                                                        },
+                                                        {
+                                                            "bezeichnung": "City-Ticket",
+                                                            "textKurz": "City-Ticket for Frankfurt(Main) and Stuttgart included",
+                                                            "wichtig": true,
+                                                            "typ": "INKLUSIVE",
+                                                            "details": "Your ticket includes a City-Ticket for Frankfurt(Main), Stadtgebiet Frankfurt ohne Flughafen (Tarifgebiet 50 ohne Flughafen) and Stuttgart, Stadtgebiet Stuttgart (Tarifzone 1, ehemals Zone 10 und 20). The City-Ticket is valid in conjunction with your long-distance ticket only when you use it for connecting services in local or regional rail passenger transport (e.g. S-Bahn, RE and RB trains) as part of the through ticket. The City-Ticket is issued together with your Super Sparpreis or Sparpreis ticket, depending on the journey you have booked."
+                                                        }
+                                                    ],
+                                                    "nurMitAGBuchbar": false,
+                                                    "preisunterdrueckung": false,
+                                                    "preis": {
+                                                        "waehrung": "EUR",
+                                                        "betrag": 27.75
+                                                    },
+                                                    "nutzungsInformationen": [
+                                                        {
+                                                            "zugart": "IC_EC",
+                                                            "klasse": "KLASSE_2"
+                                                        }
+                                                    ],
+                                                    "anonymBuchbar": true,
+                                                    "zulaessigeZahlungsarten": [
+                                                        "GUTSCHEIN",
+                                                        "KREDITKARTE",
+                                                        "LASTSCHRIFT",
+                                                        "REISESTELLENKARTE",
+                                                        "PAYPAL",
+                                                        "NULLPREIS",
+                                                        "BONVOYO",
+                                                        "APPLEPAY"
+                                                    ],
+                                                    "typ": "REISEANGEBOT"
+                                                },
+                                                "angebotsKontext": {
+                                                    "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37",
+                                                    "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                    "gesamtAngebotsId": "eacf33c3-b2a6-40f7-bd15-9cb52ec72dc2",
+                                                    "angebotsId": "826688f6-9dbb-4512-b3d9-5482b1c0a96b"
+                                                },
+                                                "teilpreisInformationen": [],
+                                                "lupKategorien": {
+                                                    "modulKennung": "FVF",
+                                                    "angebotsArt": "FLP",
+                                                    "tarifTyp": "I",
+                                                    "klasse": "KLASSE_2"
+                                                }
+                                            },
+                                            "reservierungsPositionen": [
+                                                {
+                                                    "reservierungen": [
+                                                        {
+                                                            "angebotsKontext": {
+                                                                "gesamtAngebotsId": "eacf33c3-b2a6-40f7-bd15-9cb52ec72dc2",
+                                                                "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37",
+                                                                "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                                "angebotsId": "64f39aa3-2428-487f-8fa6-522ec73a8874"
+                                                            },
+                                                            "bahnbonusPunkteSammelfaehig": true,
+                                                            "option": "OPTIONAL",
+                                                            "typ": "OR",
+                                                            "gsdDaten": {
+                                                                "quellSystem": "SIMA",
+                                                                "buchungsKontextDaten": {
+                                                                    "zugnummer": "2048",
+                                                                    "zugfahrtKey": "EPA#2048_2025-01-03",
+                                                                    "abfahrtHalt": {
+                                                                        "locationId": "8000240",
+                                                                        "abfahrtZeit": "2025-01-03T18:42:00"
+                                                                    },
+                                                                    "ankunftHalt": {
+                                                                        "locationId": "8000096",
+                                                                        "ankunftZeit": "2025-01-03T20:23:00"
+                                                                    },
+                                                                    "servicekategorieCode": "KLASSE_2",
+                                                                    "serviceKategorie": "SITZPLATZ_KLASSE_2",
+                                                                    "anzahlReisende": 1,
+                                                                    "inventarsystem": "EPA",
+                                                                    "inklusiveLastMinuteReservierung": false,
+                                                                    "gruppenReservierung": false,
+                                                                    "kombinationsId": "233e5439-3d77-4e2f-bbe3-c4abda1f98cf",
+                                                                    "platzbedarfe": [
+                                                                        {
+                                                                            "platzprofilCode": "Standard",
+                                                                            "anzahl": 1
+                                                                        }
+                                                                    ],
+                                                                    "klasse": "KLASSE_2"
+                                                                }
+                                                            },
+                                                            "preisunterdrueckung": false,
+                                                            "nurMitAGBuchbar": false,
+                                                            "abgangsOrt": {
+                                                                "name": "Mainz Hbf",
+                                                                "locationId": "",
+                                                                "evaNr": "8000240"
+                                                            },
+                                                            "ankunftsOrt": {
+                                                                "name": "Stuttgart Hbf",
+                                                                "locationId": "",
+                                                                "evaNr": "8000096"
+                                                            }
+                                                        }
+                                                    ],
+                                                    "standard": {
+                                                        "angebotsKontext": {
+                                                            "gesamtAngebotsId": "eacf33c3-b2a6-40f7-bd15-9cb52ec72dc2",
+                                                            "angebotsId": "f33614b5-ea7a-4052-a116-517b1cc7800f",
+                                                            "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                            "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37"
+                                                        },
+                                                        "bahnbonusPunkteSammelfaehig": true,
+                                                        "name": "Sitzplatzreservierung",
+                                                        "preis": {
+                                                            "waehrung": "EUR",
+                                                            "betrag": 5.2
+                                                        },
+                                                        "infoTexte": [
+                                                            {
+                                                                "kategorisierung": "ANZAHL_PLAETZE",
+                                                                "kurzText": "1 seat"
+                                                            },
+                                                            {
+                                                                "kategorisierung": "UE_RESERVIERUNG",
+                                                                "kurzText": "Your reservation cannot be cancelled."
+                                                            }
+                                                        ]
+                                                    },
+                                                    "klasse": "KLASSE_2",
+                                                    "kategorie": "SITZPLATZ",
+                                                    "anonymBuchbar": true,
+                                                    "sitzplatzAnzahl": 1
+                                                }
+                                            ]
+                                        },
+                                        "bahncardInfo": {
+                                            "preis": {
+                                                "waehrung": "EUR",
+                                                "betrag": 76.9
+                                            },
+                                            "klasse": "KLASSE_2",
+                                            "zulaessigeZahlungsarten": [
+                                                "GUTSCHEIN",
+                                                "KREDITKARTE",
+                                                "LASTSCHRIFT",
+                                                "REISESTELLENKARTE",
+                                                "PAYPAL",
+                                                "NULLPREIS",
+                                                "APPLEPAY"
+                                            ],
+                                            "anonymBuchbar": false,
+                                            "anzeigeTexte": [
+                                                {
+                                                    "kategorie": "KATALOG_VORTEILE",
+                                                    "iconId": "201",
+                                                    "textKurz": "Immediate savings: The Probe BahnCard often starts to pay off from the 1st journey onwards",
+                                                    "textLang": "Immediate savings: The Probe BahnCard often starts to pay off from the 1st journey onwards"
+                                                },
+                                                {
+                                                    "iconId": "201",
+                                                    "textKurz": "Immediate savings: The Probe BahnCard often starts to pay off from the 1st journey onwards",
+                                                    "textLang": "Immediate savings: The Probe BahnCard often starts to pay off from the 1st journey onwards"
+                                                },
+                                                {
+                                                    "iconId": "201",
+                                                    "textKurz": "50% off flexible fares and 25% off super saver and saver fares",
+                                                    "textLang": "50% off flexible fares and 25% off super saver and saver fares"
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_VORTEILE_UEBERSCHRIFT",
+                                                    "iconId": "201",
+                                                    "textKurz": "Your advantages",
+                                                    "textLang": "Your advantages."
+                                                },
+                                                {
+                                                    "kategorie": "CROSSSELL_ARGUMENTE",
+                                                    "iconId": "201",
+                                                    "textKurz": "50% discount on Flexpreis and 25% discount on Sparpreis fares (except City-Ticket)",
+                                                    "textLang": "50% discount on Flexpreis and 25% discount on Sparpreis fares (except City-Ticket)"
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_PRUEFEN_BUCHEN",
+                                                    "iconId": "201",
+                                                    "textKurz": "Your BahnCard will be extended automatically by one year unless you cancel it in writing at least 4 weeks before the end of its validity period. You have a 14-day <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.bahn.de/angebot/bahncard/bahncard-verwalten/widerruf\">right of withdrawal period</a>",
+                                                    "textLang": "Your BahnCard will be extended automatically by one year unless you cancel it in writing at least 4 weeks before the end of its validity period. You have a 14-day <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.bahn.de/angebot/bahncard/bahncard-verwalten/widerruf\">right of withdrawal period</a>."
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_PRUEFEN",
+                                                    "iconId": "201",
+                                                    "textKurz": "Please note: This BahnCard is a subscription offer. Find out more about the terms of use and the purchase of BahnCards here <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.bahn.de/agb\"></a>.",
+                                                    "textLang": "Please note: This BahnCard is a subscription offer. Find out more about the terms of use and the purchase of BahnCards here <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.bahn.de/agb\"></a>."
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_VORTEILE",
+                                                    "iconId": "201",
+                                                    "textKurz": "50% off flexible fares and 25% off super saver and saver fares",
+                                                    "textLang": "50% off flexible fares and 25% off super saver and saver fares"
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_UEBERSCHRIFT",
+                                                    "iconId": "201",
+                                                    "textKurz": "Order the Probe BahnCard 50 from EUR 76,90 and save 50% for 3 months",
+                                                    "textLang": "Order the Probe BahnCard 50 from EUR 76,90 and save 50% for 3 months!"
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_PRUEFEN",
+                                                    "iconId": "201",
+                                                    "textKurz": "You can load the digital BahnCard in Navigator after booking and use it immediately.",
+                                                    "textLang": "You can load the digital BahnCard in Navigator after booking and use it immediately."
+                                                },
+                                                {
+                                                    "iconId": "201",
+                                                    "textKurz": "Upload your Digital BahnCard into DB Navigator and use it immediately",
+                                                    "textLang": "Upload your Digital BahnCard into DB Navigator and use it immediately"
+                                                },
+                                                {
+                                                    "kategorie": "CROSSSELL_ARGUMENTE",
+                                                    "iconId": "201",
+                                                    "textKurz": "Save EUR 27,75 on this ticket",
+                                                    "textLang": "Save EUR 27,75 on this ticket."
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_PRUEFEN_BUCHEN",
+                                                    "iconId": "201",
+                                                    "textKurz": "Depending on your age or discount entitlement, your follow-up card will be a 2nd class BahnCard 50, a 2nd class My BahnCard 50, or a 2nd class seniors/discounted BahnCard 50.",
+                                                    "textLang": "Depending on your age or discount entitlement, your follow-up card will be a 2nd class BahnCard 50, a 2nd class My BahnCard 50, or a 2nd class seniors/discounted BahnCard 50."
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_VORTEILE",
+                                                    "iconId": "201",
+                                                    "textKurz": "Try it out with no obligation. Cancel up to 4 weeks before the end of the trial period",
+                                                    "textLang": "Try it out with no obligation. Cancel up to 4 weeks before the end of the trial period"
+                                                },
+                                                {
+                                                    "iconId": "202",
+                                                    "textKurz": "Four-week notice period before the expiration date in text form",
+                                                    "textLang": "Four-week notice period before the expiration date in text form"
+                                                },
+                                                {
+                                                    "iconId": "202",
+                                                    "textKurz": "No cancellations",
+                                                    "textLang": "Your BahnCard cannot be cancelled"
+                                                },
+                                                {
+                                                    "kategorie": "KATALOG_VORTEILE",
+                                                    "iconId": "201",
+                                                    "textKurz": "Upload your Digital BahnCard into DB Navigator and use it immediately",
+                                                    "textLang": "Upload your Digital BahnCard into DB Navigator and use it immediately"
+                                                }
+                                            ],
+                                            "ersterGeltungzeitpunkt": "2025-01-03T00:00:00+01:00",
+                                            "anzeigeName": "Probe BahnCard 50",
+                                            "angebotsKontext": {
+                                                "angebotsId": "6c5f799f-b1d4-434d-a011-d8b0fb26a0b8",
+                                                "gesamtAngebotsId": "eacf33c3-b2a6-40f7-bd15-9cb52ec72dc2",
+                                                "spezifischeGesamtLoesungsId": "b611532a-076b-4622-babb-54096b7ac33d",
+                                                "uebergreifendeGesamtLoesungsId": "b9960634-4be7-4bcc-a209-7ad1b248ed37"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "preise": {
+            "istTeilpreis": false,
+            "hinRueckPauschalpreis": false,
+            "gesamt": {
+                "ab": {
+                    "waehrung": "EUR",
+                    "betrag": 43.99
+                },
+                "klasse": "KLASSE_2"
+            }
+        },
+        "fahrradmitnahmeMoeglich": "KEINE_ANZEIGE"
+    }
+}
