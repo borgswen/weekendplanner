@@ -22,7 +22,7 @@ services:
     depends_on:
       - treinprijzen
 
-  # Treinverbindingen mét prijzen (DB, NS International, NS). Ook los te gebruiken: http://<server>:8089/
+  # Treinverbindingen mét prijzen (DB, NS International, ÖBB, NS). Ook los te gebruiken: http://<server>:8089/
   treinprijzen:
     build: ./treinprijzen
     image: treinprijzen:latest

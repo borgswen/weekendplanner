@@ -12,8 +12,8 @@ export const config = {
 	studentenOv: lijst(process.env.STUDENTENOV),
 	// Gratis sleutel van https://apiportal.ns.nl (product "Ns-App"): binnenlandse NS-prijzen.
 	nsApiKey: process.env.NS_API_KEY || '',
-	// Bronnen aan/uit zetten: "db,nsi,ns".
-	bronnen: new Set(lijst(process.env.BRONNEN || 'db,nsi,ns')),
+	// Bronnen aan/uit zetten: "db,nsi,ns,oebb".
+	bronnen: new Set(lijst(process.env.BRONNEN || 'db,nsi,ns,oebb')),
 	// Hoe lang een gevonden prijs in de cache blijft (minuten).
 	cacheMinuten: Number(process.env.CACHE_MINUTEN || 30),
 };

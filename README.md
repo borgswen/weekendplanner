@@ -1,14 +1,14 @@
 # Weekendplanner
 
 De weekendplanner kijkt in jullie twee agenda's wanneer jullie allebei vrij zijn: een weekend, een los dagje, of een periode die je zelf kiest. Claude Code maakt daar een concreet plan voor:
-- echte trein- en Flixbusverbindingen met prijzen en een boekingslink, met een advies welke optie je het best kunt nemen. De treinprijzen komen van de eigen service [treinprijzen](treinprijzen/README.md): per verbinding de prijs bij bahn.de, NS International en NS;
+- echte trein- en Flixbusverbindingen met prijzen en een boekingslink, met een advies welke optie je het best kunt nemen. De treinprijzen komen van de eigen service [treinprijzen](treinprijzen/README.md): per verbinding de prijs bij bahn.de, NS International, ÖBB en NS, voor reizen in en naar NL, BE, LU, DE, AT, CH en FR;
 - 2-3 echte slaapplekken met links, plus zoeklinks naar Booking, Airbnb en Hostelworld met de datums al ingevuld;
 - een programma per dag, met foto's van Wikimedia Commons.
 
 Het voorstel komt als ntfy-melding op je telefoon, met de knoppen 👍, 👎 en 🔁 Ander idee.
 
 ```
-iCal (ik + vriendin) ─┐                                   ┌─ trein  (treinprijzen: DB, NS International, NS)
+iCal (ik + vriendin) ─┐                                   ┌─ trein  (treinprijzen: DB, NSI, ÖBB, NS)
 Open-Meteo (weer) ────┼─► vrij blok + passende ideeën ─► claude -p ─┼─ flixbus (echte ritten + prijzen)
 config (ideeën, budget)┘          ▲                       ├─ websearch (hotels, Airbnb, activiteiten)
                      👍/👎 + genegeerde afspraken          └─► plan + foto's ─► ntfy + webpagina
@@ -58,7 +58,7 @@ claude -p "zeg hoi"                                       # werkt het Claude-tok
 ## Goed om te weten
 
 - **Wat Claude mag:** alleen zoeken, webpagina's lezen en de reistools gebruiken (trein, Flixbus, boekingslinks). Het kan niets boeken.
-- **Treinen:** de stack draait ook de container `treinprijzen` (poort 8089). Die haalt eerst de dienstregeling op en zoekt dan per verbinding de prijs bij bahn.de, NS International en NS, inclusief wat jullie studentenreisproduct scheelt. Is die service even niet bereikbaar, dan valt de planner terug op de openbare DB-dienstregeling (v6.db.transport.rest) en markeert Claude geschatte prijzen als schatting.
+- **Treinen:** de stack draait ook de container `treinprijzen` (poort 8089). Die haalt eerst de dienstregeling op en zoekt dan per verbinding de prijs bij bahn.de, NS International, ÖBB en NS, inclusief wat jullie studentenreisproduct scheelt. Is die service even niet bereikbaar, dan valt de planner terug op de openbare DB-dienstregeling (v6.db.transport.rest) en markeert Claude geschatte prijzen als schatting.
 - **Foto's:** komen van Wikimedia Commons, met maker en licentie op de pagina.
 - **Prijzen** worden opgezocht op het moment dat het voorstel gemaakt wordt. Check ze even voordat je boekt.
 - **Fouten:** gaat er iets mis, zoals een verlopen token of een agenda die niet bereikbaar is, dan krijg je een ntfy-melding.

@@ -115,8 +115,9 @@ Afgevallen ideeën (ter info): {'; '.join(afgevallen) if afgevallen else 'geen'}
 1. Kies wat nu het leukst én haalbaar is binnen budget en reistijd. Wissel af t.o.v. eerdere voorstellen.
 2. Vervoer: gebruik de tools `trein` en `flixbus` om ECHTE verbindingen met tijden en prijzen voor deze
    datums op te halen (vanaf {thuis}), voor heen- én terugreis apart. `trein` geeft per verbinding de prijzen
-   van elke verkoper (bahn.de, NS International, NS) voor alle {personen} reizigers samen, en `goedkoopst`.
-   Neem die prijs over met de boekingslink van díe verkoper. Een `deelprijs` dekt maar een deel van de reis.
+   van elke verkoper (bahn.de, NS International, ÖBB, NS) voor alle {personen} reizigers samen, en `goedkoopst`.
+   Neem die prijs over met de boekingslink van díe verkoper. Een `deelprijs` dekt maar een deel van de reis;
+   een prijs met `schatting` neem je over met `prijs_is_schatting` op true.
    Staat er bij een treinreis geen prijs, kijk dan bij `bronnen` waarom; schat dan en zet `prijs_is_schatting`
    op true. Met `trein_goedkoopste_dag` zie je welke dag goedkoper is (handig bij een flexibele vertrekdag).
    Vergelijk met de auto (brandstof, tol, parkeren; schat realistisch). Geef 2-4 opties met heen- en

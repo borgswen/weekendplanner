@@ -1,9 +1,17 @@
 // Nagebootste bronnen voor de tests.
 import {Cache} from '../src/cache.js';
 import {GeblokkeerdError, parseNsi} from '../src/bronnen/nsi.js';
+import {parseOebb} from '../src/bronnen/oebb.js';
 import {maakZoeker} from '../src/zoek.js';
 
-export const station = (id, name) => ({type: 'station', id, name});
+const COORD = {
+	8400170: [52.007, 4.356], 8400621: [52.089, 5.110], 8000207: [50.943, 6.959], 8400058: [52.379, 4.900],
+	8200100: [49.600, 6.134], 8200510: [49.847, 6.104], 8892007: [51.036, 3.710], 8814001: [50.836, 4.336],
+	8891009: [51.197, 3.217], 8103000: [48.185, 16.376], 8100002: [47.813, 13.046], 8503000: [47.378, 8.540],
+	8507000: [46.949, 7.439],
+};
+export const station = (id, name) => ({type: 'station', id, name,
+	...(COORD[id] ? {location: {type: 'location', latitude: COORD[id][0], longitude: COORD[id][1]}} : {})});
 
 export const rit = (van, naar, vertrek, aankomst, name, operator) => ({
 	origin: station(...van), destination: station(...naar),
@@ -18,6 +26,13 @@ export const KOELN = ['8000207', 'Köln Hbf'];
 export const AMSTERDAM = ['8400058', 'Amsterdam Centraal'];
 export const LUX = ['8200100', 'Luxembourg'];
 export const ETTELBRUCK = ['8200510', 'Ettelbruck'];
+export const GENT = ['8892007', 'Gent-Sint-Pieters'];
+export const BRUSSEL = ['8814001', 'Brussel-Zuid'];
+export const BRUGGE = ['8891009', 'Brugge'];
+export const WIEN = ['8103000', 'Wien Hbf'];
+export const SALZBURG = ['8100002', 'Salzburg Hbf'];
+export const ZUERICH = ['8503000', 'Zürich HB'];
+export const BERN = ['8507000', 'Bern'];
 
 export const reisDelftKoeln = (vertrek, aankomst, prijs, extra = {}) => ({
 	type: 'journey',
@@ -31,8 +46,8 @@ export const reisDelftKoeln = (vertrek, aankomst, prijs, extra = {}) => ({
 
 export const nsiAntwoord = (verbindingen) => ({
 	data: {
-		travelOffers: verbindingen.map(([vertrek, aankomst, prijs2, prijs1]) => ({
-			id: vertrek, bookableStatus: 'BOOKABLE',
+		travelOffers: verbindingen.map(([vertrek, aankomst, prijs2, prijs1, status = 'BOOKABLE']) => ({
+			id: vertrek, bookableStatus: status,
 			itinerary: {
 				origin: {code: 'NLDET', departure: {plannedLocalDateTime: `${vertrek}:00`}},
 				destination: {code: 'DEKOH', arrival: {plannedLocalDateTime: `${aankomst}:00`}},
@@ -47,11 +62,19 @@ export const nsiAntwoord = (verbindingen) => ({
 	},
 });
 
-export const maakTest = ({reizen = [], dagreizen = [], nsi = [], nsiFout, nsPrijs, config = {}} = {}) => {
-	const log = {db: [], nsi: [], ns: []};
+export const oebbAntwoord = (verbindingen) => ({
+	tijdschema: {connections: verbindingen.map(([vertrek, aankomst], i) => ({
+		id: `c${i}`, from: {departure: `${vertrek}:00.000`}, to: {arrival: `${aankomst}:00.000`},
+		sections: [{category: {displayName: 'NJ', number: '40421'}}],
+	}))},
+	prijzen: {offers: verbindingen.map(([, , prijs], i) => ({connectionId: `c${i}`, price: prijs, offerError: prijs == null, firstClass: false}))},
+});
+
+export const maakTest = ({reizen = [], dagreizen = [], nsi = [], nsiFout, nsPrijs, oebb = null, config = {}} = {}) => {
+	const log = {db: [], nsi: [], ns: [], oebb: []};
 	const db = {
 		async locaties(tekst) {
-			const bekend = {delft: DELFT, keulen: KOELN, 'köln': KOELN, amsterdam: AMSTERDAM, luxemburg: LUX, ettelbruck: ETTELBRUCK};
+			const bekend = {delft: DELFT, keulen: KOELN, 'köln': KOELN, amsterdam: AMSTERDAM, luxemburg: LUX, ettelbruck: ETTELBRUCK, gent: GENT, brussel: BRUSSEL, brugge: BRUGGE, wenen: WIEN, salzburg: SALZBURG, 'zürich': ZUERICH, bern: BERN};
 			const s = bekend[tekst.toLowerCase()];
 			return s ? [{id: s[0], naam: s[1]}] : [];
 		},
@@ -81,9 +104,19 @@ export const maakTest = ({reizen = [], dagreizen = [], nsi = [], nsiFout, nsPrij
 			return nsPrijs;
 		},
 	};
+	const oebbBron = {
+		async zoek(van, naar, tijd, opt) {
+			log.oebb.push({van, naar, tijd, ...opt});
+			if (oebb === 'blokkade') {
+				throw new GeblokkeerdError('ÖBB weigert het verzoek (HTTP 403, botcontrole)');
+			}
+			const {tijdschema, prijzen} = oebbAntwoord(oebb || []);
+			return parseOebb(tijdschema, prijzen);
+		},
+	};
 	const zoeker = maakZoeker({
-		db, nsi: nsiBron, ns, cache: new Cache(),
-		config: {cacheMinuten: 30, bronnen: new Set(['db', 'nsi', 'ns']), leeftijden: [], studentenOv: [], ...config},
+		db, nsi: nsiBron, ns, oebb: oebbBron, cache: new Cache(),
+		config: {cacheMinuten: 30, bronnen: new Set(['db', 'nsi', 'ns', 'oebb']), leeftijden: [], studentenOv: [], ...config},
 	});
 	return {zoeker, log};
 };

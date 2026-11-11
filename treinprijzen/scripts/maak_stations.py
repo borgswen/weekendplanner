@@ -3,13 +3,13 @@
     git clone --depth 1 https://github.com/trainline-eu/stations /tmp/tl
     python3 scripts/maak_stations.py /tmp/tl/stations.csv > data/stations.json
 
-Per station (EVA-nummer of UIC-code) de NS International-code (Benerail) en het land.\nHet land van andere stations volgt uit het EVA-nummer (84 = NL, 88 = BE, 80 = DE, 82 = LU).
+Per station (EVA-nummer of UIC-code) de NS International-code (Benerail) en het land.\nHet land van andere stations volgt uit het EVA-nummer (84 = NL, 88 = BE, 80 = DE, 82 = LU, 81 = AT, 85 = CH, 87 = FR).
 """
 import csv
 import json
 import sys
 
-LANDEN = {"NL", "BE", "LU", "DE"}
+LANDEN = {"NL", "BE", "LU", "DE", "AT", "CH", "FR"}
 uit = {}
 with open(sys.argv[1], encoding="utf-8") as f:
     for r in csv.DictReader(f, delimiter=";"):

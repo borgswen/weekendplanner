@@ -1,0 +1,16 @@
+{
+ "offers": [
+  {
+   "connectionId": "d6d3a1",
+   "price": 59.8,
+   "offerError": false,
+   "firstClass": false
+  },
+  {
+   "connectionId": "9dfa22",
+   "price": 49.9,
+   "offerError": false,
+   "firstClass": false
+  }
+ ]
+}

@@ -5,6 +5,8 @@ import {tarief, KORTING} from './studentenov.js';
 import {NAAM as DB} from './bronnen/db.js';
 import {NAAM as NSI, zoekLink as nsiLink, GeblokkeerdError} from './bronnen/nsi.js';
 import {NAAM as NS, reisplannerLink} from './bronnen/ns.js';
+import {NAAM as OEBB, zoekLink as oebbLink} from './bronnen/oebb.js';
+import {nmbsPrijs, afstandKm} from './nmbs.js';
 
 const ZONE = 'Europe/Amsterdam'; // NL, BE, LU en DE hebben dezelfde klok
 const r2 = (x) => Math.round(x * 100) / 100;
@@ -52,6 +54,7 @@ export const normaliseer = (j, personen, klasse) => {
 		naar: laatste.naar, naar_id: laatste.naar_id,
 		landen,
 		ritten,
+		km: afstandKm(j.legs),
 		prijzen: [],
 		goedkoopst: null,
 	};
@@ -78,12 +81,12 @@ const kiesGoedkoopst = (reis) => {
 		return null;
 	}
 	const p = heel.reduce((a, b) => (a.totaal_eur <= b.totaal_eur ? a : b));
-	return {bron: p.bron, totaal_eur: p.totaal_eur, per_persoon_eur: p.per_persoon_eur};
+	return {bron: p.bron, totaal_eur: p.totaal_eur, per_persoon_eur: p.per_persoon_eur, ...(p.schatting ? {schatting: true} : {})};
 };
 
 // --- de zoekmachine ----------------------------------------------------------------
 
-export const maakZoeker = ({db: dbBron, nsi, ns, cache, config}) => {
+export const maakZoeker = ({db: dbBron, nsi, ns, oebb, cache, config}) => {
 	const minuten = config.cacheMinuten;
 	const aan = (b) => config.bronnen.has(b);
 
@@ -91,7 +94,10 @@ export const maakZoeker = ({db: dbBron, nsi, ns, cache, config}) => {
 		if (/^\d{7}$/.test(tekst)) {
 			return {id: tekst, naam: tekst};
 		}
-		const res = await cache.haal(`loc:${tekst.toLowerCase()}`, 24 * 60, () => dbBron.locaties(tekst, 3));
+		const res = await cache.haal(`loc:${tekst.toLowerCase()}`, 24 * 60, () => dbBron.locaties(tekst, 3)).catch((e) => {
+			e.message = `stations zoeken bij bahn.de lukt niet: ${e.message}`;
+			throw e;
+		});
 		if (!res.length) {
 			throw new InvoerFout(`Station of plaats niet gevonden: ${tekst}`);
 		}
@@ -108,7 +114,28 @@ export const maakZoeker = ({db: dbBron, nsi, ns, cache, config}) => {
 		return {personen, leeftijden, studentenov: Array.from({length: personen}, (_, i) => ov[i] || 'geen')};
 	};
 
-	// NS International: zoek de prijzen erbij voor internationale reizen vanuit/naar NL of BE.
+	// Zoek bij een verkoper die zijn eigen dienstregeling heeft en koppel op vertrek- en aankomsttijd.
+	// Vraagt een tweede keer als er latere treinen nog geen prijs hebben.
+	const koppelOpTijd = async (kandidaten, zoek) => {
+		const gevonden = new Map();
+		let vanaf = lokaal(kandidaten[0].vertrek);
+		for (let poging = 0; poging < 2; poging++) {
+			const lijst = await zoek(vanaf);
+			for (const v of lijst) {
+				gevonden.set(`${v.vertrek}|${v.aankomst}`, v);
+			}
+			const open = kandidaten.filter((r) => !gevonden.has(`${lokaal(r.vertrek)}|${lokaal(r.aankomst)}`));
+			const laatste = lijst.map((v) => v.vertrek).filter(Boolean).sort().at(-1);
+			const volgende = open.map((r) => lokaal(r.vertrek)).find((t) => laatste && t > laatste);
+			if (!volgende) {
+				break;
+			}
+			vanaf = volgende;
+		}
+		return (r) => gevonden.get(`${lokaal(r.vertrek)}|${lokaal(r.aankomst)}`);
+	};
+
+	// NS International: internationale reizen vanuit/naar NL of BE.
 	const nsiPrijzen = async (reizen, {personen, klasse, status, links}) => {
 		const kandidaten = reizen.filter((r) => r.landen.length > 1 && r.landen.some((l) => l === 'NL' || l === 'BE'));
 		if (!kandidaten.length) {
@@ -120,33 +147,19 @@ export const maakZoeker = ({db: dbBron, nsi, ns, cache, config}) => {
 			return;
 		}
 		links.ns_international = nsiLink(vanCode, naarCode, lokaal(kandidaten[0].vertrek), personen);
-		const gevonden = new Map();
-		let vanaf = lokaal(kandidaten[0].vertrek);
+		let vind;
 		try {
-			for (let poging = 0; poging < 2; poging++) {
-				const tijd = vanaf;
-				const lijst = await cache.haal(`nsi:${vanCode}:${naarCode}:${tijd}:${personen}`, minuten,
-					() => nsi.zoek(vanCode, naarCode, `${tijd}:00`, {personen}));
-				for (const v of lijst) {
-					gevonden.set(`${v.vertrek}|${v.aankomst}`, v);
-				}
-				const open = kandidaten.filter((r) => !gevonden.has(`${lokaal(r.vertrek)}|${lokaal(r.aankomst)}`));
-				const laatsteNsi = lijst.map((v) => v.vertrek).filter(Boolean).sort().at(-1);
-				const volgende = open.map((r) => lokaal(r.vertrek)).find((t) => laatsteNsi && t > laatsteNsi);
-				if (!volgende) {
-					break;
-				}
-				vanaf = volgende;
-			}
+			vind = await koppelOpTijd(kandidaten, (tijd) => cache.haal(`nsi:${vanCode}:${naarCode}:${tijd}:${personen}`, minuten,
+				() => nsi.zoek(vanCode, naarCode, `${tijd}:00`, {personen})));
 			status[NSI] = 'ok';
 		} catch (e) {
 			status[NSI] = korteMelding(e);
 			return;
 		}
 		for (const r of kandidaten) {
-			const v = gevonden.get(`${lokaal(r.vertrek)}|${lokaal(r.aankomst)}`);
+			const v = vind(r);
 			const p = v?.prijs?.[String(klasse)];
-			if (!p) {
+			if (!p || !v.boekbaar) { // een tarief zonder boekbare reis telt niet
 				continue;
 			}
 			r.prijzen.push({
@@ -159,6 +172,75 @@ export const maakZoeker = ({db: dbBron, nsi, ns, cache, config}) => {
 				deelprijs: false,
 				boeken: nsiLink(v.van, v.naar, lokaal(r.vertrek), personen),
 			});
+		}
+	};
+
+	// ÖBB: reizen van, naar of door Oostenrijk, en nachttreinen naar Zwitserland.
+	const oebbPrijzen = async (reizen, {personen, klasse, status, links}) => {
+		if (!oebb || klasse !== 2) {
+			return;
+		}
+		const kandidaten = reizen.filter((r) => r.landen.includes('AT') || (r.landen.includes('CH') && r.landen.length > 1));
+		if (!kandidaten.length) {
+			return;
+		}
+		const {van_id: van, naar_id: naar, van: vanNaam, naar: naarNaam} = kandidaten[0];
+		links.oebb = oebbLink();
+		let vind;
+		try {
+			vind = await koppelOpTijd(kandidaten, (tijd) => cache.haal(`oebb:${van}:${naar}:${tijd}`, minuten,
+				() => oebb.zoek(van, naar, tijd, {vanNaam, naarNaam})));
+			status[OEBB] = 'ok';
+		} catch (e) {
+			status[OEBB] = korteMelding(e);
+			return;
+		}
+		for (const r of kandidaten) {
+			const v = vind(r);
+			if (typeof v?.perPersoon !== 'number') {
+				continue;
+			}
+			r.prijzen.push({
+				bron: OEBB,
+				totaal_eur: r2(v.perPersoon * personen),
+				per_persoon_eur: r2(v.perPersoon),
+				klasse,
+				tarief: 'laagste prijs (vaak Sparschiene, per persoon × aantal)',
+				deelprijs: false,
+				boeken: oebbLink(),
+			});
+		}
+	};
+
+	// België binnenland: NMBS rekent per kilometer. Zonder officiële bron is dit een schatting.
+	const belgieSchatting = (reizen, {personen, klasse, leeftijden, status, links}) => {
+		const be = reizen.filter((r) => r.landen.length === 1 && r.landen[0] === 'BE');
+		if (!be.length) {
+			return;
+		}
+		links.nmbs = 'https://www.belgiantrain.be/nl';
+		status.NMBS = 'schatting op basis van de kilometertarieven; controleer op belgiantrain.be';
+		for (const r of be) {
+			const km = r.km;
+			if (!km) {
+				continue;
+			}
+			const per = Array.from({length: personen}, (_, i) => nmbsPrijs(km, {leeftijd: leeftijden[i], klasse, moment: r.vertrek}));
+			const totaal = per.reduce((a, b) => a + b, 0);
+			r.prijzen.push({bron: 'NMBS (schatting)', totaal_eur: r2(totaal), per_persoon_eur: r2(totaal / personen), klasse,
+				deelprijs: false, schatting: true, toelichting: `ca. ${Math.round(km)} km`, boeken: links.nmbs});
+		}
+	};
+
+	// Zwitserland en Frankrijk binnenland: (nog) geen bron die een server mag/kan bevragen.
+	const zonderBron = (reizen, {status, links}) => {
+		if (reizen.some((r) => r.landen.length === 1 && r.landen[0] === 'CH')) {
+			links.sbb = 'https://www.sbb.ch/nl';
+			status.SBB = 'geen prijzen voor reizen binnen Zwitserland; zie de link (tip: Supersaver-tickets)';
+		}
+		if (reizen.some((r) => r.landen.length === 1 && r.landen[0] === 'FR')) {
+			links.sncf = 'https://www.sncf-connect.com';
+			status['SNCF Connect'] = 'geen prijzen voor reizen binnen Frankrijk; zie de link';
 		}
 	};
 
@@ -236,13 +318,14 @@ export const maakZoeker = ({db: dbBron, nsi, ns, cache, config}) => {
 			if (aan('nsi')) {
 				await nsiPrijzen(reizen, {personen, klasse, status, links});
 			}
+			if (aan('oebb')) {
+				await oebbPrijzen(reizen, {personen, klasse, status, links});
+			}
 			if (aan('ns')) {
 				await binnenlandPrijzen(reizen, {personen, klasse, studentenov, status, links});
 			}
-			if (reizen.some((r) => r.landen.length === 1 && r.landen[0] === 'BE')) {
-				links.nmbs = 'https://www.belgiantrain.be/nl';
-				status.NMBS = 'nog geen prijzen voor binnenlandse Belgische reizen; zie de link';
-			}
+			belgieSchatting(reizen, {personen, klasse, leeftijden, status, links});
+			zonderBron(reizen, {status, links});
 			for (const r of reizen) {
 				r.goedkoopst = kiesGoedkoopst(r);
 			}

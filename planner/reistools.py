@@ -111,7 +111,7 @@ def zoek_trein_prijzen(van: str, naar: str, vertrek: str, aankomst_voor: str | N
             "vertrek": r["vertrek"], "aankomst": r["aankomst"], "duur_min": r["duur_min"],
             "overstappen": r["overstappen"], "ritten": [_rit_kort(x) for x in r["ritten"]],
             "prijzen": [{k: p[k] for k in ("bron", "totaal_eur", "per_persoon_eur", "tarief", "flexibel", "deelprijs",
-                                           "toelichting", "boeken") if p.get(k) not in (None, "")} for p in r["prijzen"]],
+                                           "toelichting", "schatting", "boeken") if p.get(k) not in (None, "")} for p in r["prijzen"]],
             "goedkoopst": r.get("goedkoopst"),
             **({"uitgevallen": True} if r.get("uitgevallen") else {}),
         })
@@ -183,9 +183,9 @@ def serve():
 
     srv = MCPServer("reis", instructions="Echte trein- en busverbindingen met prijzen, en boekingslinks met ingevulde datums.")
 
-    @srv.tool(description="Zoek treinverbindingen (NL, BE, LU, DE en verder) met tijden, overstappen en per "
-                          "verbinding de prijzen van elke verkoper (bahn.de, NS International, NS) voor alle personen "
-                          "samen, enkele reis, plus de goedkoopste. Tijden ISO, bv. 2026-12-11T16:00.")
+    @srv.tool(description="Zoek treinverbindingen (NL, BE, LU, DE, AT, CH, FR) met tijden, overstappen en per "
+                          "verbinding de prijzen van elke verkoper (bahn.de, NS International, ÖBB, NS, NMBS-schatting) "
+                          "voor alle personen samen, enkele reis, plus de goedkoopste. Tijden ISO, bv. 2026-12-11T16:00.")
     def trein(van: str, naar: str, vertrek: str, aankomst_voor: str | None = None, aantal: int = 4,
               personen: int = 2) -> dict:
         try:

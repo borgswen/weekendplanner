@@ -57,6 +57,16 @@ test('NS International geblokkeerd: DB-prijs blijft, status zegt waarom', async 
 	assert.ok(r.links.ns_international, 'de zoeklink blijft er');
 });
 
+test('NS International-tarief van een niet-boekbare reis telt niet', async () => {
+	const {zoeker} = maakTest({
+		reizen: [reisDelftKoeln('2026-12-11T16:20', '2026-12-11T19:40', 79.98)],
+		nsi: [['2026-12-11T16:20', '2026-12-11T19:40', 9.98, 19.98, 'NOT_BOOKABLE_NO_SERVICE']],
+	});
+	const r = await zoeker.reizen({van: 'Delft', naar: 'Keulen', vertrek: '2026-12-11T16:00', personen: 2, leeftijden: [], studentenov: []});
+	assert.deepEqual(r.reizen[0].prijzen.map((p) => p.bron), ['bahn.de']);
+	assert.equal(r.reizen[0].goedkoopst.bron, 'bahn.de');
+});
+
 test('deelprijs van DB telt niet als goedkoopste', async () => {
 	const {zoeker} = maakTest({reizen: [reisDelftKoeln('2026-12-11T16:20', '2026-12-11T19:40', 20, {partialFare: true})], nsi: []});
 	const r = await zoeker.reizen({van: 'Delft', naar: 'Keulen', vertrek: '2026-12-11T16:00', personen: 1, leeftijden: [], studentenov: []});
