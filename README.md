@@ -14,6 +14,15 @@ config (ideeën, budget)┘          ▲                       ├─ websearch 
                      👍/👎 + genegeerde afspraken          └─► plan + foto's ─► ntfy + webpagina
 ```
 
+## Deals
+
+Eén keer per week (standaard maandag 19:30) zoekt Claude op dealsites naar uitjes die bij jullie passen: Social Deal, Groupon en DagjeWeg.NL Tickets. Het gaat om dingen als sauna, escape rooms, karten, workshops, rondvaarten, uit eten en hotelarrangementen, in de buurt van Delft en bij de bestemmingen uit jullie ideeënlijst.
+- Claude zoekt zoals iemand die zelf even rondkijkt: een paar zoekopdrachten per site, en het opent alleen de dealpagina's die het controleert.
+- Nieuwe deals met minstens 40% korting krijg je als ntfy-melding.
+- Alle deals staan op de pagina **Deals**, met een knop **Nu zoeken**.
+- Een voorstel gebruikt een deal als die past bij de plek en de datums, met de dealprijs in de kosten. Voor de bestemming van het voorstel zoekt Claude ook zelf nog naar deals.
+- Sites, waar je naar zoekt, de regio, de dag en de kortingsdrempel stel je in onder Instellingen.
+
 ## Webinterface (poort 8088)
 
 - **Voorstellen:** de eerstvolgende vrije momenten (met de knop "Maak voorstel") en alle voorstellen tot nu toe.
@@ -50,6 +59,7 @@ De instellingen staan in `data/config.yaml` en pas je aan in de webinterface. De
 python -m planner vrij                                    # vrije weekenden en dagjes
 python -m planner nu --van 2026-12-11T16:00 --tot 2026-12-13T19:00 --wens "iets met een kerstmarkt"
 python -m planner testmelding
+python -m planner deals --dry-run                         # nu deals zoeken (zonder melding)
 python -m planner.reistools --test Delft Gent 2026-12-11T16:00   # test trein- en Flixbus-zoeken
 node -e "fetch('http://treinprijzen:8089/reizen?van=Delft&naar=Keulen&vertrek=2026-12-11T16:00&personen=2').then(r=>r.text()).then(console.log)"   # treinprijzen direct
 claude -p "zeg hoi"                                       # werkt het Claude-token?

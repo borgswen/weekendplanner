@@ -78,6 +78,22 @@ planning:
   lastminute:              # voor het komende weekend of dagje, met echte weersverwachting
     dag: woensdag
     tijd: "18:00"
+  deals:                   # dealsites doorzoeken (zie hieronder)
+    dag: maandag
+    tijd: "19:30"
+
+# --- Deals: leuke uitjes met korting --------------------------------------------
+# Eén keer per week zoekt Claude op deze sites naar deals die bij ons passen. Goede nieuwe deals komen als
+# melding, en de voorstellen gebruiken ze als ze passen. Ook te zien op de pagina Deals.
+deals:
+  aan: true
+  sites: [socialdeal.nl, groupon.nl, dagjeweg.nl]
+  zoek_naar: >
+    Uitjes voor ons tweeën: wellness of sauna, escape room, karten, klimmen of boulderen, suppen, zeilen of
+    kanoën, workshops, rondvaarten, musea, concerten of comedy, uit eten, en hotelovernachtingen of
+    arrangementen voor een weekendje weg.
+  regio: Delft en omgeving (Den Haag, Rotterdam, Leiden), en de plekken uit onze ideeënlijst
+  melden_vanaf_korting: 40     # melding bij nieuwe deals met minstens zoveel korting
 
 # --- Meldingen ----------------------------------------------------------------
 ntfy:

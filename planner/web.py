@@ -1,4 +1,4 @@
-"""Webinterface: voorstellen, agenda-overlay, instellingen en de knoppen uit de ntfy-melding."""
+"""Webinterface: voorstellen, agenda-overlay, deals, instellingen en de knoppen uit de ntfy-melding."""
 from __future__ import annotations
 
 import calendar
@@ -12,6 +12,7 @@ from urllib.parse import parse_qs, quote, urlparse
 from .calendars import TZ, Blok, is_genegeerd
 from .config import STANDAARD_REIZEN, DAGEN
 from .core import App, parse_local
+from . import deals as deals_mod
 
 log = logging.getLogger(__name__)
 e = html.escape
@@ -65,7 +66,7 @@ dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);co
 
 
 def _nav(actief: str) -> str:
-    items = [("/", "Voorstellen"), ("/agenda", "Agenda"), ("/instellingen", "Instellingen")]
+    items = [("/", "Voorstellen"), ("/agenda", "Agenda"), ("/deals", "Deals"), ("/instellingen", "Instellingen")]
     return "<nav>" + "".join(f"<a href='{u}' class='{'on' if u == actief else ''}'>{t}</a>" for u, t in items) + "</nav>"
 
 
@@ -218,6 +219,35 @@ def render_index(app: App, melding: str = "") -> bytes:
     return _page("Weekendplanner", body, "/", melding=melding)
 
 
+def render_deals(app: App, melding: str = "") -> bytes:
+    d = deals_mod.instellingen(app.cfg)
+    bezig = "".join(f"<div class=melding>⏳ Bezig met {e(t)}…</div>" for t in app.store.bezig.values())
+    lijst = sorted(app.store.deals().values(), key=lambda x: (-(x.get("korting_pct") or 0), x.get("titel", "")))
+    vandaag = date.today().isoformat()
+
+    def kaart(x):
+        prijs = f"<b>€{x['prijs_eur']:.2f}</b>".replace(".", ",")
+        if x.get("van_prijs_eur"):
+            prijs += f" <s class=muted>€{x['van_prijs_eur']:.2f}</s>".replace(".", ",")
+        if x.get("korting_pct"):
+            prijs += f" <span class=muted>(-{x['korting_pct']:.0f}%)</span>"
+        nieuw = " · <b>nieuw</b>" if x.get("gevonden") == vandaag else ""
+        extra = " · ".join(e(str(v)) for v in (
+            x.get("plaats"), f"{x['voor_personen']:.0f} pers." if x.get("voor_personen") else None,
+            f"geldig t/m {x['geldig_tot']}" if x.get("geldig_tot") else None, x.get("site")) if v)
+        return (f"<div class=optie><div>{_link(x['url'], x['titel'])}{nieuw}</div><div>{prijs}</div>"
+                f"<div class=muted>{extra}</div>"
+                + (f"<div class=muted>{e(x['beperkingen'])}</div>" if x.get("beperkingen") else "")
+                + (f"<div>{e(x['waarom'])}</div>" if x.get("waarom") else "") + "</div>")
+    uit = "" if d.get("aan", True) else "<div class=melding>Deals zoeken staat uit (Instellingen → YAML: deals.aan).</div>"
+    body = (f"<h1>Deals</h1>{bezig}{uit}<div class=card><p>Eén keer per week zoekt Claude op "
+            f"{e(', '.join(d['sites']))} naar uitjes die bij jullie passen. Goede nieuwe deals "
+            f"(vanaf {d['melden_vanaf_korting']}% korting) krijg je als melding; de voorstellen gebruiken ze als ze passen.</p>"
+            f"<form method=post action=/deals/zoek><button class=hoofd>Nu zoeken</button></form></div>"
+            f"<div class=card>{''.join(kaart(x) for x in lijst) or '<p class=muted>Nog geen deals gevonden.</p>'}</div>")
+    return _page("Deals", body, "/deals", melding=melding)
+
+
 # ------------------------------------------------------------------ agenda ----------
 
 def render_agenda(app: App, maand: str | None, melding: str = "") -> bytes:
@@ -343,6 +373,7 @@ def render_instellingen(app: App, melding: str = "", yaml_tekst: str | None = No
     def dagsel(naam, waarde):
         return f"<select name='{naam}'>" + "".join(f"<option {'selected' if d == waarde else ''}>{d}</option>" for d in DAGEN) + "</select>"
     vo, lm = pl.get("vooruit", {}), pl.get("lastminute", {})
+    dl, dp = deals_mod.instellingen(cfg), pl.get("deals", {})
     negeer = app.store.negeer()
     genegeerd = "".join(
         f"<li>{e(oms)} <form method=post action=/negeer style='display:inline'><input type=hidden name=key value='{e(k)}'>"
@@ -365,6 +396,14 @@ def render_instellingen(app: App, melding: str = "", yaml_tekst: str | None = No
 <div><label>Last-minute: dag</label>{dagsel('lastminute_dag', lm.get('dag', 'woensdag'))}</div>
 <div><label>tijd</label><input name=lastminute_tijd value='{e(str(lm.get('tijd', '18:00')))}'></div></div>
 <label><input type=checkbox name=dagjes style='width:auto' {'checked' if pl.get('dagjes', True) else ''}> Ook losse vrije weekenddagen voorstellen (dagje weg)</label>
+<h2 style='margin-top:14px'>Deals</h2>
+<label><input type=checkbox name=deals_aan style='width:auto' {'checked' if dl.get('aan', True) else ''}> Elke week dealsites doorzoeken</label>
+<div class=rij><div><label>Dag</label>{dagsel('deals_dag', dp.get('dag', 'maandag'))}</div>
+<div><label>tijd</label><input name=deals_tijd value='{e(str(dp.get('tijd', '19:30')))}'></div>
+<div><label>Melden vanaf korting (%)</label><input type=number name=deals_drempel value='{dl.get('melden_vanaf_korting', 40)}' min=0 max=100></div></div>
+<label>Dealsites (komma's)</label><input name=deals_sites value='{e(", ".join(dl.get("sites", [])))}'>
+<label>Waar zoeken we naar</label><textarea name=deals_zoek_naar rows=3>{e(dl.get('zoek_naar', ''))}</textarea>
+<label>Waar</label><input name=deals_regio value='{e(dl.get('regio', ''))}'>
 <label>Woorden in afspraaktitels die nooit blokkeren (komma's)</label>
 <input name=negeer_woorden value='{e(", ".join(cfg.get("agenda_regels", {}).get("negeer", []) or []))}'>
 <p><button class=hoofd>Opslaan</button></p></form>
@@ -406,6 +445,14 @@ def opslaan_snel(app: App, f: dict):
     zet(["planning", "lastminute", "tijd"], f["lastminute_tijd"])
     zet(["planning", "dagjes"], "dagjes" in f)
     zet(["agenda_regels", "negeer"], [w.strip() for w in f.get("negeer_woorden", "").split(",") if w.strip()])
+    if "deals_dag" in f:
+        zet(["deals", "aan"], "deals_aan" in f)
+        zet(["planning", "deals", "dag"], f["deals_dag"])
+        zet(["planning", "deals", "tijd"], f.get("deals_tijd", "19:30"))
+        zet(["deals", "melden_vanaf_korting"], int(getal(f.get("deals_drempel") or 40)))
+        zet(["deals", "sites"], [w.strip() for w in f.get("deals_sites", "").split(",") if w.strip()])
+        zet(["deals", "zoek_naar"], f.get("deals_zoek_naar", "").replace("\r\n", "\n").strip())
+        zet(["deals", "regio"], f.get("deals_regio", "").strip())
     app.configs.save_raw(raw)
 
 
@@ -457,6 +504,8 @@ def make_handler(app: App):
                     return self._send(render_agenda(app, q.get("m"), q.get("melding", "")))
                 if parts == ["instellingen"]:
                     return self._send(render_instellingen(app, q.get("melding", "")))
+                if parts == ["deals"]:
+                    return self._send(render_deals(app, q.get("melding", "")))
                 if parts == ["health"]:
                     return self._send(b"ok", ctype="text/plain")
             except Exception as ex:
@@ -473,6 +522,9 @@ def make_handler(app: App):
                 if parts[0] == "opnieuw" and len(parts) == 2 and app.store.get(parts[1]):
                     bg(app.opnieuw, parts[1])
                     return self._reply("Ik zoek een ander idee; je krijgt zo een melding.", "/")
+                if parts == ["deals", "zoek"]:
+                    bg(app.deals_scan)
+                    return self._reply("Ik zoek naar deals; dat duurt een paar minuten. Ververs deze pagina straks.", "/deals")
                 f = self._form()
                 if parts == ["maak"]:
                     vertrek, terug = parse_local(f["vertrek"]), parse_local(f["terug"])

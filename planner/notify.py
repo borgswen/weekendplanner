@@ -65,5 +65,5 @@ def send_error(cfg: dict, tekst: str, dry_run: bool = False):
         log.exception("Kon foutmelding niet versturen")
 
 
-def send_text(cfg: dict, titel: str, tekst: str, dry_run: bool = False):
-    _post(cfg, {"title": titel, "message": tekst}, dry_run)
+def send_text(cfg: dict, titel: str, tekst: str, dry_run: bool = False, klik: str | None = None):
+    _post(cfg, {"title": titel, "message": tekst} | ({"click": klik, "tags": ["tada"]} if klik else {}), dry_run)

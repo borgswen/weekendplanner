@@ -3,6 +3,7 @@
   python -m planner vrij                     laat de vrije weekenden en dagjes zien
   python -m planner nu [--modus vooruit|lastminute] [--van 2026-12-11T16:00 --tot 2026-12-13T19:00] [--wens "..."] [--dry-run]
   python -m planner testmelding              stuurt een testmelding via ntfy
+  python -m planner deals [--dry-run]        zoekt nu naar deals op de dealsites
 """
 import argparse
 import logging
@@ -26,6 +27,8 @@ def scheduler(app: App):
         except Exception:
             log.exception("Config lezen mislukt")
             planning = {}
+        # Deals zoeken staat standaard op maandagavond, ook in oudere configs zonder deze regel
+        planning = {"deals": {"dag": "maandag", "tijd": "19:30"}} | planning
         for taak, p in planning.items():
             if not isinstance(p, dict) or "dag" not in p:
                 continue
@@ -34,7 +37,11 @@ def scheduler(app: App):
                         and app.store.last_run(taak) != nu.date().isoformat()):
                     app.store.set_last_run(taak, nu.date().isoformat())
                     log.info("Geplande taak '%s' start", taak)
-                    app.run(taak)
+                    if taak == "deals":
+                        if (app.cfg.get("deals") or {}).get("aan", True):
+                            app.deals_scan()
+                    else:
+                        app.run(taak)
             except Exception:
                 log.exception("Taak %s mislukt", taak)
         time.sleep(30)
@@ -42,7 +49,7 @@ def scheduler(app: App):
 
 def main():
     ap = argparse.ArgumentParser(prog="planner")
-    ap.add_argument("actie", choices=["serve", "vrij", "weekenden", "nu", "testmelding"])
+    ap.add_argument("actie", choices=["serve", "vrij", "weekenden", "nu", "testmelding", "deals"])
     ap.add_argument("--modus", default="vooruit", choices=["vooruit", "lastminute"])
     ap.add_argument("--van", help="vertrek, bv. 2026-12-11T16:00")
     ap.add_argument("--tot", help="terug, bv. 2026-12-13T19:00")
@@ -64,6 +71,11 @@ def main():
         blok = app.custom(parse_local(args.van), parse_local(args.tot), args.wens) if args.van and args.tot else None
         vid = app.run("handmatig" if blok else args.modus, blok)
         print(f"Voorstel: {app.cfg.get('publieke_url', '').rstrip('/')}/plan/{vid}" if vid else "Geen voorstel gemaakt.")
+    elif args.actie == "deals":
+        n = app.deals_scan()
+        for d in sorted(app.store.deals().values(), key=lambda x: -(x.get("korting_pct") or 0)):
+            print(f"{d.get('korting_pct') or 0:>4.0f}%  €{d['prijs_eur']:>7.2f}  {d['titel'][:60]:60}  {d.get('plaats', '')}")
+        print(f"{n} nieuwe deal(s).")
     elif args.actie == "testmelding":
         notify.send_text(app.cfg, "Weekendplanner", "Testmelding: het werkt! 🎉", args.dry_run)
     else:
