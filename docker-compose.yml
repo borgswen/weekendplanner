@@ -1,0 +1,20 @@
+# Voor Portainer: Stacks → Add stack → Repository (deze repo), compose path: docker-compose.yml.
+# Zet de geheimen bij "Environment variables" van de stack.
+services:
+  weekendplanner:
+    build: .
+    image: weekendplanner:latest
+    container_name: weekendplanner
+    restart: unless-stopped
+    ports:
+      - "8088:8088"
+    environment:
+      CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN}
+      ICAL_IK: ${ICAL_IK}
+      ICAL_VRIENDIN: ${ICAL_VRIENDIN}
+      NTFY_SERVER: ${NTFY_SERVER:-https://ntfy.sh}
+      NTFY_TOPIC: ${NTFY_TOPIC}
+      NTFY_TOKEN: ${NTFY_TOKEN:-}
+      PUBLIEKE_URL: ${PUBLIEKE_URL:-http://192.168.68.125:8088}
+    volumes:
+      - ${DATA_DIR:-/opt/weekendplanner/data}:/data

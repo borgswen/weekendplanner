@@ -1,0 +1,200 @@
+# Weekendplanner – standaardconfiguratie
+# Bij de eerste start wordt dit bestand gekopieerd naar /data/config.yaml.
+# Daarna pas je alles aan in de webinterface (Instellingen); dit bestand wordt dan niet meer gelezen.
+# ${NAAM} wordt ingevuld uit de omgevingsvariabelen (in Portainer bij de stack).
+
+thuis: Delft
+personen: 2
+
+# Budget (alles samen voor 2 personen) en maximale reistijd (enkele reis, deur tot deur) per soort uitje
+reizen:
+  dagje:
+    budget_eur: 80
+    max_reistijd_uur: 1.5
+  kort:                    # 1 nacht
+    budget_eur: 300
+    max_reistijd_uur: 3
+  lang:                    # 2 nachten of meer
+    budget_eur: 400
+    max_reistijd_uur: 5
+    extra_per_nacht_eur: 120   # bij eigen periodes van 3+ nachten
+
+# Wordt letterlijk aan Claude meegegeven. Schrijf hier wat jullie leuk vinden en wat niet.
+voorkeuren: |
+  We zijn twee studenten uit Delft en willen spontaan weg: een weekendje of een dagje.
+  - We vliegen niet. Liefst de trein; auto of bus is prima als dat goedkoper is en de reistijd te doen is.
+  - Ik kan goed zeilen. Skiën: rode pistes gaan goed.
+  - We houden van natuur, wandelen, actief bezig zijn, maar ook van een gezellige stedentrip.
+  - Slapen: betaalbaar maar wel leuk (hostel met tweepersoonskamer, B&B, natuurhuisje, camping in de zomer).
+
+# Wat we zelf hebben (Claude houdt hier rekening mee)
+middelen:
+  - Open zeilboot van mijn ouders, ligt op de Kagerplassen (Kaag). Gratis te gebruiken.
+  - Lemsteraak van mijn ouders (te groot voor de Kagerplassen). Ligplaats: TODO. Je kunt er met z'n tweeën op slapen.
+  - Twee brommers. Voor verder weg meenemen met een gehuurde aanhanger (huur meerekenen). Dichtbij kunnen we er gewoon heen rijden.
+  - Een auto (TODO: trekhaak ja/nee? Zonder trekhaak valt de brommer-aanhanger af).
+
+# --- Agenda's ---------------------------------------------------------------
+agendas:
+  - naam: ik
+    ical_url: ${ICAL_IK}
+    email: borgswen@gmail.com      # om afspraken die je hebt afgeslagen te negeren
+  - naam: vriendin
+    ical_url: ${ICAL_VRIENDIN}
+    email: luxjongen@gmail.com
+
+agenda_regels:
+  # Afspraken met een van deze woorden in de titel blokkeren nooit.
+  # Losse afspraken negeer je in de agenda van de webinterface door erop te klikken.
+  negeer:
+    - jarig
+    - verjaardag
+
+weekend:
+  vertrek_vrijdag: "16:00"
+  vertrek_zaterdag: "08:00"
+  terug_zaterdag: "22:00"
+  terug_zondag: "19:00"
+
+dagje:
+  van: "08:30"
+  tot: "21:00"
+
+# Periodes zonder automatische voorstellen
+uitsluiten:
+  - van: 2026-12-24
+    tot: 2026-12-27
+  - van: 2026-12-31
+    tot: 2027-01-01
+
+# --- Wanneer komen er automatisch voorstellen --------------------------------
+planning:
+  dagjes: true             # ook losse vrije weekenddagen voorstellen
+  vooruit:                 # voor weekenden die je wat eerder wil boeken
+    dag: zondag
+    tijd: "19:00"
+    min_dagen: 14
+    max_dagen: 42
+  lastminute:              # voor het komende weekend of dagje, met echte weersverwachting
+    dag: woensdag
+    tijd: "18:00"
+
+# --- Meldingen ----------------------------------------------------------------
+ntfy:
+  server: ${NTFY_SERVER:-https://ntfy.sh}
+  topic: ${NTFY_TOPIC}
+  token: ${NTFY_TOKEN:-}
+
+publieke_url: ${PUBLIEKE_URL:-http://192.168.68.125:8088}
+
+claude:
+  model: sonnet            # of: opus
+  timeout_min: 20
+
+# --- Ideeën --------------------------------------------------------------------
+# soorten: dagje, kort (1 nacht), lang (2+ nachten)   reistijd_uur: ongeveer, enkele reis vanaf thuis
+# weer-eisen (minstens één dag moet aan alles voldoen):
+#   wind_bft_min / wind_bft_max, temp_min / temp_max (°C), regen_max_mm, sneeuwhoogte_min_cm
+# alleen_lastminute: true → alleen als de weersverwachting bekend is   actief: false → uitzetten
+
+ideeen:
+  - id: zeilen-kaag
+    titel: Zeilen op de Kagerplassen met de open boot
+    soorten: [dagje, kort]
+    reistijd_uur: 0.5
+    locatie: {lat: 52.218, lon: 4.553}
+    maanden: [4, 5, 6, 7, 8, 9, 10]
+    alleen_lastminute: true
+    weer: {wind_bft_min: 2, wind_bft_max: 5, temp_min: 14, regen_max_mm: 4}
+    notities: >
+      Gratis boot van mijn ouders, vlakbij Delft. Als dagje: zeilen met lunch/borrel aan de wal.
+      Als weekend: combineren met overnachten in de buurt (camping/B&B op de Kaag, of Leiden).
+
+  - id: zeilen-lemsteraak
+    titel: Zeilweekend op de lemsteraak, slapen aan boord
+    actief: false          # TODO: op true zetten zodra de ligplaats bij 'middelen' staat
+    soorten: [kort, lang]
+    locatie: {lat: 52.218, lon: 4.553}   # TODO: coördinaten van de ligplaats
+    maanden: [4, 5, 6, 7, 8, 9, 10]
+    alleen_lastminute: true
+    weer: {wind_bft_min: 2, wind_bft_max: 5, temp_min: 12, regen_max_mm: 6}
+    notities: >
+      Slapen aan boord is gratis. Bedenk een tocht met een leuke haven of stad om te overnachten,
+      binnen het weekend heen en terug. Houd rekening met bruggen, sluizen en havengeld.
+
+  - id: ski-sauerland
+    titel: Ski- en wandelweekend in het Sauerland (Winterberg/Willingen)
+    soorten: [kort, lang]
+    reistijd_uur: 3.75
+    locatie: {lat: 51.195, lon: 8.533}
+    maanden: [12, 1, 2, 3]
+    notities: >
+      Halve of hele dag skiën (Skiliftkarussell Winterberg, Willingen) plus een (sneeuw)wandeling.
+      Check of de pistes open zijn (skiliftkarussell.de, schneehoehen.de). Trein ~6,5 u, auto ~3,75 u.
+      Deutschlandticket kan lonen voor het Duitse deel. Ski's en schoenen huren meerekenen.
+
+  - id: harz
+    titel: Winterweekend in de Harz (Wernigerode, Brocken)
+    soorten: [lang]
+    reistijd_uur: 5.5
+    locatie: {lat: 51.726, lon: 10.588}
+    maanden: [12, 1, 2, 3]
+    min_nachten: 2
+    notities: Ver weg. Brocken-wandeling of Brockenbahn, eventueel skiën rond Braunlage.
+
+  - id: brommertocht-ver
+    titel: Brommertocht in heuvelland (brommers op de aanhanger)
+    soorten: [kort, lang]
+    reistijd_uur: 2.5
+    locatie: {lat: 50.60, lon: 5.75}
+    maanden: [4, 5, 6, 7, 8, 9, 10]
+    alleen_lastminute: true
+    weer: {temp_min: 12, regen_max_mm: 2}
+    notities: >
+      Zuid-Limburg/Voerstreek, Ardennen of Eifel. Brommers op een gehuurde aanhanger (alleen met trekhaak).
+      Mooie route van 80-150 km per dag over rustige wegen, met een leuke stop en overnachting.
+
+  - id: brommertocht-dichtbij
+    titel: Brommertocht vanaf huis
+    soorten: [dagje]
+    reistijd_uur: 0
+    locatie: {lat: 52.08, lon: 4.65}
+    maanden: [4, 5, 6, 7, 8, 9, 10]
+    alleen_lastminute: true
+    weer: {temp_min: 12, regen_max_mm: 2}
+    notities: >
+      Rechtstreeks met de brommers vanuit Delft: Groene Hart, Kagerplassen, Vlietland, Westland/duinen,
+      Alblasserwaard/Kinderdijk. Route van 60-120 km met een goede lunchplek en iets om te zien.
+
+  - id: wandelen
+    titel: Wandelen in de natuur
+    soorten: [dagje, kort, lang]
+    locatie: {lat: 52.05, lon: 5.40}
+    weer: {regen_max_mm: 8}
+    notities: >
+      Dagje: Meijendel/Berkheide, Utrechtse Heuvelrug, Veluwe, Biesbosch, Zuid-Kennemerland.
+      Weekend: Eifel, Ardennen, Zuid-Limburg, Sauerland (Rothaarsteig). Liefst goed bereikbaar met OV.
+
+  - id: stedentrip
+    titel: Stedentrip
+    soorten: [dagje, kort, lang]
+    notities: >
+      Werkt bij elk weer. Dagje: Antwerpen, Gent, Utrecht, Haarlem, Den Bosch, Leiden, Gouda.
+      Weekend: Gent, Antwerpen, Brugge, Brussel, Luik, Lille, Keulen, Aken, Münster, Hamburg/Berlijn (lang).
+      In december: kerstmarkten. Zoek iets leuks dat er dan te doen is (concert, markt, tentoonstelling).
+
+  - id: wadden
+    titel: Waddeneiland
+    soorten: [kort, lang]
+    reistijd_uur: 3.5
+    locatie: {lat: 53.30, lon: 5.06}
+    weer: {regen_max_mm: 8}
+    notities: Vlieland, Terschelling, Texel of Ameland. Check bootdienst en de laatste boot terug.
+
+  - id: strand-duinen
+    titel: Strand, duinen en een strandtent
+    soorten: [dagje]
+    reistijd_uur: 0.75
+    locatie: {lat: 52.13, lon: 4.35}
+    weer: {regen_max_mm: 3}
+    notities: Scheveningen-Noord, Wassenaarse Slag, Noordwijk, Zandvoort of Hoek van Holland; ook in de winter leuk met uitwaaien.
