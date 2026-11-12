@@ -137,44 +137,81 @@ export const maakZoeker = ({db: dbBron, nsi, ns, oebb, sncf, ojp, cache, config}
 		return (r) => gevonden.get(`${lokaal(r.vertrek)}|${lokaal(r.aankomst)}`);
 	};
 
-	// NS International: internationale reizen vanuit/naar NL of BE.
-	const nsiPrijzen = async (reizen, {personen, klasse, status, links}) => {
-		const kandidaten = reizen.filter((r) => r.landen.length > 1 && r.landen.some((l) => l === 'NL' || l === 'BE'));
+	// NS International: internationale reizen vanuit/naar NL, BE en FR, en reizen binnen Frankrijk.
+	// Kent NS International de eindbestemming niet (bv. Grenoble), dan vragen we de prijs tot het laatste
+	// overstapstation dat ze wél verkopen (bv. Lyon); die deelprijs vult frankrijkPrijzen() aan met SNCF.
+	const NSI_LANDEN = new Set(['NL', 'BE', 'FR']);
+	// Parijs heeft bij NS International ook een stadscode voor alle Parijse stations
+	const nsiVoor = (id, naam) => nsiCode(id) || (land(id) === 'FR' && /^paris\b/i.test(naam || '') ? 'FRPAR' : null);
+
+	const nsiPrijzen = async (reizen, {personen, klasse, status, links, nsiDeel}) => {
+		const kandidaten = reizen.filter((r) => r.landen.some((l) => NSI_LANDEN.has(l)) && (r.landen.length > 1 || r.landen[0] === 'FR'));
 		if (!kandidaten.length) {
 			return;
 		}
-		const vanCode = nsiCode(kandidaten[0].van_id), naarCode = nsiCode(kandidaten[0].naar_id);
-		if (!vanCode || !naarCode) {
-			status[NSI] = 'geen NS International-code voor dit station';
-			return;
-		}
-		links.ns_international = nsiLink(vanCode, naarCode, lokaal(kandidaten[0].vertrek), personen);
-		let vind;
-		try {
-			vind = await koppelOpTijd(kandidaten, (tijd) => cache.haal(`nsi:${vanCode}:${naarCode}:${tijd}:${personen}`, minuten,
-				() => nsi.zoek(vanCode, naarCode, `${tijd}:00`, {personen})));
-			status[NSI] = 'ok';
-		} catch (e) {
-			status[NSI] = korteMelding(e);
-			return;
-		}
+		// Per reis: waar NS International de prijs voor kan geven.
+		const groepen = new Map();
 		for (const r of kandidaten) {
-			const v = vind(r);
-			const p = v?.prijs?.[String(klasse)];
-			if (!p || !v.boekbaar) { // een tarief zonder boekbare reis telt niet
+			const vanCode = nsiVoor(r.van_id, r.van);
+			let totRit = r.ritten.length - 1;
+			while (totRit >= 0 && !nsiVoor(r.ritten[totRit].naar_id, r.ritten[totRit].naar)) {
+				totRit--;
+			}
+			if (!vanCode || totRit < 0) {
 				continue;
 			}
-			r.prijzen.push({
-				bron: NSI,
-				totaal_eur: r2(p.bedrag),
-				per_persoon_eur: r2(p.bedrag / personen),
-				klasse,
-				tarief: p.tarief,
-				flexibel: p.flex === 'FULL_FLEXIBLE' ? 'ja' : p.flex === 'SEMI_FLEXIBLE' ? 'deels' : 'nee',
-				deelprijs: false,
-				boeken: nsiLink(v.van, v.naar, lokaal(r.vertrek), personen),
-			});
+			const eind = r.ritten[totRit];
+			const naarCode = nsiVoor(eind.naar_id, eind.naar);
+			if (naarCode === vanCode) {
+				continue;
+			}
+			const sleutel = `${vanCode}|${naarCode}`;
+			if (!groepen.has(sleutel)) {
+				groepen.set(sleutel, {vanCode, naarCode, reizen: []});
+			}
+			groepen.get(sleutel).reizen.push({r, totRit, vertrek: r.vertrek, aankomst: eind.aankomst, eindNaam: eind.naar});
 		}
+		if (!groepen.size) {
+			status[NSI] = 'geen NS International-code voor deze stations';
+			return;
+		}
+		const fouten = [];
+		for (const {vanCode, naarCode, reizen: groep} of groepen.values()) {
+			links.ns_international ||= nsiLink(vanCode, naarCode, lokaal(groep[0].vertrek), personen);
+			let vind;
+			try {
+				vind = await koppelOpTijd(groep, (tijd) => cache.haal(`nsi:${vanCode}:${naarCode}:${tijd}:${personen}`, minuten,
+					() => nsi.zoek(vanCode, naarCode, `${tijd}:00`, {personen})));
+			} catch (e) {
+				fouten.push(korteMelding(e));
+				continue;
+			}
+			for (const k of groep) {
+				const v = vind(k);
+				const p = v?.prijs?.[String(klasse)];
+				if (!p || !v.boekbaar) { // een tarief zonder boekbare reis telt niet
+					continue;
+				}
+				const deel = k.totRit < k.r.ritten.length - 1;
+				k.r.prijzen.push({
+					bron: NSI,
+					totaal_eur: r2(p.bedrag),
+					per_persoon_eur: r2(p.bedrag / personen),
+					klasse,
+					tarief: p.tarief,
+					flexibel: p.flex === 'FULL_FLEXIBLE' ? 'ja' : p.flex === 'SEMI_FLEXIBLE' ? 'deels' : 'nee',
+					deelprijs: deel,
+					...(deel ? {toelichting: `tot ${k.eindNaam}; de rest los kopen`} : {}),
+					boeken: nsiLink(v.van, v.naar, lokaal(k.vertrek), personen),
+				});
+				if (deel) {
+					nsiDeel.set(k.r, {totRit: k.totRit, bedrag: p.bedrag, eindNaam: k.eindNaam});
+				}
+			}
+		}
+		status[NSI] = !fouten.length ? 'ok'
+			: fouten.length === groepen.size ? fouten[0]
+				: `deels: ${groepen.size - fouten.length} van ${groepen.size} zoekvragen gelukt; ${fouten[0]}`;
 	};
 
 	// ÖBB: reizen van, naar of door Oostenrijk, en nachttreinen naar Zwitserland.
@@ -271,9 +308,9 @@ export const maakZoeker = ({db: dbBron, nsi, ns, oebb, sncf, ojp, cache, config}
 	};
 
 	// Frankrijk binnenland: prijsrange (vol tarief) uit de open data van SNCF, alleen TGV INOUI en OUIGO.
-	const frankrijkPrijzen = async (reizen, {personen, klasse, status, links}) => {
+	const frankrijkPrijzen = async (reizen, {personen, klasse, status, links, nsiDeel}) => {
 		const fr = reizen.filter((r) => r.landen.length === 1 && r.landen[0] === 'FR');
-		if (!fr.length) {
+		if (!fr.length && !nsiDeel.size) {
 			return;
 		}
 		links.sncf = 'https://www.sncf-connect.com';
@@ -308,6 +345,21 @@ export const maakZoeker = ({db: dbBron, nsi, ns, oebb, sncf, ojp, cache, config}
 				prijs_van_pp: r2(min), prijs_tot_pp: r2(max), schatting: true, deelprijs: missend > 0,
 				toelichting: `vol tarief tussen €${r2(min)} en €${r2(max)} p.p.; vroeg boeken is meestal goedkoper${missend ? '; TER/Intercités-ritten niet meegeteld' : ''}`,
 				boeken: links.sncf});
+		}
+		// NS International tot het laatste station dat zij kennen + SNCF voor de rest van de reis in Frankrijk
+		for (const [r, deel] of nsiDeel) {
+			const rest = r.ritten.slice(deel.totRit + 1);
+			const ranges = rest.map((rit) => (land(rit.van_id) === 'FR' && land(rit.naar_id) === 'FR'
+				? zoekRange(index, {vanId: rit.van_id, naarId: rit.naar_id, vanNaam: rit.van, naarNaam: rit.naar}, klasse) : null));
+			if (!rest.length || ranges.some((x) => !x)) {
+				continue;
+			}
+			const min = ranges.reduce((a, x) => a + x.min, 0), max = ranges.reduce((a, x) => a + x.max, 0);
+			const totaal = deel.bedrag + ((min + max) / 2) * personen;
+			r.prijzen.push({bron: `${NSI} + ${SNCF}`, totaal_eur: r2(totaal), per_persoon_eur: r2(totaal / personen), klasse,
+				schatting: true, deelprijs: false,
+				toelichting: `NS International tot ${deel.eindNaam} (€${r2(deel.bedrag)}), daarna SNCF tussen €${r2(min)} en €${r2(max)} p.p.`,
+				boeken: links.ns_international});
 		}
 	};
 
@@ -382,8 +434,9 @@ export const maakZoeker = ({db: dbBron, nsi, ns, oebb, sncf, ojp, cache, config}
 			}
 			links.bahn_de = bahnLink(van.naam, naar.naam, moment.toFormat("yyyy-MM-dd'T'HH:mm"), personen, klasse);
 
+			const nsiDeel = new Map(); // reis → deelprijs van NS International tot een overstapstation
 			if (aan('nsi')) {
-				await nsiPrijzen(reizen, {personen, klasse, status, links});
+				await nsiPrijzen(reizen, {personen, klasse, status, links, nsiDeel});
 			}
 			if (aan('oebb')) {
 				await oebbPrijzen(reizen, {personen, klasse, status, links});
@@ -396,7 +449,7 @@ export const maakZoeker = ({db: dbBron, nsi, ns, oebb, sncf, ojp, cache, config}
 				await zwitserlandPrijzen(reizen, {personen, klasse, status, links});
 			}
 			if (aan('sncf')) {
-				await frankrijkPrijzen(reizen, {personen, klasse, status, links});
+				await frankrijkPrijzen(reizen, {personen, klasse, status, links, nsiDeel});
 			}
 			for (const r of reizen) {
 				r.goedkoopst = kiesGoedkoopst(r);
