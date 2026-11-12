@@ -209,7 +209,9 @@ export const maakZoeker = ({db: dbBron, nsi, ns, oebb, sncf, ojp, cache, config}
 				}
 			}
 		}
-		status[NSI] = fouten.length === groepen.size ? fouten[0] : 'ok';
+		status[NSI] = !fouten.length ? 'ok'
+			: fouten.length === groepen.size ? fouten[0]
+				: `deels: ${groepen.size - fouten.length} van ${groepen.size} zoekvragen gelukt; ${fouten[0]}`;
 	};
 
 	// ÖBB: reizen van, naar of door Oostenrijk, en nachttreinen naar Zwitserland.

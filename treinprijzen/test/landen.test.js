@@ -253,3 +253,25 @@ test('Binnen Frankrijk: NS International wordt ook gevraagd (Parijs via stadscod
 	assert.deepEqual(j.prijzen.map((p) => [p.bron, p.totaal_eur]), [['NS International', 79], ['SNCF (open data)', 170]]);
 	assert.equal(j.goedkoopst.bron, 'NS International');
 });
+
+test('NS International: als één van twee zoekvragen faalt, zegt de status dat', async () => {
+	const {zoeker} = maakTest({sncfRecords: SNCF_FR,
+		reizen: [
+			{type: 'journey', legs: [rit(DELFT, PARIS_NORD, '2026-12-11T08:13:00+01:00', '2026-12-11T11:47:00+01:00', 'EST 9318', 'Eurostar')]},
+			{type: 'journey', legs: [
+				rit(DELFT, PARIS_NORD, '2026-12-11T09:13:00+01:00', '2026-12-11T12:47:00+01:00', 'EST 9320', 'Eurostar'),
+				{walking: true},
+				rit(PARIS_LYON, MARSEILLE, '2026-12-11T13:30:00+01:00', '2026-12-11T16:50:00+01:00', 'TGV 6111', 'SNCF'),
+			]},
+		],
+		nsi: (tijd) => {
+			if (tijd.startsWith('2026-12-11T09:13')) {
+				throw new Error('HTTP 500');
+			}
+			return [['2026-12-11T08:13', '2026-12-11T11:47', 98, 200]];
+		},
+	});
+	const r = await zoeker.reizen({van: 'Delft', naar: 'Marseille', vertrek: '2026-12-11T08:00', personen: 1, leeftijden: [], studentenov: []});
+	assert.match(r.bronnen['NS International'], /^deels: 1 van 2 zoekvragen gelukt; fout: HTTP 500/);
+	assert.equal(r.reizen[0].goedkoopst.bron, 'NS International');
+});
