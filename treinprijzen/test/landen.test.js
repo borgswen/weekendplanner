@@ -6,7 +6,7 @@ import {nmbsPrijs, afstandKm} from '../src/nmbs.js';
 import {nsiCode, land} from '../src/stations.js';
 import {bouwIndex, zoekRange} from '../src/bronnen/sncf.js';
 import {leesTrips, fareVerzoek, leesPrijzen} from '../src/bronnen/ojp.js';
-import {maakTest, rit, AMSTERDAM, SALZBURG, WIEN, BRUSSEL, BRUGGE, ZUERICH, BERN, PARIS_LYON, LYON, GRENOBLE} from './helpers.js';
+import {maakTest, rit, AMSTERDAM, SALZBURG, WIEN, BRUSSEL, BRUGGE, ZUERICH, BERN, PARIS_LYON, LYON, GRENOBLE, PARIS_NORD, MARSEILLE, DELFT} from './helpers.js';
 
 const nachttrein = (prijsDb) => ({type: 'journey', legs: [
 	rit(AMSTERDAM, SALZBURG, '2026-12-11T18:01:00+01:00', '2026-12-12T06:46:00+01:00', 'NJ 40421', 'ÖBB'),
@@ -214,4 +214,42 @@ test('OJP: trips lezen (perron → station), fare-verzoek bouwen en prijzen leze
 </TripFareResult></FareResult></OJPFareDelivery></OJPResponse></OJP>`;
 	assert.deepEqual(leesPrijzen(antwoord), [{chf: 31.4, compleet: true}]); // dagkaart 2361 genegeerd
 	assert.deepEqual(leesPrijzen(antwoord, 1), [{chf: 98, compleet: true}]);
+});
+
+const SNCF_FR = [
+	{gare_origine: 'PARIS GARE DE LYON', gare_origine_code_uic: '87686006', gare_destination: 'GRENOBLE', gare_destination_code_uic: '87747006', classe: '2', profil_tarifaire: 'Tarif Normal', prix_minimum: 29, prix_maximum: 111},
+	{gare_origine: 'PARIS GARE DE LYON', gare_origine_code_uic: '87686006', gare_destination: 'MARSEILLE ST CHARLES', gare_destination_code_uic: '87751008', classe: '2', profil_tarifaire: 'Tarif Normal', prix_minimum: 35, prix_maximum: 135},
+];
+
+test('Delft → Grenoble: NS International tot Parijs + SNCF voor de rest', async () => {
+	const {zoeker, log} = maakTest({sncfRecords: SNCF_FR,
+		reizen: [{type: 'journey', legs: [
+			rit(DELFT, PARIS_NORD, '2026-12-11T08:13:00+01:00', '2026-12-11T11:47:00+01:00', 'EST 9318', 'Eurostar'),
+			{walking: true},
+			rit(PARIS_LYON, GRENOBLE, '2026-12-11T12:41:00+01:00', '2026-12-11T15:41:00+01:00', 'TGV 6911', 'SNCF'),
+		]}],
+		nsi: [['2026-12-11T08:13', '2026-12-11T11:47', 98, 200]],
+	});
+	const r = await zoeker.reizen({van: 'Delft', naar: 'Grenoble', vertrek: '2026-12-11T08:00', personen: 2, leeftijden: [], studentenov: []});
+	const j = r.reizen[0];
+	assert.deepEqual(log.nsi[0], {van: 'NLDET', naar: 'FRPNO', tijd: '2026-12-11T08:13:00', personen: 2});
+	const nsi = j.prijzen.find((p) => p.bron === 'NS International');
+	assert.equal(nsi.deelprijs, true);
+	assert.match(nsi.toelichting, /tot Paris Gare du Nord/);
+	const combi = j.prijzen.find((p) => p.bron === 'NS International + SNCF (open data)');
+	assert.equal(combi.totaal_eur, 98 + 70 * 2); // SNCF-midden (29+111)/2 = 70 p.p.
+	assert.equal(combi.schatting, true);
+	assert.equal(j.goedkoopst.bron, 'NS International + SNCF (open data)');
+});
+
+test('Binnen Frankrijk: NS International wordt ook gevraagd (Parijs via stadscode)', async () => {
+	const {zoeker, log} = maakTest({sncfRecords: SNCF_FR,
+		reizen: [{type: 'journey', legs: [rit(PARIS_LYON, MARSEILLE, '2026-12-12T10:00:00+01:00', '2026-12-12T13:20:00+01:00', 'TGV 6107', 'SNCF')]}],
+		nsi: [['2026-12-12T10:00', '2026-12-12T13:20', 79, 160]],
+	});
+	const r = await zoeker.reizen({van: 'Parijs', naar: 'Marseille', vertrek: '2026-12-12T09:00', personen: 2, leeftijden: [], studentenov: []});
+	assert.deepEqual([log.nsi[0].van, log.nsi[0].naar], ['FRPAR', 'FRMSC']);
+	const j = r.reizen[0];
+	assert.deepEqual(j.prijzen.map((p) => [p.bron, p.totaal_eur]), [['NS International', 79], ['SNCF (open data)', 170]]);
+	assert.equal(j.goedkoopst.bron, 'NS International');
 });

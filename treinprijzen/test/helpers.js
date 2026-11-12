@@ -9,7 +9,7 @@ const COORD = {
 	8400170: [52.007, 4.356], 8400621: [52.089, 5.110], 8000207: [50.943, 6.959], 8400058: [52.379, 4.900],
 	8200100: [49.600, 6.134], 8200510: [49.847, 6.104], 8892007: [51.036, 3.710], 8814001: [50.836, 4.336],
 	8891009: [51.197, 3.217], 8103000: [48.185, 16.376], 8100002: [47.813, 13.046], 8503000: [47.378, 8.540],
-	8507000: [46.949, 7.439], 8727100: [48.881, 2.355], 8768600: [48.844, 2.374], 8772319: [45.761, 4.860], 8774100: [45.188, 5.715],
+	8507000: [46.949, 7.439], 8727100: [48.881, 2.355], 8768600: [48.844, 2.374], 8772319: [45.761, 4.860], 8774100: [45.188, 5.715], 8775100: [43.303, 5.380],
 };
 export const station = (id, name) => ({type: 'station', id, name,
 	...(COORD[id] ? {location: {type: 'location', latitude: COORD[id][0], longitude: COORD[id][1]}} : {})});
@@ -37,6 +37,8 @@ export const BERN = ['8507000', 'Bern'];
 export const PARIS_LYON = ['8768600', 'Paris Gare de Lyon'];
 export const LYON = ['8772319', 'Lyon Part-Dieu'];
 export const GRENOBLE = ['8774100', 'Grenoble'];
+export const PARIS_NORD = ['8727100', 'Paris Gare du Nord'];
+export const MARSEILLE = ['8775100', 'Marseille St-Charles'];
 
 export const reisDelftKoeln = (vertrek, aankomst, prijs, extra = {}) => ({
 	type: 'journey',
@@ -78,7 +80,7 @@ export const maakTest = ({reizen = [], dagreizen = [], nsi = [], nsiFout, nsPrij
 	const log = {db: [], nsi: [], ns: [], oebb: [], ojp: []};
 	const db = {
 		async locaties(tekst) {
-			const bekend = {delft: DELFT, keulen: KOELN, 'köln': KOELN, amsterdam: AMSTERDAM, luxemburg: LUX, ettelbruck: ETTELBRUCK, gent: GENT, brussel: BRUSSEL, brugge: BRUGGE, wenen: WIEN, salzburg: SALZBURG, 'zürich': ZUERICH, bern: BERN, parijs: PARIS_LYON, lyon: LYON, grenoble: GRENOBLE};
+			const bekend = {delft: DELFT, keulen: KOELN, 'köln': KOELN, amsterdam: AMSTERDAM, luxemburg: LUX, ettelbruck: ETTELBRUCK, gent: GENT, brussel: BRUSSEL, brugge: BRUGGE, wenen: WIEN, salzburg: SALZBURG, 'zürich': ZUERICH, bern: BERN, parijs: PARIS_LYON, lyon: LYON, grenoble: GRENOBLE, marseille: MARSEILLE};
 			const s = bekend[tekst.toLowerCase()];
 			return s ? [{id: s[0], naam: s[1]}] : [];
 		},

@@ -10,7 +10,7 @@ Eerst haalt hij de dienstregeling op, daarna zoekt hij per verbinding de prijs o
 van, naar, tijd ─► dienstregeling (DB Navigator: heel Europa)
                        │
                        ├─► bahn.de-prijs (DB Navigator, bij dezelfde zoekvraag)
-                       ├─► NS International (reizen tussen NL/BE en het buitenland), gekoppeld op vertrek- en aankomsttijd
+                       ├─► NS International (NL/BE ↔ buitenland en binnen Frankrijk), gekoppeld op vertrek- en aankomsttijd
                        ├─► ÖBB (reizen van/naar/door Oostenrijk, Nightjets, ook naar Zwitserland), idem
                        ├─► NS (binnenland, officiële NS-API) + studentenreisproduct
                        ├─► NMBS (België binnenland): schatting op basis van de kilometertarieven
@@ -23,7 +23,7 @@ van, naar, tijd ─► dienstregeling (DB Navigator: heel Europa)
 | Bron | Wat | Nodig |
 |---|---|---|
 | **bahn.de** (DB Navigator, via [db-vendo-client](https://github.com/public-transport/db-vendo-client)) | Dienstregeling voor alles, prijzen voor Duitsland en veel grensoverschrijdende reizen. Ook de goedkoopste reizen van een hele dag. | niets |
-| **NS International** | Internationale prijzen vanuit Nederland en België, naar Duitsland, België, Frankrijk (Eurostar), Zwitserland en Oostenrijk (Nightjet) | niets |
+| **NS International** | Internationale prijzen vanuit Nederland en België, naar Duitsland, België, Frankrijk (Eurostar, TGV), Zwitserland en Oostenrijk (Nightjet), en ook reizen binnen Frankrijk. Verkoopt NS International de eindbestemming niet (bijv. Grenoble), dan geeft het de prijs tot het laatste station dat het wél kent (bijv. Parijs), aangevuld met de SNCF-prijsrange voor de rest. | niets |
 | **ÖBB** (shop.oebbtickets.at) | Oostenrijk, Nightjets en reizen via Oostenrijk. Prijs per persoon × aantal reizigers. | niets |
 | **NS** | Binnenlandse prijzen | gratis sleutel (`NS_API_KEY`), zie hieronder |
 | **Studentenreisproduct** | Rekent uit wat een binnenlandse reis kost met jullie week- of weekendabonnement (gratis, 40% korting of vol) | `STUDENTENOV` |
