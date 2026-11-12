@@ -5,7 +5,7 @@ import logging
 import secrets
 from datetime import date, datetime, timedelta
 
-from . import claude, ideas, images, notify
+from . import claude, deals, ideas, images, notify
 from .calendars import TZ, Blok, custom_block, free_blocks, load_events
 from .config import ConfigStore
 from .store import Store
@@ -72,7 +72,8 @@ class App:
                 log.info("Geen passende ideeën (%s)", "; ".join(afgevallen))
                 notify.send_text(cfg, "Weekendplanner", f"Geen passend idee gevonden voor {blok.label()}.", self.dry_run)
                 return None
-            prompt = claude.build_prompt(cfg, blok, modus, kandidaten, afgevallen, self.store.history_for_prompt())
+            prompt = claude.build_prompt(cfg, blok, modus, kandidaten, afgevallen, self.store.history_for_prompt(),
+                                         deals.voor_prompt(self, blok.vertrek.date()))
             plan, kosten = claude.make_plan(cfg, prompt)
             fotos = images.voor_plan(plan)
             vid = self.store.add(blok.to_dict(), blok.key, modus, plan, kosten, fotos)
@@ -83,6 +84,18 @@ class App:
             log.exception("Run mislukt")
             notify.send_error(self.cfg, f"{type(e).__name__}: {e}", self.dry_run)
             return None
+        finally:
+            self.store.bezig.pop(taak, None)
+
+    def deals_scan(self) -> int:
+        taak = secrets.token_hex(3)
+        self.store.bezig[taak] = "deals zoeken"
+        try:
+            return deals.scan(self)
+        except Exception as e:
+            log.exception("Deals zoeken mislukt")
+            notify.send_error(self.cfg, f"Deals zoeken mislukt: {type(e).__name__}: {e}", self.dry_run)
+            return 0
         finally:
             self.store.bezig.pop(taak, None)
 

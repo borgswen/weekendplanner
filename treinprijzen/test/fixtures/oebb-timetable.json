@@ -1,0 +1,101 @@
+{
+ "connections": [
+  {
+   "id": "d6d3a1",
+   "from": {
+    "name": "Amsterdam Centraal",
+    "esn": 8400058,
+    "departure": "2026-12-01T18:01:00.000"
+   },
+   "to": {
+    "name": "Wien Hbf",
+    "esn": 8103000,
+    "arrival": "2026-12-02T09:32:00.000"
+   },
+   "switches": 1,
+   "duration": 55860000,
+   "sections": [
+    {
+     "from": {
+      "name": "Amsterdam Centraal",
+      "esn": 8400058,
+      "departure": "2026-12-01T18:01:00.000"
+     },
+     "to": {
+      "name": "Salzburg Hbf",
+      "esn": 8100002,
+      "arrival": "2026-12-02T06:46:00.000"
+     },
+     "duration": 0,
+     "category": {
+      "name": "NJ",
+      "number": "40421",
+      "displayName": "NJ",
+      "train": true
+     },
+     "type": "journey",
+     "hasRealtime": false
+    },
+    {
+     "from": {
+      "name": "Salzburg Hbf",
+      "esn": 8100002,
+      "departure": "2026-12-02T07:07:00.000"
+     },
+     "to": {
+      "name": "Wien Hbf",
+      "esn": 8103000,
+      "arrival": "2026-12-02T09:32:00.000"
+     },
+     "duration": 0,
+     "category": {
+      "name": "RJX",
+      "number": "19969",
+      "displayName": "RJX",
+      "train": true
+     },
+     "type": "journey",
+     "hasRealtime": false
+    }
+   ]
+  },
+  {
+   "id": "9dfa22",
+   "from": {
+    "name": "Amsterdam Centraal",
+    "esn": 8400058,
+    "departure": "2026-12-01T19:31:00.000"
+   },
+   "to": {
+    "name": "Wien Hbf",
+    "esn": 8103000,
+    "arrival": "2026-12-02T10:14:00.000"
+   },
+   "switches": 0,
+   "duration": 52980000,
+   "sections": [
+    {
+     "from": {
+      "name": "Amsterdam Centraal",
+      "esn": 8400058,
+      "departure": "2026-12-01T19:31:00.000"
+     },
+     "to": {
+      "name": "Wien Hbf",
+      "esn": 8103000,
+      "arrival": "2026-12-02T10:14:00.000"
+     },
+     "duration": 0,
+     "category": {
+      "name": "NJ",
+      "number": "40490",
+      "displayName": "NJ",
+      "train": true
+     },
+     "type": "journey",
+     "hasRealtime": false
+    }
+   ]
+  }
+ ]
+}

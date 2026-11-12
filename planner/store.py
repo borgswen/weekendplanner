@@ -1,4 +1,4 @@
-"""JSON-opslag voor voorstellen, feedback, genegeerde afspraken en laatst-gedraaide taken."""
+"""JSON-opslag voor voorstellen, feedback, genegeerde afspraken, deals en laatst-gedraaide taken."""
 from __future__ import annotations
 
 import json
@@ -98,6 +98,13 @@ class Store:
             if titel:
                 d["negeer"]["titels"] = [t for t in d["negeer"]["titels"] if t.lower() != titel.lower()]
         self._update(f)
+
+    # -------------------------------------------------------------- deals
+    def deals(self) -> dict[str, dict]:
+        return self._read().get("deals", {})
+
+    def set_deals(self, deals: dict[str, dict]):
+        self._update(lambda d: d.__setitem__("deals", deals))
 
     # -------------------------------------------------------------- taken
     def last_run(self, taak: str) -> str | None:

@@ -70,7 +70,7 @@ def budget(cfg: dict, blok: Blok) -> int:
 
 
 def build_prompt(cfg: dict, blok: Blok, modus: str, kandidaten: list[dict],
-                 afgevallen: list[str], geschiedenis: list[dict]) -> str:
+                 afgevallen: list[str], geschiedenis: list[dict], deals: list[dict] | None = None) -> str:
     def dump(x):
         return yaml.safe_dump(x, allow_unicode=True, sort_keys=False, width=110).strip()
 
@@ -83,6 +83,17 @@ def build_prompt(cfg: dict, blok: Blok, modus: str, kandidaten: list[dict],
   naar die specifieke accommodatie. Markeer er één als aanbevolen. Roep ook `slaap_links` aan voor de
   overnachtingsplaats en zet die links in slapen.zoeklinks."""
     wens = f"\n# Extra wens van ons (heeft voorrang)\n{blok.notitie.strip()}\n" if blok.notitie.strip() else ""
+    dcfg = {"aan": True, "sites": ["socialdeal.nl", "groupon.nl", "dagjeweg.nl"], **(cfg.get("deals") or {})}
+    dealsites = ", ".join(dcfg["sites"])
+    deal_blok = ""
+    if dcfg.get("aan", True):
+        deal_blok = ("\n# Lopende deals die we eerder vonden (gebruik er een als hij past bij plek, datum en ons)\n"
+                     + (dump(deals) if deals else "- geen") + "\n")
+    deal_stap = ("" if not dcfg.get("aan", True) else f"""
+   Kijk voor de gekozen bestemming ook naar deals ({dealsites}): de lijst 'Lopende deals' hierboven en zelf zoeken met
+   WebSearch, bv. `site:{dcfg['sites'][0]} <plaats>`. Gebruik een deal alleen als hij geldig is op onze datums en
+   je hem met WebFetch hebt gecontroleerd; zet dan de dealprijs in `kosten_eur`, de deal-URL in `url` en in
+   `toelichting` "deal, normaal €…".""")
     conflict = ("\nLet op, deze afspraken vallen in de gekozen periode (wij hebben gezegd dat dat oké is, maar "
                 "houd er rekening mee):\n" + "\n".join("- " + c for c in blok.conflicten) + "\n") if blok.conflicten else ""
 
@@ -107,19 +118,24 @@ Afspraken rond deze periode (houd er rekening mee):
 {dump(kandidaten)}
 
 Afgevallen ideeën (ter info): {'; '.join(afgevallen) if afgevallen else 'geen'}
-
+{deal_blok}
 # Eerdere voorstellen (voorkom herhaling; 👍 = leuk gevonden, 👎 = niet)
 {dump(geschiedenis) if geschiedenis else '- nog geen'}
 
 # Werkwijze
 1. Kies wat nu het leukst én haalbaar is binnen budget en reistijd. Wissel af t.o.v. eerdere voorstellen.
 2. Vervoer: gebruik de tools `trein` en `flixbus` om ECHTE verbindingen met tijden en prijzen voor deze
-   datums op te halen (vanaf {thuis}). Vergelijk met de auto (brandstof, tol, parkeren; schat realistisch).
-   Geef 2-4 opties met heen- en terugreis, reistijd, totaalprijs voor {personen} personen en een boekingslink
-   (uit de tools of `trein_links`). Zet `prijs_is_schatting` op true als een prijs geschat is. Markeer de
-   aanbevolen optie en leg in `vervoer.advies` uit waarom.{slapen}
+   datums op te halen (vanaf {thuis}), voor heen- én terugreis apart. `trein` geeft per verbinding de prijzen
+   van elke verkoper (bahn.de, NS International, ÖBB, NS) voor alle {personen} reizigers samen, en `goedkoopst`.
+   Neem die prijs over met de boekingslink van díe verkoper. Een `deelprijs` dekt maar een deel van de reis;
+   een prijs met `schatting` neem je over met `prijs_is_schatting` op true.
+   Staat er bij een treinreis geen prijs, kijk dan bij `bronnen` waarom; schat dan en zet `prijs_is_schatting`
+   op true. Met `trein_goedkoopste_dag` zie je welke dag goedkoper is (handig bij een flexibele vertrekdag).
+   Vergelijk met de auto (brandstof, tol, parkeren; schat realistisch). Geef 2-4 opties met heen- en
+   terugreis, reistijd, totaalprijs voor {personen} personen en een boekingslink. Markeer de aanbevolen
+   optie en leg in `vervoer.advies` uit waarom.{slapen}
 3. Programma per dag met tijden die passen bij vertrek en terugkomst; geef per onderdeel een
-   `foto_zoekterm` (Engels, naam van de plek, bv. "Kahler Asten Winterberg") en waar mogelijk een url.
+   `foto_zoekterm` (Engels, naam van de plek, bv. "Kahler Asten Winterberg") en waar mogelijk een url.{deal_stap}
 4. Reken eerlijk: kosten.totaal ≤ budget. Eten en drinken realistisch voor studenten.
 5. Geef alleen URL's die je echt gevonden of van een tool gekregen hebt.
 6. Schrijf in het Nederlands, kort en concreet, zonder marketingtaal.
@@ -131,26 +147,27 @@ def _mcp_config(workdir: str) -> str:
     app_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     with open(path, "w") as f:
         json.dump({"mcpServers": {"reis": {"command": sys.executable, "args": ["-m", "planner.reistools"],
-                                           "env": {"PYTHONPATH": app_dir}}}}, f)
+                                           "env": {"PYTHONPATH": app_dir,
+                                                   "TREINPRIJZEN_URL": os.environ.get("TREINPRIJZEN_URL", "")}}}}, f)
     return path
 
 
-def make_plan(cfg: dict, prompt: str) -> tuple[dict, float | None]:
+def run_claude(cfg: dict, prompt: str, schema: dict, opdracht: str, mcp: bool = True) -> tuple[dict, float | None]:
+    """Roept Claude Code aan (alleen zoeken, webpagina's lezen en de reistools) en geeft de JSON terug."""
     ccfg = cfg.get("claude", {})
     workdir = os.environ.get("CLAUDE_WORKDIR", "/data/claude-werkmap")
     os.makedirs(workdir, exist_ok=True)
     cmd = [
-        os.environ.get("CLAUDE_BIN", "claude"), "-p",
-        "Maak het plan volgens de meegestuurde instructies. Lever het resultaat in het gevraagde JSON-formaat.",
+        os.environ.get("CLAUDE_BIN", "claude"), "-p", opdracht,
         "--output-format", "json",
-        "--json-schema", json.dumps(SCHEMA),
+        "--json-schema", json.dumps(schema),
         "--model", ccfg.get("model", "sonnet"),
         "--tools", "WebSearch,WebFetch",
-        "--allowedTools", "WebSearch,WebFetch,mcp__reis",
+        "--allowedTools", "WebSearch,WebFetch" + (",mcp__reis" if mcp else ""),
         "--permission-mode", "dontAsk",
-        "--mcp-config", _mcp_config(workdir),
-        "--strict-mcp-config",
     ]
+    if mcp:
+        cmd += ["--mcp-config", _mcp_config(workdir), "--strict-mcp-config"]
     log.info("Claude wordt aangeroepen (%s)…", ccfg.get("model", "sonnet"))
     p = subprocess.run(cmd, input=prompt, capture_output=True, text=True, cwd=workdir,
                        timeout=int(ccfg.get("timeout_min", 20)) * 60)
@@ -161,3 +178,8 @@ def make_plan(cfg: dict, prompt: str) -> tuple[dict, float | None]:
     if out.get("is_error") or "structured_output" not in out:
         raise RuntimeError(f"Claude-run mislukt: {str(out.get('result') or out)[:800]}")
     return out["structured_output"], out.get("total_cost_usd")
+
+
+def make_plan(cfg: dict, prompt: str) -> tuple[dict, float | None]:
+    return run_claude(cfg, prompt, SCHEMA,
+                      "Maak het plan volgens de meegestuurde instructies. Lever het resultaat in het gevraagde JSON-formaat.")

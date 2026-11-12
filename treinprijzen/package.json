@@ -1,0 +1,19 @@
+{
+  "name": "treinprijzen",
+  "version": "1.0.0",
+  "description": "Kleine API voor treinverbindingen mét prijzen (DB, NS International, NS) voor de weekendplanner",
+  "type": "module",
+  "private": true,
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "db-vendo-client": "^6.11.3",
+    "luxon": "^3.5.0"
+  }
+}
