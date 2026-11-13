@@ -4,6 +4,7 @@ services:
   weekendplanner:
     build: .
     image: weekendplanner:latest
+    pull_policy: build  # lokaal gebouwd: niet bij een registry ophalen, wel bij elke deploy opnieuw bouwen
     container_name: weekendplanner
     restart: unless-stopped
     ports:
@@ -26,6 +27,7 @@ services:
   treinprijzen:
     build: ./treinprijzen
     image: treinprijzen:latest
+    pull_policy: build
     container_name: treinprijzen
     restart: unless-stopped
     ports:
