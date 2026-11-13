@@ -4,6 +4,7 @@
 # ${NAAM} wordt ingevuld uit de omgevingsvariabelen (in Portainer bij de stack).
 
 thuis: Delft
+thuis_locatie: {lat: 52.01, lon: 4.36}    # voor de weersverwachting
 personen: 2
 
 # Budget (alles samen voor 2 personen) en maximale reistijd (enkele reis, deur tot deur) per soort uitje
@@ -26,6 +27,13 @@ voorkeuren: |
   - Ik kan goed zeilen. Skiën: rode pistes gaan goed.
   - We houden van natuur, wandelen, actief bezig zijn, maar ook van een gezellige stedentrip.
   - Slapen: betaalbaar maar wel leuk (hostel met tweepersoonskamer, B&B, natuurhuisje, camping in de zomer).
+
+# Hoe Claude aan ideeën komt
+inspiratie:
+  # wens   = Claude bedenkt zelf iets nieuws; onze ideeënlijst alleen als we zelf een wens opgeven (standaard)
+  # soms   = ongeveer 1 op de 4 voorstellen komt uit onze ideeënlijst
+  # altijd = altijd kiezen uit onze ideeënlijst
+  ideeenlijst: wens
 
 # Wat we zelf hebben (Claude houdt hier rekening mee)
 middelen:
@@ -108,6 +116,8 @@ claude:
   timeout_min: 20
 
 # --- Ideeën --------------------------------------------------------------------
+# Onze eigen ideeën. Standaard gebruikt Claude deze alleen als we een wens opgeven (zie inspiratie hierboven);
+# anders dienen ze alleen om onze smaak te kennen, en bedenkt Claude zelf iets nieuws.
 # soorten: dagje, kort (1 nacht), lang (2+ nachten)   reistijd_uur: ongeveer, enkele reis vanaf thuis
 # weer-eisen (minstens één dag moet aan alles voldoen):
 #   wind_bft_min / wind_bft_max, temp_min / temp_max (°C), regen_max_mm, sneeuwhoogte_min_cm

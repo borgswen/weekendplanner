@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+import random
 import secrets
 from datetime import date, datetime, timedelta
 
@@ -56,7 +57,15 @@ class App:
         return None
 
     # ---------------------------------------------------------------- run
-    def run(self, modus: str, blok: Blok | None = None, uitsluiten_ids: set[str] = frozenset()) -> str | None:
+    def gebruik_lijst(self, cfg: dict, blok: Blok) -> bool:
+        """Ideeënlijst als menukaart gebruiken? Standaard alleen als we zelf een wens opgeven."""
+        stand = str((cfg.get("inspiratie") or {}).get("ideeenlijst", "wens")).lower()
+        if blok.notitie.strip() or stand == "altijd":
+            return True
+        return stand == "soms" and random.random() < 0.25
+
+    def run(self, modus: str, blok: Blok | None = None, uitsluiten_ids: set[str] = frozenset(),
+            al_voorgesteld: list[str] | None = None) -> str | None:
         taak = secrets.token_hex(3)
         try:
             cfg = self.cfg
@@ -67,13 +76,18 @@ class App:
                 return None
             self.store.bezig[taak] = f"{blok.soort_label()} {blok.label()}"
             log.info("[%s] Gekozen: %s (%s)", modus, blok.label(), blok.soort_label())
-            kandidaten, afgevallen = ideas.candidates(cfg, blok, modus, Weather(), uitsluiten_ids)
-            if not kandidaten and not blok.notitie:
-                log.info("Geen passende ideeën (%s)", "; ".join(afgevallen))
-                notify.send_text(cfg, "Weekendplanner", f"Geen passend idee gevonden voor {blok.label()}.", self.dry_run)
-                return None
-            prompt = claude.build_prompt(cfg, blok, modus, kandidaten, afgevallen, self.store.history_for_prompt(),
-                                         deals.voor_prompt(self, blok.vertrek.date()))
+            weather = Weather()
+            lijst = self.gebruik_lijst(cfg, blok)
+            kandidaten, afgevallen = ideas.candidates(cfg, blok, modus, weather, uitsluiten_ids) if lijst else ([], [])
+            if lijst and not kandidaten and not blok.notitie:
+                log.info("Geen passende ideeën uit de lijst (%s); Claude bedenkt zelf iets", "; ".join(afgevallen))
+                lijst = False
+            log.info("Ideeënlijst %s", "gebruikt" if lijst else "niet gebruikt: Claude bedenkt zelf iets")
+            thuis = cfg.get("thuis_locatie") or {"lat": 52.01, "lon": 4.36}
+            prompt = claude.build_prompt(
+                cfg, blok, modus, kandidaten, afgevallen, self.store.history_for_prompt(20),
+                deals.voor_prompt(self, blok.vertrek.date()), lijst=lijst, thema=random.choice(claude.THEMAS),
+                al_voorgesteld=al_voorgesteld, weer_thuis=weather.for_days(thuis, blok.activiteitdagen))
             plan, kosten = claude.make_plan(cfg, prompt)
             fotos = images.voor_plan(plan)
             vid = self.store.add(blok.to_dict(), blok.key, modus, plan, kosten, fotos)
@@ -109,7 +123,8 @@ class App:
         al_gehad = {x["plan"].get("idee_id") for x in self.store.for_key(v["blok_key"])}
         if {i["id"] for i in self.cfg["ideeen"]} <= al_gehad:
             al_gehad = {v["plan"].get("idee_id")}
-        return self.run("opnieuw", blok, al_gehad)
+        eerder = [f"{x['plan'].get('titel')} ({x['plan'].get('bestemming')})" for x in self.store.for_key(v["blok_key"])]
+        return self.run("opnieuw", blok, al_gehad, eerder)
 
 
 def parse_local(s: str) -> datetime:

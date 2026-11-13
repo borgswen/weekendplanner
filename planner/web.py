@@ -19,6 +19,9 @@ e = html.escape
 MAANDEN = ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september",
            "oktober", "november", "december"]
 KLEUREN = ["#2f6fdf", "#d2457a", "#8a5cd1", "#d98a1b"]
+INSPIRATIE = [("wens", "Alleen als we zelf een wens opgeven – verder verrast Claude ons"),
+              ("soms", "Soms (ongeveer 1 op de 4 voorstellen)"),
+              ("altijd", "Altijd: kiezen uit onze ideeënlijst")]
 ICOON = {"trein": "🚆", "bus": "🚌", "trein+bus": "🚆🚌", "auto": "🚗", "auto+aanhanger": "🚗🛻", "fiets": "🚲",
          "brommer": "🛵", "boot": "⛵", "lopen": "🚶"}
 
@@ -373,6 +376,7 @@ def render_instellingen(app: App, melding: str = "", yaml_tekst: str | None = No
     def dagsel(naam, waarde):
         return f"<select name='{naam}'>" + "".join(f"<option {'selected' if d == waarde else ''}>{d}</option>" for d in DAGEN) + "</select>"
     vo, lm = pl.get("vooruit", {}), pl.get("lastminute", {})
+    insp = str((cfg.get("inspiratie") or {}).get("ideeenlijst", "wens"))
     dl, dp = deals_mod.instellingen(cfg), pl.get("deals", {})
     negeer = app.store.negeer()
     genegeerd = "".join(
@@ -396,6 +400,9 @@ def render_instellingen(app: App, melding: str = "", yaml_tekst: str | None = No
 <div><label>Last-minute: dag</label>{dagsel('lastminute_dag', lm.get('dag', 'woensdag'))}</div>
 <div><label>tijd</label><input name=lastminute_tijd value='{e(str(lm.get('tijd', '18:00')))}'></div></div>
 <label><input type=checkbox name=dagjes style='width:auto' {'checked' if pl.get('dagjes', True) else ''}> Ook losse vrije weekenddagen voorstellen (dagje weg)</label>
+<h2 style='margin-top:14px'>Inspiratie</h2>
+<label>Onze ideeënlijst gebruiken</label><select name=ideeenlijst>{''.join(f"<option value='{w}' {'selected' if w == insp else ''}>{t}</option>" for w, t in INSPIRATIE)}</select>
+<p class=muted>Met een wens bedoel je de extra wens die je in de agenda opgeeft bij een gekozen periode.</p>
 <h2 style='margin-top:14px'>Deals</h2>
 <label><input type=checkbox name=deals_aan style='width:auto' {'checked' if dl.get('aan', True) else ''}> Elke week dealsites doorzoeken</label>
 <div class=rij><div><label>Dag</label>{dagsel('deals_dag', dp.get('dag', 'maandag'))}</div>
@@ -444,6 +451,8 @@ def opslaan_snel(app: App, f: dict):
     zet(["planning", "lastminute", "dag"], f["lastminute_dag"])
     zet(["planning", "lastminute", "tijd"], f["lastminute_tijd"])
     zet(["planning", "dagjes"], "dagjes" in f)
+    if f.get("ideeenlijst") in ("wens", "soms", "altijd"):
+        zet(["inspiratie", "ideeenlijst"], f["ideeenlijst"])
     zet(["agenda_regels", "negeer"], [w.strip() for w in f.get("negeer_woorden", "").split(",") if w.strip()])
     if "deals_dag" in f:
         zet(["deals", "aan"], "deals_aan" in f)
