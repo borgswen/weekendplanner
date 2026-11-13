@@ -69,8 +69,27 @@ def budget(cfg: dict, blok: Blok) -> int:
     return int(r["budget_eur"] + extra)
 
 
+# Richtingen om Claude uit de voor de hand liggende hoek te duwen (één per voorstel, willekeurig gekozen)
+THEMAS = [
+    "iets dat alleen precies dit weekend of dit seizoen kan (evenement, festival, markt, natuurfenomeen)",
+    "een bijzondere overnachting (boomhut, vuurtoren, klooster, woonboot, trekkershut, kasteel, bivak)",
+    "een activiteit die we waarschijnlijk nog nooit gedaan hebben (workshop, ambacht, nieuwe sport, proeverij)",
+    "een plek die weinig Nederlanders kennen, net over de grens of juist in een vergeten hoek van Nederland",
+    "water, maar anders: kano, sup, pont-hoppen, getijden, wadlopen, een rivier volgen",
+    "eten en drinken als rode draad (markt, boerderij, streekproduct, brouwerij, foodhall, kookles)",
+    "cultuur met een twist (bijzonder museum, industrieel erfgoed, street art, theater, concert in een rare zaal)",
+    "rust en wellness (thermen, sauna, stilte, sterren kijken, natuurhuisje zonder wifi)",
+    "een kleine expeditie: van A naar B lopen of fietsen in plaats van heen en terug",
+    "de nacht: sterrenwacht, nachtwandeling, donkere-hemelgebied, lichtfestival, nachttrein",
+    "geschiedenis om aan te raken: vestingstad, bunker, mijn, Romeinse resten, slagveld",
+    "een stad die we niet zouden kiezen, maar met één heel goede reden om er nu heen te gaan",
+]
+
+
 def build_prompt(cfg: dict, blok: Blok, modus: str, kandidaten: list[dict],
-                 afgevallen: list[str], geschiedenis: list[dict], deals: list[dict] | None = None) -> str:
+                 afgevallen: list[str], geschiedenis: list[dict], deals: list[dict] | None = None, *,
+                 lijst: bool = True, thema: str | None = None, al_voorgesteld: list[str] | None = None,
+                 weer_thuis: dict | None = None) -> str:
     def dump(x):
         return yaml.safe_dump(x, allow_unicode=True, sort_keys=False, width=110).strip()
 
@@ -82,7 +101,30 @@ def build_prompt(cfg: dict, blok: Blok, modus: str, kandidaten: list[dict],
   Airbnb, natuurhuisje, camping) via WebSearch/WebFetch, met de echte prijs voor het hele verblijf en een link
   naar die specifieke accommodatie. Markeer er één als aanbevolen. Roep ook `slaap_links` aan voor de
   overnachtingsplaats en zet die links in slapen.zoeklinks."""
-    wens = f"\n# Extra wens van ons (heeft voorrang)\n{blok.notitie.strip()}\n" if blok.notitie.strip() else ""
+    wens = f"\n# Onze wens (heeft voorrang op alles hieronder)\n{blok.notitie.strip()}\n" if blok.notitie.strip() else ""
+    eerder_hier = ("\n# Voor deze periode al voorgesteld (kom met iets totaal anders, andere plek én ander soort uitje)\n"
+                   + "\n".join("- " + t for t in al_voorgesteld) + "\n") if al_voorgesteld else ""
+    weer = ("\n# Weersverwachting rond huis (ter indicatie)\n" + dump(weer_thuis) + "\n") if weer_thuis else ""
+    if lijst:
+        ideeen_blok = f"""# Ideeën uit onze eigen lijst die nu passen
+{"Gebruik ze alleen als ze bij onze wens passen; de wens gaat voor." if blok.notitie.strip() else "Kies er één, of een slimme combinatie."}
+{dump(kandidaten) if kandidaten else '- geen'}
+
+Afgevallen ideeën (ter info): {'; '.join(afgevallen) if afgevallen else 'geen'}"""
+        kies = "Kies wat nu het leukst én haalbaar is binnen budget en reistijd. Wissel af t.o.v. eerdere voorstellen."
+    else:
+        bekend = "; ".join(f"{i.get('titel', i['id'])}" for i in cfg.get("ideeen", []))
+        ideeen_blok = f"""# Verras ons
+We willen dat je buiten onze vaste ideeën denkt. Onze eigen ideeënlijst kennen we al, dus kies daar NIET uit en
+ook niet de voor de hand liggende bestemmingen die erin genoemd worden. Ter info, zodat je onze smaak kent maar
+er niet naar terugvalt: {bekend or '-'}.
+Zoek iets wat wij zelf waarschijnlijk niet hadden bedacht, maar wel bij ons past. Gebruik WebSearch om te kijken
+wat er op precies deze datums te doen is (agenda's van steden en regio's, evenementen, seizoensdingen).
+Onze eigen spullen (boot, brommers) alleen als dat écht het beste idee is.
+Richting om mee te beginnen (laat los als je iets veel beters vindt): {thema or 'vrij'}."""
+        kies = ("Bedenk eerst in stilte minstens vijf heel verschillende opties (andere plekken én soorten uitjes), "
+                "verwerp de voorspelbare en kies de verrassendste die binnen budget en reistijd past. "
+                "Zet bij `idee_id` \"nieuw\". Leg in `waarom` uit waarom dit nu leuk is.")
     dcfg = {"aan": True, "sites": ["socialdeal.nl", "groupon.nl", "dagjeweg.nl"], **(cfg.get("deals") or {})}
     dealsites = ", ".join(dcfg["sites"])
     deal_blok = ""
@@ -113,17 +155,14 @@ Budget: maximaal €{budget(cfg, blok)} voor ALLES samen (reis, slapen, activite
 Maximale reistijd enkele reis: {r['max_reistijd_uur']} uur (deur tot deur). Ga hier niet overheen.
 Afspraken rond deze periode (houd er rekening mee):
 {chr(10).join('- ' + o for o in blok.omheen) if blok.omheen else '- geen'}
-{conflict}{wens}
-# Ideeën die passen (kies er één, of een slimme combinatie; bij een extra wens mag je daar ook van afwijken)
-{dump(kandidaten)}
-
-Afgevallen ideeën (ter info): {'; '.join(afgevallen) if afgevallen else 'geen'}
+{conflict}{wens}{eerder_hier}{weer}
+{ideeen_blok}
 {deal_blok}
 # Eerdere voorstellen (voorkom herhaling; 👍 = leuk gevonden, 👎 = niet)
 {dump(geschiedenis) if geschiedenis else '- nog geen'}
 
 # Werkwijze
-1. Kies wat nu het leukst én haalbaar is binnen budget en reistijd. Wissel af t.o.v. eerdere voorstellen.
+1. {kies}
 2. Vervoer: gebruik de tools `trein` en `flixbus` om ECHTE verbindingen met tijden en prijzen voor deze
    datums op te halen (vanaf {thuis}), voor heen- én terugreis apart. `trein` geeft per verbinding de prijzen
    van elke verkoper (bahn.de, NS International, ÖBB, NS) voor alle {personen} reizigers samen, en `goedkoopst`.

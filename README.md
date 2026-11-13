@@ -23,6 +23,12 @@ Eén keer per week (standaard maandag 19:30) zoekt Claude op dealsites naar uitj
 - Een voorstel gebruikt een deal als die past bij de plek en de datums, met de dealprijs in de kosten. Voor de bestemming van het voorstel zoekt Claude ook zelf nog naar deals.
 - Sites, waar je naar zoekt, de regio, de dag en de kortingsdrempel stel je in onder Instellingen.
 
+## Waar komen de ideeën vandaan?
+
+Standaard bedenkt Claude zelf iets nieuws. Jullie eigen ideeënlijst gebruikt hij dan alleen om jullie smaak te kennen, niet als menukaart. Elk voorstel krijgt een willekeurige richting mee om de voorspelbare keuzes te vermijden, bijvoorbeeld een bijzondere overnachting, iets dat alleen in dit seizoen kan, of eten als rode draad. Claude zoekt ook op wat er op die datums te doen is.
+
+De ideeënlijst gebruikt Claude alleen als jullie zelf een **wens** opgeven bij een periode in de agenda. Onder Instellingen → Inspiratie kun je dit ook op "soms" (ongeveer 1 op de 4) of "altijd" zetten. Met "Ander idee" krijg je iets van een heel andere soort, op een andere plek.
+
 ## Webinterface (poort 8088)
 
 - **Voorstellen:** de eerstvolgende vrije momenten (met de knop "Maak voorstel") en alle voorstellen tot nu toe.
